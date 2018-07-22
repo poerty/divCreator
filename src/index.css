@@ -1,0 +1,18 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.area{
+  display: inline-block;
+  width: 200px;
+  height: 500px;
+  border: 1px solid black;
+}
+
+.box{
+  box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
