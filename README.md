@@ -5,14 +5,6 @@
 * Source 에서 Drag n Drop으로 다양한 box들을 생성
 * 생성된 box들은 dragging이 가능
 
-#### [과거 APM 환경에서 진행한 결과](https://poerty.co.kr/divCreator)
-
-* APM에서 jquery 라이브러리를 이용, 약간의 변형을 통해 구현
-* keeper 에서 Drag n Drop으로 다양한 box들을 생성(추가 쉬움)
-* 생성된 box들은 resizing 과 dragging이 가능
-* resizing과 dragging 시, snap과, 그를 위한 helping line 제공(가까운 경계에 달라붙기)
-* shift를 누른 상태에서 중복 선택 후 resizing 과 dragging이 가능
-
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 - [Available Scripts](#available-scripts)
@@ -20,3 +12,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
   - [npm test](#npm-test)
   - [npm run build](#npm-run-build)
   - [npm run eject](#npm-run-eject)
+  
+  
+  
+#### [과거 APM 환경에서 진행한 결과 live demo](https://poerty.co.kr/divCreator)
+
+* APM에서 jquery 라이브러리를 이용, 약간의 변형을 통해 구현
+* keeper 에서 Drag n Drop으로 다양한 box들을 생성(추가 쉬움)
+* 생성된 box들은 resizing 과 dragging이 가능
+* resizing과 dragging 시, snap과, 그를 위한 helping line 제공(가까운 경계에 달라붙기)
+* shift를 누른 상태에서 중복 선택 후 resizing 과 dragging이 가능
+
