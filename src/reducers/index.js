@@ -36,8 +36,8 @@ const dragInitialState={
         {id:2, isDragging:false, top:100, left:100, width:50, height:120}
     ],
     boxList:[
-        {id:1112, isDragging:false, top:300, left:250, width:100, height:100},
-        {id:1113, isDragging:false, top:100, left:300, width:100, height:100}
+        {id:1112, isDragging:false, top:300, left:550, width:100, height:100},
+        {id:1113, isDragging:false, top:100, left:600, width:100, height:100}
     ],
     currentDragStart:[
         {id:-1, orgTop:-1, orgLeft:-1, orgX:-1, orgY:-1, orgWidth:-1, orgHeight:-1}
