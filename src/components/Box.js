@@ -13,8 +13,8 @@ class Box extends Component {
             position: "absolute"
         }
         return (
-            <div class='box'
-                id={this.props.id}
+            <div id={this.props.id}
+                class='box'
                 style={styles}
                 draggable="true"
                 

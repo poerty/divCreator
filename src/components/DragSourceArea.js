@@ -10,7 +10,8 @@ class DragSourceArea extends Component {
             rows.push(<BoxSource key={i} index={i} />);
         }
         return (
-            <div id="dragSourceArea" class="area">
+            <div id="dragSourceArea" className="area">
+                Source
                 {rows}
             </div>
         );

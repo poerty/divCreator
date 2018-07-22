@@ -26,7 +26,7 @@ function checkSnap(top,left,width,height,id,boxList,snapSize){
         else if(Math.abs((left+width)-box.left)<snapSize) {ret.left=box.left-width; ret.leftLine=box.left;}
         else if(Math.abs((left+width)-(box.left+box.width))<snapSize) {ret.left=box.left+box.width-width; ret.leftLine=box.left+box.width;}
     });
-    if(ret.top===top && ret.left===left) return false;
+    if(ret.topLine===-1 && ret.leftLine===-1) return false;
     return ret;
 }
 
@@ -42,7 +42,11 @@ const dragInitialState={
     currentDragStart:[
         {id:-1, orgTop:-1, orgLeft:-1, orgX:-1, orgY:-1, orgWidth:-1, orgHeight:-1}
     ],
-    idCount:1114
+    idCount:1114,
+    snapLine:[
+        {direction:"top",top:-1},
+        {direction:"left",left:-1}
+    ]
 }
 
 
@@ -189,10 +193,17 @@ const drag = (state = dragInitialState, action) => {
                                 left:{$set:ret.left}
                             }
                         }
+                    ),
+                    snapLine:update(
+                        state.snapLine,
+                        {
+                            [0]:{top:{$set:ret.topLine}},
+                            [1]:{left:{$set:ret.leftLine}}
+                        }
                     )
                 });
             }
-            
+
             return Object.assign({},state,{
                 boxList:update(
                     state.boxList,
@@ -201,6 +212,13 @@ const drag = (state = dragInitialState, action) => {
                             top:{$set:ui.orgTop+action.y-ui.orgY},
                             left:{$set:ui.orgLeft+action.x-ui.orgX}
                         }
+                    }
+                ),
+                snapLine:update(
+                    state.snapLine,
+                    {
+                        [0]:{top:{$set:-1}},
+                        [1]:{left:{$set:-1}}
                     }
                 )
             });

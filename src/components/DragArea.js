@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Box from './Box';
+import SnapLine from './SnapLine';
 
 class DragArea extends Component {
     render() {
@@ -9,7 +10,10 @@ class DragArea extends Component {
             rows.push(<Box key={i} index={i} />);
         }
         return (
-            <div id="dragArea" class="area">
+            <div id="dragArea" className="area">
+                Target
+                <SnapLine direction="top" top={this.props.snapLine[0].top}/>
+                <SnapLine direction="left" left={this.props.snapLine[1].left}/>
                 {rows}
             </div>
         );
@@ -18,7 +22,8 @@ class DragArea extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        boxList: state.drag.boxList
+        boxList: state.drag.boxList,
+        snapLine: state.drag.snapLine
     }
 }
 
