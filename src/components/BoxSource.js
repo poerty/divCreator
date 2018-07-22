@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { sourceMouseDown, sourceMouseUp, sourceDrag, sourceDragStart, sourceDragEnd } from '../actions';
+import { sourceMouseDown, sourceMouseUp, sourceDragStart, sourceDragEnd } from '../actions';
 import './css/box.css';
  
 class BoxSource extends Component {
@@ -13,8 +13,8 @@ class BoxSource extends Component {
             position: "absolute"
         }
         return (
-            <div class='box'
-                id={this.props.id}
+            <div id={this.props.id}
+                className='box'
                 style={styles}
                 draggable="true"
                 

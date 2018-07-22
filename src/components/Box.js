@@ -14,7 +14,7 @@ class Box extends Component {
         }
         return (
             <div id={this.props.id}
-                class='box'
+                className="box"
                 style={styles}
                 draggable="true"
                 

@@ -1,4 +1,4 @@
-import { SOURCE_MOUSE_DOWN, SOURCE_MOUSE_UP, SOURCE_DRAG, SOURCE_DRAG_START, SOURCE_DRAG_END } from '../actions';
+import { SOURCE_MOUSE_DOWN, SOURCE_MOUSE_UP, SOURCE_DRAG_START, SOURCE_DRAG_END } from '../actions';
 import { MOUSE_DOWN, MOUSE_UP, DRAG, DRAG_START, DRAG_END } from '../actions';
 import { combineReducers } from 'redux';
 import update from 'react-addons-update';
@@ -15,7 +15,7 @@ function checkSnap(top,left,width,height,id,boxList,snapSize){
     let ret={top:top,left:left,topLine:-1,leftLine:-1};
 
     boxList.forEach((box)=>{
-        if(box.id==id) return;
+        if(box.id===parseInt(id,10)) return;
         if(Math.abs(top-box.top)<snapSize) {ret.top=box.top; ret.topLine=box.top;}
         else if(Math.abs(top-(box.top+box.height))<snapSize) {ret.top=box.top+box.height; ret.topLine=box.top+box.height;}
         else if(Math.abs((top+height)-box.top)<snapSize) {ret.top=box.top-height; ret.topLine=box.top;}
@@ -51,7 +51,7 @@ const dragInitialState={
 
 
 const drag = (state = dragInitialState, action) => {
-    let id,boxSourceList,boxList,style,ui,currentDragStart,orgX,orgY;
+    let id,ui;
     switch(action.type) {
         //source box
         case SOURCE_MOUSE_DOWN:
@@ -183,7 +183,7 @@ const drag = (state = dragInitialState, action) => {
             let ret=checkSnap(ui.orgTop+action.y-ui.orgY,ui.orgLeft+action.x-ui.orgX,
                 ui.orgWidth,ui.orgHeight,ui.id,
                 state.boxList,5);
-            if(false!=ret){
+            if(false!==ret){
                 return Object.assign({},state,{
                     boxList:update(
                         state.boxList,
@@ -197,8 +197,8 @@ const drag = (state = dragInitialState, action) => {
                     snapLine:update(
                         state.snapLine,
                         {
-                            [0]:{top:{$set:ret.topLine}},
-                            [1]:{left:{$set:ret.leftLine}}
+                            0:{top:{$set:ret.topLine}},
+                            1:{left:{$set:ret.leftLine}}
                         }
                     )
                 });
@@ -217,8 +217,19 @@ const drag = (state = dragInitialState, action) => {
                 snapLine:update(
                     state.snapLine,
                     {
-                        [0]:{top:{$set:-1}},
-                        [1]:{left:{$set:-1}}
+                        0:{top:{$set:-1}},
+                        1:{left:{$set:-1}}
+                    }
+                )
+            });
+        
+        case DRAG_END:
+            return Object.assign({},state,{
+                snapLine:update(
+                    state.snapLine,
+                    {
+                        0:{top:{$set:-1}},
+                        1:{left:{$set:-1}}
                     }
                 )
             });

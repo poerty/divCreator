@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Box from './Box';
 
 class snapLine extends Component {
     render() {
