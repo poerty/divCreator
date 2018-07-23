@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { mouseDown, mouseUp, drag, dragStart, dragEnd } from '../actions';
+import { mouseDown } from '../actions';
 
 import Box from './Box';
 import SelectedBoxs from './SelectedBoxs';
@@ -9,7 +9,6 @@ import SnapLine from './SnapLine';
 class DragArea extends Component {
     render() {
         let boxList=[]
-        let i=0;
         for(let boxId in this.props.boxList){
             let styles={
                 width: this.props.boxList[boxId].width,

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { mouseDown, mouseUp, drag, dragStart, dragEnd } from '../actions';
+import { drag, dragStart, dragEnd } from '../actions';
 import './css/box.css';
  
 class TargetBox extends Component {

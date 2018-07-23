@@ -36,14 +36,14 @@ function checkSnap(top,left,width,height,selectedBoxIdList,boxList,snapSize){
 const dragInitialState={
     boxSourceList:{
 //{id:1, isDragging:false, top:300, left:50, width:100, height:100},,,,
-        [1]:{isDragging:false, top:300, left:50, width:100, height:100},
-        [2]:{isDragging:false, top:100, left:100, width:50, height:120}
+        1:{isDragging:false, top:300, left:50, width:100, height:100},
+        2:{isDragging:false, top:100, left:100, width:50, height:120}
     },
     boxList:{
 //{id:1112, isDragging:false, top:300, left:550, width:100, height:100},,,,
-        [1112]:{isDragging:false, top:300, left:550, width:100, height:100},
-        [1113]:{isDragging:false, top:100, left:600, width:100, height:100},
-        [1114]:{isDragging:false, top:100, left:600, width:300, height:400}
+        1112:{isDragging:false, top:300, left:550, width:100, height:100},
+        1113:{isDragging:false, top:100, left:600, width:100, height:100},
+        1114:{isDragging:false, top:100, left:600, width:300, height:400}
     },
     selectedBoxIdList:[
 //{id:1111},,,,
@@ -62,7 +62,7 @@ const dragInitialState={
 
 
 const drag = (state = dragInitialState, action) => {
-    let id,ui;
+    let ui;
     switch(action.type) {
         //source box
         case SOURCE_MOUSE_DOWN:

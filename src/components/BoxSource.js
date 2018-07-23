@@ -14,6 +14,7 @@ class BoxSource extends Component {
                 
                 onMouseDown={this.props.onMouseDown.bind(this)}
                 onMouseUp={this.props.onMouseUp.bind(this)}
+                
                 onDragStart={this.props.onDragStart.bind(this)}
                 onDragEnd={this.props.onDragEnd.bind(this)}>
                 drag this
