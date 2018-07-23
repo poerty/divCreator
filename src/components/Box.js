@@ -31,7 +31,7 @@ class Box extends Component {
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        onMouseDown: (e)=>dispatch(mouseDown(e.target.id)),
+        onMouseDown: (e)=>dispatch(mouseDown(e.target.id,e.shiftKey)),
         onMouseUp: (e)=>dispatch(mouseUp(e.target.id)),
         onDrag: (e)=>dispatch(drag(e.clientX,e.clientY,e.target.id)),
         onDragStart: (e)=>{

@@ -12,8 +12,10 @@ class DragArea extends Component {
         return (
             <div id="dragArea" className="area">
                 Target
-                <SnapLine direction="top" top={this.props.snapLine[0].top}/>
-                <SnapLine direction="left" left={this.props.snapLine[1].left}/>
+                <SnapLine direction="top" locate={this.props.snapLine.top}/>
+                <SnapLine direction="bottom" locate={this.props.snapLine.bottom}/>
+                <SnapLine direction="left" locate={this.props.snapLine.left}/>
+                <SnapLine direction="right" locate={this.props.snapLine.right}/>
                 {rows}
             </div>
         );

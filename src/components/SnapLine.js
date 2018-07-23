@@ -12,11 +12,19 @@ class snapLine extends Component {
         }
         if(this.props.direction==="top"){
             styles.width="100%";
-            styles.top=this.props.top-1;
+            styles.top=this.props.locate-1;
+        }
+        else if(this.props.direction==="bottom"){
+            styles.width="100%";
+            styles.top=this.props.locate-1;
         }
         else if(this.props.direction==="left"){
             styles.height="100%";
-            styles.left=this.props.left-1;
+            styles.left=this.props.locate-1;
+        }
+        else if(this.props.direction==="right"){
+            styles.height="100%";
+            styles.left=this.props.locate-1;
         }
         return (
             <div style={styles}>

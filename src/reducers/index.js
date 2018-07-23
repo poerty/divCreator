@@ -12,21 +12,24 @@ function insideof(x,y,id){
 
 function checkSnap(top,left,width,height,id,boxList,snapSize){
     
-    let ret={top:top,left:left,topLine:-1,leftLine:-1};
+    let ret={top:top,left:left,
+        topLine:-1,bottomLine:-1,leftLine:-1,rightLine:-1};
 
     boxList.forEach((box)=>{
         if(box.id===parseInt(id,10)) return;
         if(Math.abs(top-box.top)<snapSize) {ret.top=box.top; ret.topLine=box.top;}
         else if(Math.abs(top-(box.top+box.height))<snapSize) {ret.top=box.top+box.height; ret.topLine=box.top+box.height;}
-        else if(Math.abs((top+height)-box.top)<snapSize) {ret.top=box.top-height; ret.topLine=box.top;}
-        else if(Math.abs((top+height)-(box.top+box.height))<snapSize) {ret.top=box.top+box.height-height; ret.topLine=box.top+box.height;}
+        
+        if(Math.abs((top+height)-box.top)<snapSize) {ret.top=box.top-height; ret.bottomLine=box.top;}
+        else if(Math.abs((top+height)-(box.top+box.height))<snapSize) {ret.top=box.top+box.height-height; ret.bottomLine=box.top+box.height;}
 
         if(Math.abs(left-box.left)<snapSize) {ret.left=box.left; ret.leftLine=box.left;}
         else if(Math.abs(left-(box.left+box.width))<snapSize) {ret.left=box.left+box.width; ret.leftLine=box.left+box.width;}
-        else if(Math.abs((left+width)-box.left)<snapSize) {ret.left=box.left-width; ret.leftLine=box.left;}
-        else if(Math.abs((left+width)-(box.left+box.width))<snapSize) {ret.left=box.left+box.width-width; ret.leftLine=box.left+box.width;}
+        
+        if(Math.abs((left+width)-box.left)<snapSize) {ret.left=box.left-width; ret.rightLine=box.left;}
+        else if(Math.abs((left+width)-(box.left+box.width))<snapSize) {ret.left=box.left+box.width-width; ret.rightLine=box.left+box.width;}
     });
-    if(ret.topLine===-1 && ret.leftLine===-1) return false;
+    if(ret.topLine===-1 && ret.leftLine===-1 && ret.bottomLine===-1 && ret.rightLine===-1) return false;
     return ret;
 }
 
@@ -39,14 +42,19 @@ const dragInitialState={
         {id:1112, isDragging:false, top:300, left:550, width:100, height:100},
         {id:1113, isDragging:false, top:100, left:600, width:100, height:100}
     ],
+    selectedBoxList:[
+
+    ],
     currentDragStart:[
         {id:-1, orgTop:-1, orgLeft:-1, orgX:-1, orgY:-1, orgWidth:-1, orgHeight:-1}
     ],
     idCount:1114,
-    snapLine:[
-        {direction:"top",top:-1},
-        {direction:"left",left:-1}
-    ]
+    snapLine:{
+        top:-1,
+        bottom:-1,
+        left:-1,
+        right:-1
+    }
 }
 
 
@@ -197,8 +205,10 @@ const drag = (state = dragInitialState, action) => {
                     snapLine:update(
                         state.snapLine,
                         {
-                            0:{top:{$set:ret.topLine}},
-                            1:{left:{$set:ret.leftLine}}
+                            top:{$set:ret.topLine},
+                            bottom:{$set:ret.bottomLine},
+                            left:{$set:ret.leftLine},
+                            right:{$set:ret.rightLine}
                         }
                     )
                 });
@@ -217,8 +227,10 @@ const drag = (state = dragInitialState, action) => {
                 snapLine:update(
                     state.snapLine,
                     {
-                        0:{top:{$set:-1}},
-                        1:{left:{$set:-1}}
+                        top:{$set:-1},
+                        bottom:{$set:-1},
+                        left:{$set:-1},
+                        right:{$set:-1}
                     }
                 )
             });
@@ -228,8 +240,10 @@ const drag = (state = dragInitialState, action) => {
                 snapLine:update(
                     state.snapLine,
                     {
-                        0:{top:{$set:-1}},
-                        1:{left:{$set:-1}}
+                        top:{$set:-1},
+                        bottom:{$set:-1},
+                        left:{$set:-1},
+                        right:{$set:-1}
                     }
                 )
             });
