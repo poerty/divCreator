@@ -5,24 +5,18 @@ import './css/box.css';
  
 class BoxSource extends Component {
     render() {
-        const styles={
-            width: this.props.width,
-            height: this.props.height,
-            top: this.props.top,
-            left: this.props.left,
-            position: "absolute"
-        }
         return (
-            <div id={this.props.id}
-                className='box'
-                style={styles}
-                draggable="true"
+            <div 
+                id={this.props.id}
+                className={this.props.className}
+                draggable={this.props.draggable}
+                style={this.props.style}
                 
                 onMouseDown={this.props.onMouseDown.bind(this)}
                 onMouseUp={this.props.onMouseUp.bind(this)}
                 onDragStart={this.props.onDragStart.bind(this)}
                 onDragEnd={this.props.onDragEnd.bind(this)}>
-                click this
+                drag this
             </div>
         );
     }
@@ -36,18 +30,6 @@ let mapDispatchToProps = (dispatch) => {
         onDragEnd: (e)=>dispatch(sourceDragEnd(e.clientX,e.clientY,e.target.id))
     }
 }
-
-let mapStateToProps = (state,ownProps) => {
-    return {
-        id: state.drag.boxSourceList[ownProps.index].id,
-        width: state.drag.boxSourceList[ownProps.index].width,
-        height: state.drag.boxSourceList[ownProps.index].height,
-        top: state.drag.boxSourceList[ownProps.index].top,
-        left: state.drag.boxSourceList[ownProps.index].left
-    }
-}
-
-BoxSource = connect(mapStateToProps)(BoxSource);
  
 BoxSource = connect(undefined, mapDispatchToProps)(BoxSource);
  

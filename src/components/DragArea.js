@@ -1,22 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { mouseDown, mouseUp, drag, dragStart, dragEnd } from '../actions';
+
 import Box from './Box';
+import SelectedBoxs from './SelectedBoxs';
 import SnapLine from './SnapLine';
 
 class DragArea extends Component {
     render() {
-        let rows=[]
-        for(let i=0;i<this.props.boxList.length;i++){
-            rows.push(<Box key={i} index={i} />);
+        let boxList=[]
+        let i=0;
+        for(let boxId in this.props.boxList){
+            let styles={
+                width: this.props.boxList[boxId].width,
+                height: this.props.boxList[boxId].height,
+                top: this.props.boxList[boxId].top,
+                left: this.props.boxList[boxId].left,
+                position: "absolute"
+            }
+            boxList.push(<Box key={boxId} style={styles} id={boxId} className={"box"} draggable={true}/>);
         }
+        boxList.push(<SelectedBoxs key={-1} id={0}/>);
         return (
-            <div id="dragArea" className="area">
+            <div 
+                id="dragArea" 
+                className="area"
+                onMouseDown={this.props.onMouseDown.bind(this)}>
                 Target
                 <SnapLine direction="top" locate={this.props.snapLine.top}/>
                 <SnapLine direction="bottom" locate={this.props.snapLine.bottom}/>
                 <SnapLine direction="left" locate={this.props.snapLine.left}/>
                 <SnapLine direction="right" locate={this.props.snapLine.right}/>
-                {rows}
+                {boxList}
             </div>
         );
     }
@@ -25,11 +40,18 @@ class DragArea extends Component {
 let mapStateToProps = (state) => {
     return {
         boxList: state.drag.boxList,
-        snapLine: state.drag.snapLine
+        snapLine: state.drag.snapLine,
     }
 }
 
 DragArea = connect(mapStateToProps)(DragArea);
 
+let mapDispatchToProps = (dispatch) => {
+    return {
+        onMouseDown: (e)=>dispatch(mouseDown(e.target.id,e.shiftKey))
+    }
+}
+
+DragArea = connect(undefined, mapDispatchToProps)(DragArea);
 
 export default DragArea;

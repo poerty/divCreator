@@ -5,14 +5,21 @@ import BoxSource from './BoxSource';
 
 class DragSourceArea extends Component {
     render() {
-        let rows=[]
-        for(let i=0;i<this.props.list_len;i++){
-            rows.push(<BoxSource key={i} index={i} />);
+        let boxSourceList=[]
+        for(let boxSourceId in this.props.boxSourceList){
+            let styles={
+                width: this.props.boxSourceList[boxSourceId].width,
+                height: this.props.boxSourceList[boxSourceId].height,
+                top: this.props.boxSourceList[boxSourceId].top,
+                left: this.props.boxSourceList[boxSourceId].left,
+                position: "absolute"
+            }
+            boxSourceList.push(<BoxSource key={boxSourceId} style={styles} id={boxSourceId} className={"box"} draggable={true}/>);
         }
         return (
             <div id="dragSourceArea" className="area">
                 Source
-                {rows}
+                {boxSourceList}
             </div>
         );
     }
@@ -20,7 +27,7 @@ class DragSourceArea extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        list_len: state.drag.boxSourceList.length
+        boxSourceList: state.drag.boxSourceList
     }
 }
 

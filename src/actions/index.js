@@ -5,10 +5,11 @@ export const DRAG_START = 'DRAG_START';
 export const DRAG_END = 'DRAG_END';
 
 
-export function mouseDown(id){
+export function mouseDown(id,shift){
     return {
         type: MOUSE_DOWN,
-        id: id
+        id: id,
+        shift: shift
     }
 }
 
