@@ -28,7 +28,8 @@ class SelectedBoxs extends Component {
                 id={this.props.id}
                 className={"box targetBox"}
                 draggable={true}
-                style={styles}>
+                style={styles}
+                resizerSize={8}>
                 click this
             </TargetBox>
         );

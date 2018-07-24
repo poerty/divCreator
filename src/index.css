@@ -5,6 +5,7 @@ body {
 }
 
 .area{
+  position: relative;
   display: inline-block;
   width: 400px;
   height: 500px;

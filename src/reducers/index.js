@@ -41,9 +41,9 @@ const dragInitialState={
     },
     boxList:{
 //{id:1112, isDragging:false, top:300, left:550, width:100, height:100},,,,
-        1112:{isDragging:false, top:300, left:550, width:100, height:100},
-        1113:{isDragging:false, top:100, left:600, width:100, height:100},
-        1114:{isDragging:false, top:100, left:600, width:300, height:400}
+        1112:{isDragging:false, top:300, left:50, width:100, height:100},
+        1113:{isDragging:false, top:100, left:100, width:100, height:100},
+        1114:{isDragging:false, top:100, left:120, width:300, height:400}
     },
     selectedBoxIdList:[
 //{id:1111},,,,
@@ -91,6 +91,7 @@ const drag = (state = dragInitialState, action) => {
 
         case SOURCE_DRAG_START:
         //todo : 시작할때 helper 만들고, display 바꿔서 나타내기
+        //todo : getElementById 없애기
             return Object.assign({},state,{
                 currentDragStart:{
                     orgTop:parseInt(document.getElementById(action.id).style.top,10),
@@ -113,7 +114,8 @@ const drag = (state = dragInitialState, action) => {
                         [state.idCount++]:{
                             isDragging:false,
                             top:ui.orgTop+action.y-ui.orgY,
-                            left:ui.orgLeft+action.x-ui.orgX,
+                            //todo : remove 400 and make it scalable
+                            left:ui.orgLeft+action.x-ui.orgX-400,
                             width:state.boxSourceList[action.id].width,
                             height:state.boxSourceList[action.id].height
                         }
@@ -168,13 +170,13 @@ const drag = (state = dragInitialState, action) => {
             });
             
         case DRAG:
-        //todo smooth in outside
-            if(!insideof(action.x,action.y,"dragArea")){
-                return state;
-            }
+            //smooth in outside
             if(action.x===0 || action.y===0){
                 return state;
             }
+            let dragAreaRect=document.getElementById("dragArea").getBoundingClientRect();
+            action.y=Math.min(Math.max(action.y,dragAreaRect.top),dragAreaRect.top+dragAreaRect.height);
+            action.x=Math.min(Math.max(action.x,dragAreaRect.left),dragAreaRect.left+dragAreaRect.width);
 
             ui=state.currentDragStart;
 
@@ -195,9 +197,11 @@ const drag = (state = dragInitialState, action) => {
             let changeBoxList={}
             for(let boxId in state.boxList){
                 if(state.selectedBoxIdList.includes(boxId)){
+                    let newTop=state.boxList[boxId].orgTop+topDiff;
+                    let newLeft=state.boxList[boxId].orgLeft+leftDiff;
                     changeBoxList={...changeBoxList,...{[boxId]:{
-                        top:{$set:state.boxList[boxId].orgTop+topDiff},
-                        left:{$set:state.boxList[boxId].orgLeft+leftDiff}
+                        top:{$set:newTop},
+                        left:{$set:newLeft}
                     }}};
                 }
             }

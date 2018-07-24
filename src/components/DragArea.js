@@ -23,7 +23,7 @@ class DragArea extends Component {
         return (
             <div 
                 id="dragArea" 
-                className="area"
+                className="box area"
                 onMouseDown={this.props.onMouseDown.bind(this)}>
                 Target
                 <SnapLine direction="top" locate={this.props.snapLine.top}/>

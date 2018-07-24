@@ -17,7 +17,7 @@ class DragSourceArea extends Component {
             boxSourceList.push(<BoxSource key={boxSourceId} style={styles} id={boxSourceId} className={"box"} draggable={true}/>);
         }
         return (
-            <div id="dragSourceArea" className="area">
+            <div id="dragSourceArea" className="box area">
                 Source
                 {boxSourceList}
             </div>
