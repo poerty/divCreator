@@ -91,3 +91,36 @@ export function sourceDragEnd(x,y,id){
         id: id
     }
 }
+
+
+export const RESIZE_DRAG = 'RESIZE_DRAG';
+export const RESIZE_DRAG_START = 'RESIZE_DRAG_START';
+export const RESIZE_DRAG_END = 'RESIZE_DRAG_END';
+
+export function resizeDrag(x,y,id,direction){
+    return {
+        type: RESIZE_DRAG,
+        x: x,
+        y: y,
+        id: id,
+        direction: direction
+    }
+}
+
+export function resizeDragStart(x,y,id){
+    return {
+        type: RESIZE_DRAG_START,
+        x: x,
+        y: y,
+        id: id
+    }
+}
+
+export function resizeDragEnd(x,y,id){
+    return {
+        type: RESIZE_DRAG_END,
+        x: x,
+        y: y,
+        id: id
+    }
+}

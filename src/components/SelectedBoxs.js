@@ -14,13 +14,15 @@ class SelectedBoxs extends Component {
                 right=Math.max(right,this.props.boxList[boxId].left+this.props.boxList[boxId].width);
             }
         }
-        let height=bottom-top,width=right-left;
         let styles={
-            width: width,
-            height: height,
-            top: top,
-            left: left,
+            width: this.props.targetBox.width,
+            height: this.props.targetBox.height,
+            top: this.props.targetBox.top,
+            left: this.props.targetBox.left,
             position: "absolute"
+        }
+        if(styles.width===0 && styles.height===0){
+            styles={...styles,...{display: "none"}};
         }
         return (
             <TargetBox
@@ -39,7 +41,8 @@ class SelectedBoxs extends Component {
 let mapStateToProps = (state,ownProps) => {
     return {
         selectedBoxIdList: state.drag.selectedBoxIdList,
-        boxList: state.drag.boxList
+        boxList: state.drag.boxList,
+        targetBox: state.drag.targetBox
     }
 }
 

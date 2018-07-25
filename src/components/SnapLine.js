@@ -3,13 +3,7 @@ import React, { Component } from 'react';
 class snapLine extends Component {
     render() {
         let styles={
-            width: 0,
-            height: 0,
-            top: -1,
-            left: -1,
-            border: "1px solid black",
-            position: "absolute"
-        }
+        };
         if(this.props.direction==="top"||this.props.direction==="bottom"){
             styles.width="100%";
             styles.top=this.props.locate-1;
@@ -20,7 +14,7 @@ class snapLine extends Component {
         }
         
         return (
-            <div style={styles}>
+            <div className={"snapLine"} style={styles}>
             </div>
         );
     }

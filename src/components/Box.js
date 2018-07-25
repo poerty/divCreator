@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { mouseDown } from '../actions';
-import './css/box.css';
  
 class Box extends Component {
     render() {

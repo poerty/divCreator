@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { mouseDown } from '../actions';
-import './css/box.css';
- 
+import { resizeDrag, resizeDragStart, resizeDragEnd } from '../actions';
+
 class Resizer extends Component {
     render() {
         return (
             <div
                 id={this.props.id} 
                 className={this.props.className}
-                style={this.props.style}>
+                style={this.props.style}
+                
+                draggable={true}
+
+                onDrag={this.props.onDrag.bind(this)}
+                onDragStart={this.props.onDragStart.bind(this)}
+                onDragEnd={this.props.onDragEnd.bind(this)}>
                 
             </div>
         );
@@ -18,6 +23,9 @@ class Resizer extends Component {
 
 let mapDispatchToProps = (dispatch) => {
     return {
+        onDrag: (e)=>dispatch(resizeDrag(e.clientX,e.clientY,e.target.id)),
+        onDragStart: (e)=>dispatch(resizeDragStart(e.clientX,e.clientY,e.target.id)),
+        onDragEnd: (e)=>dispatch(resizeDragEnd(e.clientX,e.clientY,e.target.id))
     }
 }
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { sourceMouseDown, sourceMouseUp, sourceDragStart, sourceDragEnd } from '../actions';
-import './css/box.css';
  
 class BoxSource extends Component {
     render() {

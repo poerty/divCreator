@@ -4,6 +4,7 @@
 
 * Source 에서 Drag n Drop으로 다양한 box들을 생성
 * 생성된 box들은 dragging이 가능
+* 근데 왠지 모르게 jQuery draggable/resizable +snap을 구현하는 프로젝트인 느낌
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 

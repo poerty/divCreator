@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { drag, dragStart, dragEnd } from '../actions';
-import './css/box.css';
 
 import Resizer from './Resizer';
  
@@ -29,10 +28,10 @@ class TargetBox extends Component {
                 onDragStart={this.props.onDragStart.bind(this)}
                 onDragEnd={this.props.onDragEnd.bind(this)}>
                 
-                <Resizer id={"topResizer"} className={"box resizer"} style={styleTop}/>
-                <Resizer id={"bottomResizer"} className={"box resizer"} style={styleBottom}/>
-                <Resizer id={"leftResizer"} className={"box resizer"} style={styleLeft}/>
-                <Resizer id={"rightResizer"} className={"box resizer"} style={styleRight}/>
+                <Resizer id={"topResizer"} direction={"top"} className={"box resizer"} style={styleTop}/>
+                <Resizer id={"bottomResizer"} direction={"bottom"} className={"box resizer"} style={styleBottom}/>
+                <Resizer id={"leftResizer"} direction={"left"} className={"box resizer"} style={styleLeft}/>
+                <Resizer id={"rightResizer"} direction={"right"} className={"box resizer"} style={styleRight}/>
             </div>
         );
     }

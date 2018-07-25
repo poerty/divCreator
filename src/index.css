@@ -5,19 +5,49 @@ body {
 }
 
 .area{
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+
   position: relative;
   display: inline-block;
   width: 400px;
   height: 500px;
+  top: 50px;
   border: 1px solid black;
+}
+
+.source-area{
+  margin-left:200px;
 }
 
 .box{
   box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  width:100px;
+  height:100px;
+  position: absolute;
+  background: lightgray;
+}
+.box:hover{
+  border:2px solid blue;
 }
 
 .targetBox{
-  border: 2px solid blue;
+  background: none;
+  border: 2px solid skyblue;
+}
+
+.resizer{
+  cursor: crosshair;
+}
+
+.snapLine{
+  width: 0px;
+  height: 0px;
+  top: 0px;
+  left: 0px;
+  border: 0.5px solid lightgreen;
+  position: absolute;
 }

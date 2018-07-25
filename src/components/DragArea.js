@@ -15,7 +15,6 @@ class DragArea extends Component {
                 height: this.props.boxList[boxId].height,
                 top: this.props.boxList[boxId].top,
                 left: this.props.boxList[boxId].left,
-                position: "absolute"
             }
             boxList.push(<Box key={boxId} style={styles} id={boxId} className={"box"} draggable={true}/>);
         }
@@ -23,7 +22,7 @@ class DragArea extends Component {
         return (
             <div 
                 id="dragArea" 
-                className="box area"
+                className="area"
                 onMouseDown={this.props.onMouseDown.bind(this)}>
                 Target
                 <SnapLine direction="top" locate={this.props.snapLine.top}/>
