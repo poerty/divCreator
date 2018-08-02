@@ -4,21 +4,70 @@ body {
   font-family: sans-serif;
 }
 
+.layout{
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  
+  position: absolute;
+  margin: 0px;
+  background: white;
+  overflow: visible;
+  display: block;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+}
+
+.layout-top{
+  bottom: auto;
+  min-width: 1080px;
+  border-bottom: 1px solid lightgray;
+  z-index: 100
+}
+.layout-middle{
+  top: auto;
+  bottom: auto;
+  min-width: 1080px;
+}
+.layout-bottom{
+  top: auto;
+  min-width: 1080px;
+  background: lightgray;
+}
+.layout-right{
+  left: auto;
+  min-height: 500px;
+  overflow: scroll;
+  border-left: 1px solid lightgray;
+}
+.layout-left{
+  right: auto;
+  min-height: 500px;
+  overflow: scroll;
+  border-right: 1px solid lightgray;
+}
+.layout-main{
+  left: auto;
+  right: auto;
+  min-height: 500px;
+  overflow: scroll;
+}
+
 .area{
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
 
   position: relative;
-  display: inline-block;
-  width: 400px;
-  height: 500px;
-  top: 50px;
-  border: 1px solid black;
+  width: 100%;
+  height: 100%;
 }
 
-.source-area{
-  margin-left:200px;
+#dragArea{
+  width: 1000px;
+  height: 1000px;
 }
 
 .box{

@@ -124,3 +124,13 @@ export function resizeDragEnd(x,y,id){
         id: id
     }
 }
+
+export const RESIZE_WINDOW = 'RESIZE_WINDOW';
+
+export function resizeWindow(screenWidth, screenHeight){
+    return {
+        type: RESIZE_WINDOW,
+        screenWidth: screenWidth,
+		screenHeight: screenHeight
+    }
+}

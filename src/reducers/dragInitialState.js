@@ -20,5 +20,13 @@ export const dragInitialState={
         bottom:-1,
         left:-1,
         right:-1
+    },
+    layout:{
+        top: 50,
+        bottom: 50,
+        left: 250,
+        right: 250,
+        screenWindow: typeof window === 'object' ? window.innerWidth : null,
+        screenHeight: typeof window === 'object' ? window.innerHeight : null,
     }
 }
