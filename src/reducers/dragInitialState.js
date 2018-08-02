@@ -1,9 +1,12 @@
 export const dragInitialState={
     boxSourceList:{
 //{id:1, isDragging:false, top:300, left:50, width:100, height:100},,,,
-        1:{isDragging:false, top:300, left:50, width:100, height:100},
-        2:{isDragging:false, top:100, left:100, width:50, height:120}
+        1:{isDragging:false, width:264, height:96},
+        2:{isDragging:false, width:50, height:120}
     },
+    boxIds:[
+        1112,1113,1114
+    ],
     boxList:{
 //{id:1112, isDragging:false, top:300, left:550, width:100, height:100},,,,
         1112:{isDragging:false, top:300, left:50, width:100, height:100},
@@ -15,12 +18,7 @@ export const dragInitialState={
     ],
     targetBox:{top:-1,left:-1,width:0,height:0,x:-1,y:-1,realTop:-1,realLeft:-1,realWidth:0,realHeight:0},
     idCount:1115,
-    snapLine:{
-        top:-1,
-        bottom:-1,
-        left:-1,
-        right:-1
-    },
+    snapLine:{top:-1,bottom:-1,left:-1,right:-1},
     layout:{
         top: 50,
         bottom: 50,

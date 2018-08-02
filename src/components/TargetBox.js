@@ -2,40 +2,43 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { drag, dragStart, dragEnd } from '../actions';
 
-import Resizer from './Resizer';
+import Resizers from './Resizers';
  
 class TargetBox extends Component {
     render() {
         let style={
-            width: this.props.resizerSize,
-            height: this.props.resizerSize,
-            position: "absolute",
-            border: "1px solid black",
-            background: "white"
+            width: this.props.targetBox.width,
+            height: this.props.targetBox.height,
+            top: this.props.targetBox.top,
+            left: this.props.targetBox.left,
+            position: "absolute"
         }
-        let styleTop={...style,...{top: -(this.props.resizerSize+2)/2,left: "50%",marginLeft: -4}}
-        let styleBottom={...style,...{bottom: -(this.props.resizerSize+2)/2,left: "50%",marginLeft: -4}}
-        let styleLeft={...style,...{top: "50%",left: -(this.props.resizerSize+2)/2,marginTop: -4}}
-        let styleRight={...style,...{top: "50%",right: -(this.props.resizerSize+2)/2,marginTop: -4}}
         return (
             <div
                 id={this.props.id} 
-                className={this.props.className}
-                draggable={this.props.draggable}
-                style={this.props.style}
+                className="box targetBox"
+                draggable="true"
+                style={style}
                 
                 onDrag={this.props.onDrag.bind(this)}
                 onDragStart={this.props.onDragStart.bind(this)}
                 onDragEnd={this.props.onDragEnd.bind(this)}>
                 
-                <Resizer id={"topResizer"} direction={"top"} className={"box resizer"} style={styleTop}/>
-                <Resizer id={"bottomResizer"} direction={"bottom"} className={"box resizer"} style={styleBottom}/>
-                <Resizer id={"leftResizer"} direction={"left"} className={"box resizer"} style={styleLeft}/>
-                <Resizer id={"rightResizer"} direction={"right"} className={"box resizer"} style={styleRight}/>
+                <Resizers />
             </div>
         );
     }
 }
+
+let mapStateToProps = (state,ownProps) => {
+    return {
+        selectedBoxIdList: state.drag.selectedBoxIdList,
+        boxList: state.drag.boxList,
+        targetBox: state.drag.targetBox
+    }
+}
+
+TargetBox = connect(mapStateToProps)(TargetBox);
 
 let mapDispatchToProps = (dispatch) => {
     return {

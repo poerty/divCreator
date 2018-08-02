@@ -83,12 +83,13 @@ export function sourceDragStart(x,y,id){
     }
 }
 
-export function sourceDragEnd(x,y,id){
+export function sourceDragEnd(x,y,id,key){
     return {
         type: SOURCE_DRAG_END,
         x: x,
         y: y,
-        id: id
+        id: id,
+        key: key
     }
 }
 

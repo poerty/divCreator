@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-class snapLine extends Component {
+class SnapLine extends Component {
     render() {
-        let styles={
-        };
-        if(this.props.direction==="top"||this.props.direction==="bottom"){
+        let styles={};
+        if(this.props.dataKey==="top"||this.props.dataKey==="bottom"){
             styles.width="100%";
             styles.top=this.props.locate-1;
         }
-        else if(this.props.direction==="left"||this.props.direction==="right"){
+        else if(this.props.dataKey==="left"||this.props.dataKey==="right"){
             styles.height="100%";
             styles.left=this.props.locate-1;
         }
@@ -20,4 +20,12 @@ class snapLine extends Component {
     }
 }
 
-export default snapLine;
+let mapStateToProps = (state,ownProps) => {
+    return {
+        locate: state.drag.snapLine[ownProps.dataKey]
+    }
+}
+
+SnapLine = connect(mapStateToProps)(SnapLine);
+
+export default SnapLine;

@@ -3,32 +3,23 @@ import { connect } from 'react-redux';
 import { mouseDown } from '../actions';
 
 import Box from './Box';
-import SelectedBoxs from './SelectedBoxs';
-import SnapLine from './SnapLine';
+import TargetBox from './TargetBox';
+import SnapLines from './SnapLines';
 
 class DragArea extends Component {
     render() {
         let boxList=[]
-        for(let boxId in this.props.boxList){
-            let styles={
-                width: this.props.boxList[boxId].width,
-                height: this.props.boxList[boxId].height,
-                top: this.props.boxList[boxId].top,
-                left: this.props.boxList[boxId].left,
-            }
-            boxList.push(<Box key={boxId} style={styles} id={boxId} className={"box"} draggable={true}/>);
+        for(let boxId of this.props.boxIds){
+            boxList.push(<Box key={boxId} dataKey={boxId}/>);
         }
-        boxList.push(<SelectedBoxs key={-1} id={0}/>);
+        boxList.push(<TargetBox key={-1} id={0}/>);
         return (
             <div 
                 id="dragArea" 
                 className="area"
                 onMouseDown={this.props.onMouseDown.bind(this)}>
-                Target
-                <SnapLine direction="top" locate={this.props.snapLine.top}/>
-                <SnapLine direction="bottom" locate={this.props.snapLine.bottom}/>
-                <SnapLine direction="left" locate={this.props.snapLine.left}/>
-                <SnapLine direction="right" locate={this.props.snapLine.right}/>
+                <div>Target</div>
+                <SnapLines />
                 {boxList}
             </div>
         );
@@ -37,8 +28,7 @@ class DragArea extends Component {
 
 let mapStateToProps = (state) => {
     return {
-        boxList: state.drag.boxList,
-        snapLine: state.drag.snapLine,
+        boxIds: state.drag.boxIds,
     }
 }
 

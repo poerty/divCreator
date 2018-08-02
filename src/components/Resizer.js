@@ -4,11 +4,41 @@ import { resizeDrag, resizeDragStart, resizeDragEnd } from '../actions';
 
 class Resizer extends Component {
     render() {
+        let resizerSize=8;
+        let style={
+            width: resizerSize,
+            height: resizerSize,
+            position: "absolute",
+            border: "1px solid black",
+            background: "white"
+        }
+        switch(this.props.dataKey){
+            case "top":{
+                style={...style,...{top: -(resizerSize+2)/2,left: "50%",marginLeft: -4}};
+                break;
+            }
+            case "bottom":{
+                style={...style,...{bottom: -(resizerSize+2)/2,left: "50%",marginLeft: -4}};
+                break;
+            }
+            case "left":{
+                style={...style,...{top: "50%",left: -(resizerSize+2)/2,marginTop: -4}};
+                break;
+            }
+            case "right":{
+                style={...style,...{top: "50%",right: -(resizerSize+2)/2,marginTop: -4}};
+                break;
+            }
+            default:{
+                break;
+            }
+        }
+       
         return (
             <div
-                id={this.props.id} 
-                className={this.props.className}
-                style={this.props.style}
+                id={this.props.dataKey+"Resizer"}
+                className="box resizer"
+                style={style}
                 
                 draggable={true}
 

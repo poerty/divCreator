@@ -7,18 +7,11 @@ class DragSourceArea extends Component {
     render() {
         let boxSourceList=[]
         for(let boxSourceId in this.props.boxSourceList){
-            let styles={
-                width: this.props.boxSourceList[boxSourceId].width,
-                height: this.props.boxSourceList[boxSourceId].height,
-                top: this.props.boxSourceList[boxSourceId].top,
-                left: this.props.boxSourceList[boxSourceId].left,
-                position: "absolute"
-            }
-            boxSourceList.push(<BoxSource key={boxSourceId} style={styles} id={boxSourceId} className={"box"} draggable={true}/>);
+            boxSourceList.push(<BoxSource key={boxSourceId} dataKey={boxSourceId}/>);
         }
         return (
             <div id="dragSourceArea" className="source-area area">
-                Source
+                <div>Source</div>
                 {boxSourceList}
             </div>
         );

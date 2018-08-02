@@ -1,22 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { sourceMouseDown, sourceMouseUp, sourceDragStart, sourceDragEnd } from '../actions';
+import { sourceDragStart, sourceDragEnd } from '../actions';
  
 class BoxSource extends Component {
     render() {
         return (
-            <div 
-                id={this.props.id}
-                className={this.props.className}
-                draggable={this.props.draggable}
-                style={this.props.style}
-                
-                onMouseDown={this.props.onMouseDown.bind(this)}
-                onMouseUp={this.props.onMouseUp.bind(this)}
-                
-                onDragStart={this.props.onDragStart.bind(this)}
-                onDragEnd={this.props.onDragEnd.bind(this)}>
-                drag this
+            <div
+            className="boxSourceContainer"
+            draggable="true"
+            
+            onDragStart={this.props.onDragStart.bind(this,this.props.dataKey)}
+            onDragEnd={this.props.onDragEnd.bind(this,this.props.dataKey)}
+            >
+                <div className="boxSourceDragImage"/>
+                <div>name</div>
             </div>
         );
     }
@@ -24,10 +21,14 @@ class BoxSource extends Component {
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        onMouseDown: (e)=>dispatch(sourceMouseDown(e.target.id)),
-        onMouseUp: (e)=>dispatch(sourceMouseUp(e.target.id)),
-        onDragStart: (e)=>dispatch(sourceDragStart(e.clientX,e.clientY,e.target.id)),
-        onDragEnd: (e)=>dispatch(sourceDragEnd(e.clientX,e.clientY,e.target.id))
+        onDragStart: (key,e)=>{
+            var img = new Image();
+            img.style.display="none";
+            img.src = 'https://dteyv52hbg2at.cloudfront.net/devices/common/rectangle/helper.png';
+            e.dataTransfer.setDragImage(img, 50, 50);
+            dispatch(sourceDragStart(e.clientX,e.clientY,e.target.id))
+        },
+        onDragEnd: (key,e)=>dispatch(sourceDragEnd(e.clientX,e.clientY,e.target.id,key))
     }
 }
  
