@@ -3,14 +3,22 @@ import { connect } from 'react-redux';
 import { mouseDown } from '../actions';
  
 class Box extends Component {
+    
     render() {
+        let childBoxList=[]
+        if(this.props.style.childBoxList!==undefined){
+            for(let childBoxId in this.props.style.childBoxList){
+                childBoxList.push(<div key={this.props.dataKey+"-"+childBoxId} className="box" style={this.props.style.childBoxList[childBoxId]}/>);
+            }
+        }
         return (
             <div
                 id={this.props.dataKey}
                 className="box"
                 style={this.props.style}
                 
-                onMouseDown={this.props.onMouseDown.bind(this)}>
+                onMouseDown={this.props.onMouseDown.bind(this,this.props.dataKey)}>
+                {childBoxList}
             </div>
         );
     }
@@ -27,7 +35,10 @@ Box = connect(mapStateToProps)(Box);
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        onMouseDown: (e)=>dispatch(mouseDown(e.target.id,e.shiftKey))
+        onMouseDown: (id,e)=>{
+            dispatch(mouseDown(id+"",e.shiftKey))
+            e.stopPropagation();
+        }
     }
 }
 

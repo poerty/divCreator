@@ -36,7 +36,9 @@ DragArea = connect(mapStateToProps)(DragArea);
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        onMouseDown: (e)=>dispatch(mouseDown(e.target.id,e.shiftKey))
+        onMouseDown: (e)=>{
+            dispatch(mouseDown(e.target.id,e.shiftKey))
+        }
     }
 }
 

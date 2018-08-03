@@ -50,6 +50,7 @@ const drag = (state = dragInitialState, action) => {
 
         //normal box    
         case MOUSE_DOWN:{
+            if(action.id==="" || action.id===undefined) return state;
             if(action.id==="dragArea"){
                 return Object.assign({}, state, {
                     selectedBoxIdList:[],
