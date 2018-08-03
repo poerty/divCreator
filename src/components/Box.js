@@ -4,17 +4,11 @@ import { mouseDown } from '../actions';
  
 class Box extends Component {
     render() {
-        let style={
-            width: this.props.style.width,
-            height: this.props.style.height,
-            top: this.props.style.top,
-            left: this.props.style.left,
-        }
         return (
             <div
                 id={this.props.dataKey}
                 className="box"
-                style={style}
+                style={this.props.style}
                 
                 onMouseDown={this.props.onMouseDown.bind(this)}>
             </div>

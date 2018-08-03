@@ -1,5 +1,4 @@
 export const MOUSE_DOWN = 'MOUSE_DOWN';
-export const MOUSE_UP = 'MOUSE_UP';
 export const DRAG = 'DRAG';
 export const DRAG_START = 'DRAG_START';
 export const DRAG_END = 'DRAG_END';
@@ -10,13 +9,6 @@ export function mouseDown(id,shift){
         type: MOUSE_DOWN,
         id: id,
         shift: shift
-    }
-}
-
-export function mouseUp(id){
-    return {
-        type: MOUSE_UP,
-        id: id
     }
 }
 

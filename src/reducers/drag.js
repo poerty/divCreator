@@ -1,7 +1,7 @@
 import update from 'react-addons-update';
 
 import { SOURCE_MOUSE_DOWN, SOURCE_MOUSE_UP, SOURCE_DRAG_START, SOURCE_DRAG_END } from '../actions';
-import { MOUSE_DOWN, MOUSE_UP, DRAG, DRAG_START, DRAG_END } from '../actions';
+import { MOUSE_DOWN, DRAG, DRAG_START, DRAG_END } from '../actions';
 import { RESIZE_DRAG, RESIZE_DRAG_START, RESIZE_DRAG_END } from '../actions';
 import { RESIZE_WINDOW } from '../actions';
 
@@ -35,15 +35,13 @@ const drag = (state = dragInitialState, action) => {
                 return state;
             }
 
+            let newBox=Object.assign({},state.boxSourceList[action.key]);
+            newBox.top=action.y-state.layout.top-50;
+            newBox.left=action.x-state.layout.left-50;
+
             return Object.assign({},state,{
                 boxList:Object.assign({},state.boxList,{
-                    [state.idCount]:{
-                        isDragging:false,
-                        top:action.y-state.layout.top-50,
-                        left:action.x-state.layout.left-50,
-                        width:state.boxSourceList[action.key].width,
-                        height:state.boxSourceList[action.key].height
-                    }
+                    [state.idCount]:newBox
                 }),
                 boxIds:[...state.boxIds,state.idCount],
                 idCount:state.idCount+1
@@ -81,18 +79,8 @@ const drag = (state = dragInitialState, action) => {
                 )
             });
         }
-        case MOUSE_UP:{
-            return Object.assign({}, state, {
-                boxList:update(
-                    state.boxList,
-                    {
-                        [action.id]:{
-                            isDragging:{$set:false}
-                        }
-                    }
-                )
-            });
-        }
+
+        //target box
         case DRAG_START:{
             let newBoxList=state.boxList;
             for(let boxId in newBoxList){
