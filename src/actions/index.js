@@ -37,6 +37,23 @@ export function dragEnd(e){
     }
 }
 
+export const CONTEXT_MENU = 'CONTEXT_MENU';
+export const MAKE_GROUP = 'MAKE_GROUP';
+
+export function contextMenu(x,y){
+    return {
+        type: CONTEXT_MENU,
+        x: x,
+        y: y
+    }
+}
+
+export function makeGroup(){
+    return {
+        type: MAKE_GROUP
+    }
+}
+
 export const SOURCE_MOUSE_DOWN = 'SOURCE_MOUSE_DOWN';
 export const SOURCE_MOUSE_UP = 'SOURCE_MOUSE_UP';
 export const SOURCE_DRAG = 'SOURCE_DRAG';

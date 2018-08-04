@@ -15,9 +15,14 @@ export const dragInitialState={
         1112:{top:300, left:50, width:100, height:100},
         1113:{top:100, left:100, width:100, height:100},
         1116:{
-            top:150, left:250, width:200, height:300, background:"orange",
+            top:150, left:250, width:200, height:300, background:"transparent",
             childBoxList:{
-                1114:{top:"10%", left:"10%", width:"50%", height:"50%"},
+                1114:{
+                    top:"10%", left:"10%", width:"50%", height:"50%",background: "transparent",
+                    childBoxList:{
+                        1111:{top:"10%", left:"10%", width:"50%", height:"50%"}
+                    }
+                },
                 1115:{top:"66.66%", left:"25%", width:"25%", height:"33.33%"}
             }
         }
@@ -35,5 +40,8 @@ export const dragInitialState={
         right: 250,
         screenWindow: typeof window === 'object' ? window.innerWidth : null,
         screenHeight: typeof window === 'object' ? window.innerHeight : null,
+    },
+    contextMenu:{
+        top: 0,left: 0,visible: false
     }
 }

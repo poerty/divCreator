@@ -1,7 +1,8 @@
 import update from 'react-addons-update';
 
-import { SOURCE_MOUSE_DOWN, SOURCE_MOUSE_UP, SOURCE_DRAG_START, SOURCE_DRAG_END } from '../actions';
+import { SOURCE_MOUSE_DOWN, SOURCE_MOUSE_UP, SOURCE_DRAG_START, SOURCE_DRAG_END} from '../actions';
 import { MOUSE_DOWN, DRAG, DRAG_START, DRAG_END } from '../actions';
+import { CONTEXT_MENU, MAKE_GROUP } from '../actions';
 import { RESIZE_DRAG, RESIZE_DRAG_START, RESIZE_DRAG_END } from '../actions';
 import { RESIZE_WINDOW } from '../actions';
 
@@ -9,7 +10,10 @@ import { dragInitialState } from './dragInitialState';
 
 import { getContainerRect, insideof, checkSnapDrag, checkSnapResize } from './helpFunctions';
 
-Object.from = arr => Object.assign(...arr.map( ([k, v]) => ({[k]: v}) ));
+Object.from = arr => {
+    if(arr.length===0) return {};
+    return Object.assign(...arr.map( ([k, v]) => ({[k]: v}) ))
+};
 Object.filter = (obj, predicate) => Object.from(Object.entries(obj).filter(predicate));
 
 const drag = (state = dragInitialState, action) => {
@@ -50,15 +54,36 @@ const drag = (state = dragInitialState, action) => {
 
         //normal box    
         case MOUSE_DOWN:{
-            if(action.id==="" || action.id===undefined) return state;
+            if(action.id==="" || action.id===undefined){
+                return Object.assign({},state,{
+                    contextMenu:{
+                        top:0,left:0,visible:false
+                    }
+                });
+            }
             if(action.id==="dragArea"){
                 return Object.assign({}, state, {
                     selectedBoxIdList:[],
-                    targetBox:{top:-1,left:-1,width:0,height:0,x:-1,y:-1,realTop:-1,realLeft:-1,realWidth:0,realHeight:0}
+                    targetBox:{top:-1,left:-1,width:0,height:0,x:-1,y:-1,realTop:-1,realLeft:-1,realWidth:0,realHeight:0},
+                    contextMenu:{
+                        top:0,left:0,visible:false
+                    }
                 });
             }
-            if(action.id.includes("Resizer")) return state;
-            if(action.id==="0") return state;
+            if(action.id.includes("Resizer")){
+                return Object.assign({},state,{
+                    contextMenu:{
+                        top:0,left:0,visible:false
+                    }
+                });
+            }
+            if(action.id==="0"){
+                return Object.assign({},state,{
+                    contextMenu:{
+                        top:0,left:0,visible:false
+                    }
+                });
+            }
 
             let newSelectedBoxIdList=(action.shift===true)?state.selectedBoxIdList.concat(action.id):[action.id];
             let selectedBoxList=Object.filter(state.boxList, ([id,box])=>newSelectedBoxIdList.includes(id));
@@ -77,7 +102,55 @@ const drag = (state = dragInitialState, action) => {
                         realWidth:{$set:ret.right-ret.left},
                         realHeight:{$set:ret.bottom-ret.top}
                     }
-                )
+                ),
+                contextMenu:{
+                    top:0,left:0,visible:false
+                }
+            });
+        }
+
+        case CONTEXT_MENU:{
+            return Object.assign({}, state, {
+                contextMenu:{
+                    top: action.y-state.layout.top,
+                    left: action.x-state.layout.left,
+                    visible: true
+                }
+            });
+        }
+        case MAKE_GROUP:{
+            if(state.selectedBoxIdList.length<2) return state;
+
+            let tempStyle={top:10000,left:10000,right:0,bottom:0};
+            for(let boxId of state.selectedBoxIdList){
+                tempStyle.top=Math.min(state.boxList[boxId].top,tempStyle.top)
+                tempStyle.left=Math.min(state.boxList[boxId].left,tempStyle.left)
+                tempStyle.right=Math.max(state.boxList[boxId].left+state.boxList[boxId].width,tempStyle.right)
+                tempStyle.bottom=Math.max(state.boxList[boxId].top+state.boxList[boxId].height,tempStyle.bottom)
+            }
+            
+            let newBox={top:tempStyle.top,left:tempStyle.left,width:tempStyle.right-tempStyle.left,height:tempStyle.bottom-tempStyle.top,background:"transparent",childBoxList:{}};
+            for(let boxId of state.selectedBoxIdList){
+                let style=state.boxList[boxId];
+                newBox.childBoxList[boxId]={
+                    ...style,
+                    top:100*(style.top-newBox.top)/newBox.height+"%",
+                    left:100*(style.left-newBox.left)/newBox.width+"%",
+                    width:100*style.width/newBox.width+"%",
+                    height:100*style.height/newBox.height+"%"
+                };
+            }
+
+            let newBoxList=Object.filter(state.boxList, ([id,box])=>!state.selectedBoxIdList.includes(id))
+            newBoxList[state.idCount]=newBox;
+            let newBoxIds=state.boxIds.filter(id=>!state.selectedBoxIdList.includes(id.toString()));
+            newBoxIds.push(state.idCount);
+
+            
+            return Object.assign({},state,{
+                boxList:newBoxList,
+                boxIds:newBoxIds,
+                idCount:state.idCount+1
             });
         }
 

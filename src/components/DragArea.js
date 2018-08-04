@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { mouseDown } from '../actions';
+import { mouseDown, contextMenu } from '../actions';
 
 import Box from './Box';
 import TargetBox from './TargetBox';
 import SnapLines from './SnapLines';
+import ContextMenu from './ContextMenu';
 
 class DragArea extends Component {
     render() {
@@ -17,10 +18,12 @@ class DragArea extends Component {
             <div 
                 id="dragArea" 
                 className="area"
-                onMouseDown={this.props.onMouseDown.bind(this)}>
+                onMouseDown={this.props.onMouseDown.bind(this)}
+                onContextMenu={this.props.onContextMenu.bind(this)}>
                 <div>Target</div>
                 <SnapLines />
                 {boxList}
+                <ContextMenu />
             </div>
         );
     }
@@ -38,6 +41,10 @@ let mapDispatchToProps = (dispatch) => {
     return {
         onMouseDown: (e)=>{
             dispatch(mouseDown(e.target.id,e.shiftKey))
+        },
+        onContextMenu: (e)=>{
+            dispatch(contextMenu(e.clientX,e.clientY))
+            e.preventDefault();            
         }
     }
 }

@@ -3,13 +3,22 @@ import { connect } from 'react-redux';
 import { mouseDown } from '../actions';
  
 class Box extends Component {
-    
+    getChildBox(key,boxStyle){
+        let boxList=[]
+        for(let boxId in boxStyle){
+            let childBoxList=[]
+            if(boxStyle[boxId].childBoxList!==undefined){
+                childBoxList=this.getChildBox(key+"-"+boxId,boxStyle[boxId].childBoxList);
+            }
+            boxList.push(<div key={key+"-"+boxId} className="box" style={boxStyle[boxId]}>{childBoxList}</div>);
+        }
+
+        return boxList;
+    }
     render() {
         let childBoxList=[]
         if(this.props.style.childBoxList!==undefined){
-            for(let childBoxId in this.props.style.childBoxList){
-                childBoxList.push(<div key={this.props.dataKey+"-"+childBoxId} className="box" style={this.props.style.childBoxList[childBoxId]}/>);
-            }
+            childBoxList=this.getChildBox(this.props.dataKey,this.props.style.childBoxList);
         }
         return (
             <div
