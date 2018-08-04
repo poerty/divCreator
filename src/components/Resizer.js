@@ -4,6 +4,8 @@ import { resizeDrag, resizeDragStart, resizeDragEnd } from '../actions';
 
 class Resizer extends Component {
     render() {
+        console.log("resizer render");
+
         let resizerSize=8;
         let style={
             width: resizerSize,

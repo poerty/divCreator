@@ -34,9 +34,6 @@ let mapStateToProps = (state) => {
         boxIds: state.drag.boxIds,
     }
 }
-
-DragArea = connect(mapStateToProps)(DragArea);
-
 let mapDispatchToProps = (dispatch) => {
     return {
         onMouseDown: (e)=>{
@@ -49,6 +46,6 @@ let mapDispatchToProps = (dispatch) => {
     }
 }
 
-DragArea = connect(undefined, mapDispatchToProps)(DragArea);
+DragArea = connect(mapStateToProps, mapDispatchToProps)(DragArea);
 
 export default DragArea;

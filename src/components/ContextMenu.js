@@ -27,9 +27,6 @@ let mapStateToProps = (state,ownProps) => {
         style: state.drag.contextMenu
     }
 }
-
-ContextMenu = connect(mapStateToProps)(ContextMenu);
-
 let mapDispatchToProps = (dispatch) => {
     return {
         onMouseDown: (e)=>{
@@ -39,6 +36,6 @@ let mapDispatchToProps = (dispatch) => {
     }
 }
 
-ContextMenu = connect(undefined, mapDispatchToProps)(ContextMenu);
+ContextMenu = connect(mapStateToProps, mapDispatchToProps)(ContextMenu);
 
 export default ContextMenu;

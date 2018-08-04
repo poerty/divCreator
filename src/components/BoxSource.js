@@ -29,9 +29,6 @@ let mapStateToProps = (state,ownProps) => {
         style: state.drag.boxSourceList[ownProps.dataKey],
     }
 }
-
-BoxSource = connect(mapStateToProps)(BoxSource);
-
 let mapDispatchToProps = (dispatch) => {
     return {
         onDragStart: (img,e)=>{
@@ -42,6 +39,6 @@ let mapDispatchToProps = (dispatch) => {
     }
 }
  
-BoxSource = connect(undefined, mapDispatchToProps)(BoxSource);
+BoxSource = connect(mapStateToProps, mapDispatchToProps)(BoxSource);
  
 export default BoxSource;

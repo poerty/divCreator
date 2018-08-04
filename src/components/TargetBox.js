@@ -32,14 +32,9 @@ class TargetBox extends Component {
 
 let mapStateToProps = (state,ownProps) => {
     return {
-        selectedBoxIdList: state.drag.selectedBoxIdList,
-        boxList: state.drag.boxList,
         targetBox: state.drag.targetBox
     }
 }
-
-TargetBox = connect(mapStateToProps)(TargetBox);
-
 let mapDispatchToProps = (dispatch) => {
     return {
         onDrag: (e)=>dispatch(drag(e.clientX,e.clientY,e.target.id)),
@@ -54,6 +49,6 @@ let mapDispatchToProps = (dispatch) => {
     }
 }
 
-TargetBox = connect(undefined, mapDispatchToProps)(TargetBox);
+TargetBox = connect(mapStateToProps, mapDispatchToProps)(TargetBox);
  
 export default TargetBox;

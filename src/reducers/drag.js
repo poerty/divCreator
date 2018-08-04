@@ -64,7 +64,7 @@ const drag = (state = dragInitialState, action) => {
             if(action.id==="dragArea"){
                 return Object.assign({}, state, {
                     selectedBoxIdList:[],
-                    targetBox:{top:-1,left:-1,width:0,height:0,x:-1,y:-1,realTop:-1,realLeft:-1,realWidth:0,realHeight:0},
+                    targetBox:{top:-10,left:-10,width:0,height:0,x:-1,y:-1,realTop:-1,realLeft:-1,realWidth:0,realHeight:0},
                     contextMenu:{
                         top:0,left:0,visible:false
                     }
@@ -129,27 +129,27 @@ const drag = (state = dragInitialState, action) => {
                 tempStyle.bottom=Math.max(state.boxList[boxId].top+state.boxList[boxId].height,tempStyle.bottom)
             }
             
-            let newBox={top:tempStyle.top,left:tempStyle.left,width:tempStyle.right-tempStyle.left,height:tempStyle.bottom-tempStyle.top,background:"transparent",childBoxList:{}};
-            for(let boxId of state.selectedBoxIdList){
-                let style=state.boxList[boxId];
-                newBox.childBoxList[boxId]={
-                    ...style,
-                    top:100*(style.top-newBox.top)/newBox.height+"%",
-                    left:100*(style.left-newBox.left)/newBox.width+"%",
-                    width:100*style.width/newBox.width+"%",
-                    height:100*style.height/newBox.height+"%"
-                };
-            }
-
-            let newBoxList=Object.filter(state.boxList, ([id,box])=>!state.selectedBoxIdList.includes(id))
-            newBoxList[state.idCount]=newBox;
-            let newBoxIds=state.boxIds.filter(id=>!state.selectedBoxIdList.includes(id.toString()));
-            newBoxIds.push(state.idCount);
-
+            let newBox={top:tempStyle.top,left:tempStyle.left,width:tempStyle.right-tempStyle.left,height:tempStyle.bottom-tempStyle.top,background:"transparent",childBoxIds:state.selectedBoxIdList};
             
+
             return Object.assign({},state,{
-                boxList:newBoxList,
-                boxIds:newBoxIds,
+                selectedBoxIdList:[String(state.idCount)],
+                targetBox:update(
+                    state.targetBox,{
+                        top:{$set:tempStyle.top},
+                        left:{$set:tempStyle.left},
+                        width:{$set:tempStyle.right-tempStyle.left},
+                        height:{$set:tempStyle.bottom-tempStyle.top},
+                        realTop:{$set:tempStyle.top},
+                        realLeft:{$set:tempStyle.left},
+                        realWidth:{$set:tempStyle.right-tempStyle.left},
+                        realHeight:{$set:tempStyle.bottom-tempStyle.top}
+                    }
+                ),
+                boxList:Object.assign({},state.boxList,{
+                    [state.idCount]:newBox
+                }),
+                boxIds:[...state.boxIds,state.idCount],
                 idCount:state.idCount+1
             });
         }
@@ -187,14 +187,25 @@ const drag = (state = dragInitialState, action) => {
             action.x=Math.min(Math.max(action.x,dragAreaRect.left),dragAreaRect.left+dragAreaRect.width);
             action.y=Math.min(Math.max(action.y,dragAreaRect.top),dragAreaRect.top+dragAreaRect.height);
 
-            let targetBox=state.targetBox;
+            let targetBox=Object.assign({},state.targetBox);
 
             let dragAmount={left:action.x-targetBox.x, top:action.y-targetBox.y};
             let topDiff=state.targetBox.realTop-state.targetBox.top;
             let leftDiff=state.targetBox.realLeft-state.targetBox.left;
 
             //snap top/left/width/height/selectedBoxIdList/boxlist/snapsize
-            let ret=checkSnapDrag(targetBox.realTop+dragAmount.top, targetBox.realLeft+dragAmount.left,targetBox.realWidth, targetBox.realHeight, state.selectedBoxIdList,state.boxList,5);
+            let getChildBoxIds=(boxIds)=>{
+                let newBoxIds=Array.from(boxIds);
+
+                for(let boxId of boxIds){
+                    if(state.boxList[boxId].childBoxIds!==undefined){
+                        let childBoxIds=getChildBoxIds(state.boxList[boxId].childBoxIds);
+                        newBoxIds=newBoxIds.concat(childBoxIds);
+                    }
+                }
+                return newBoxIds;
+            };
+            let ret=checkSnapDrag(targetBox.realTop+dragAmount.top, targetBox.realLeft+dragAmount.left,targetBox.realWidth, targetBox.realHeight, getChildBoxIds(state.selectedBoxIdList),state.boxList,5);
             let topDiff2=ret.top.diff===0?ret.bottom.diff:ret.top.diff;
             let leftDiff2=ret.left.diff===0?ret.right.diff:ret.left.diff;
 
@@ -206,20 +217,25 @@ const drag = (state = dragInitialState, action) => {
             newTargetBox.x=action.x;
             newTargetBox.y=action.y;
 
-            let changeBoxList={}
-            for(let boxId in state.boxList){
-                if(state.selectedBoxIdList.includes(boxId)){
+            let getChangeBoxList=(changeBoxList,boxIds,dragTop,dragLeft)=>{
+                for(let boxId of boxIds){
                     changeBoxList={...changeBoxList,...{[boxId]:{
-                        top:{$set:state.boxList[boxId].top+dragAmount.top+topDiff+topDiff2},
-                        left:{$set:state.boxList[boxId].left+dragAmount.left+leftDiff+leftDiff2}
+                        top:{$set:state.boxList[boxId].top+dragTop},
+                        left:{$set:state.boxList[boxId].left+dragLeft}
                     }}};
+                    if(state.boxList[boxId].childBoxIds!==undefined){
+                        changeBoxList=getChangeBoxList(changeBoxList,state.boxList[boxId].childBoxIds,dragTop,dragLeft);
+                    }
                 }
-            }
+                return changeBoxList;
+            };
+            let changeBoxList=getChangeBoxList({},state.selectedBoxIdList,dragAmount.top+topDiff+topDiff2,dragAmount.left+leftDiff+leftDiff2)
+            
             let newBoxList=update(state.boxList,changeBoxList);
 
             return Object.assign({},state,{
-                boxList:newBoxList,
                 targetBox:newTargetBox,
+                boxList:newBoxList,
                 snapLine:{top:ret.top.line, bottom:ret.bottom.line, left:ret.left.line, right:ret.right.line}
             });
         }
@@ -267,8 +283,19 @@ const drag = (state = dragInitialState, action) => {
             let heightDiff=state.targetBox.realHeight-state.targetBox.height;
             let widthDiff=state.targetBox.realWidth-state.targetBox.width;
 
+            let getChildBoxIds=(boxIds)=>{
+                let newBoxIds=Array.from(boxIds);
+
+                for(let boxId of boxIds){
+                    if(state.boxList[boxId].childBoxIds!==undefined){
+                        let childBoxIds=getChildBoxIds(state.boxList[boxId].childBoxIds);
+                        newBoxIds=newBoxIds.concat(childBoxIds);
+                    }
+                }
+                return newBoxIds;
+            };
             //snap top/left/width/height/selectedBoxIdList/boxlist/snapsize
-            let ret=checkSnapResize(targetBox.realTop+dragAmount.top, targetBox.realLeft+dragAmount.left,targetBox.realWidth, targetBox.realHeight, state.selectedBoxIdList,state.boxList,5);
+            let ret=checkSnapResize(targetBox.realTop+dragAmount.top, targetBox.realLeft+dragAmount.left,targetBox.realWidth, targetBox.realHeight, getChildBoxIds(state.selectedBoxIdList),state.boxList,5);
             let topDiff2=ret.top.diff===0?ret.bottom.diff:ret.top.diff;
             let leftDiff2=ret.left.diff===0?ret.right.diff:ret.left.diff;
 
@@ -300,17 +327,22 @@ const drag = (state = dragInitialState, action) => {
             newTargetBox.x=action.x;
             newTargetBox.y=action.y;
 
-            let changeBoxList={}
-            for(let boxId in state.boxList){
-                if(state.selectedBoxIdList.includes(boxId)){
+            let getChangeBoxList=(changeBoxList,boxIds)=>{
+                for(let boxId of boxIds){
                     changeBoxList={...changeBoxList,...{[boxId]:{
                         top:{$set:(state.boxList[boxId].top-targetBox.top)*(newTargetBox.height/targetBox.height)+newTargetBox.top},
                         left:{$set:(state.boxList[boxId].left-targetBox.left)*(newTargetBox.width/targetBox.width)+newTargetBox.left},
                         height:{$set:(newTargetBox.height/targetBox.height)*state.boxList[boxId].height},
                         width:{$set:(newTargetBox.width/targetBox.width)*state.boxList[boxId].width}
                     }}};
+                    if(state.boxList[boxId].childBoxIds!==undefined){
+                        changeBoxList=getChangeBoxList(changeBoxList,state.boxList[boxId].childBoxIds);
+                    }
                 }
-            }
+                return changeBoxList;
+            };
+            let changeBoxList=getChangeBoxList({},state.selectedBoxIdList,dragAmount.top+topDiff+topDiff2,dragAmount.left+leftDiff+leftDiff2)
+            
             let newBoxList=update(state.boxList,changeBoxList);
 
             return Object.assign({},state,{
