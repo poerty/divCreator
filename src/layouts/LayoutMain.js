@@ -1,31 +1,31 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import DragArea from './../components/DragArea';
- 
+import DragArea from './../components/DragArea'
+
 class LayoutMain extends Component {
-    render() {
-        let style={
-            left: this.props.layout.left,
-            right: this.props.layout.right
-        }
-        return (
-            <div
-            className="layout layout-main"
-            style={style}
-                >
-                <DragArea />
-            </div>
-        );
+  render () {
+    let style = {
+      left: this.props.layout.left,
+      right: this.props.layout.right
     }
+    return (
+      <div
+        className='layout layout-main'
+        style={style}
+      >
+        <DragArea />
+      </div>
+    )
+  }
 }
 
-let mapStateToProps = (state,ownProps) => {
-    return {
-        layout: state.drag.layout
-    }
+let mapStateToProps = (state, ownProps) => {
+  return {
+    layout: state.drag.layout
+  }
 }
 
-LayoutMain = connect(mapStateToProps)(LayoutMain);
+LayoutMain = connect(mapStateToProps)(LayoutMain)
 
-export default LayoutMain;
+export default LayoutMain

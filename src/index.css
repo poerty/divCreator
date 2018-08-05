@@ -32,11 +32,11 @@ body {
 .layout-middle{
   top: auto;
   bottom: auto;
-  min-width: 1080px;
+  /*min-width: 1080px;*/
 }
 .layout-bottom{
   top: auto;
-  min-width: 1080px;
+  /*min-width: 1080px;*/
   background: lightgray;
 }
 .layout-right{
@@ -54,8 +54,8 @@ body {
 .layout-main{
   left: auto;
   right: auto;
-  min-height: 500px;
-  overflow: scroll;
+  /*min-height: 500px;*/
+  /*overflow: scroll;*/
 }
 
 .area{

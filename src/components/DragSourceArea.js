@@ -1,30 +1,29 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import BoxSource from './BoxSource';
+import BoxSource from './BoxSource'
 
 class DragSourceArea extends Component {
-    render() {
-        let boxSourceList=[]
-        for(let boxSourceId in this.props.boxSourceList){
-            boxSourceList.push(<BoxSource key={boxSourceId} dataKey={boxSourceId}/>);
-        }
-        return (
-            <div id="dragSourceArea" className="source-area area">
-                <div>Source</div>
-                {boxSourceList}
-            </div>
-        );
+  render () {
+    let boxSourceList = []
+    for (let boxSourceId in this.props.boxSourceList) {
+      boxSourceList.push(<BoxSource key={boxSourceId} dataKey={boxSourceId} />)
     }
+    return (
+      <div id='dragSourceArea' className='source-area area'>
+        <div>Source</div>
+        {boxSourceList}
+      </div>
+    )
+  }
 }
 
 let mapStateToProps = (state) => {
-    return {
-        boxSourceList: state.drag.boxSourceList
-    }
+  return {
+    boxSourceList: state.drag.boxSourceList
+  }
 }
 
-DragSourceArea = connect(mapStateToProps)(DragSourceArea);
+DragSourceArea = connect(mapStateToProps)(DragSourceArea)
 
-
-export default DragSourceArea;
+export default DragSourceArea

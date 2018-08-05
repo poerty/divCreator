@@ -6,7 +6,7 @@ import LayoutTop from './layouts/LayoutTop';
 import LayoutBottom from './layouts/LayoutBottom';
 
 class App extends Component {
- 
+
   render() {
     return (
       <div>
@@ -17,5 +17,5 @@ class App extends Component {
     );
   }
 }
- 
+
 export default App;

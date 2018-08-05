@@ -1,30 +1,30 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import DragSourceArea from './../components/DragSourceArea';
+import DragSourceArea from './../components/DragSourceArea'
 
 class LayoutRight extends Component {
-    render() {
-        let style={
-            width: this.props.layout.right
-        }
-        return (
-            <div
-            className="layout layout-right"
-            style={style}
-            >
-                <DragSourceArea />
-            </div>
-        );
+  render () {
+    let style = {
+      width: this.props.layout.right
     }
+    return (
+      <div
+        className='layout layout-right'
+        style={style}
+      >
+        <DragSourceArea />
+      </div>
+    )
+  }
 }
 
-let mapStateToProps = (state,ownProps) => {
-    return {
-        layout: state.drag.layout
-    }
+let mapStateToProps = (state, ownProps) => {
+  return {
+    layout: state.drag.layout
+  }
 }
 
-LayoutRight = connect(mapStateToProps)(LayoutRight);
+LayoutRight = connect(mapStateToProps)(LayoutRight)
 
-export default LayoutRight;
+export default LayoutRight
