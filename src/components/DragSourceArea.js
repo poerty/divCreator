@@ -20,7 +20,7 @@ class DragSourceArea extends Component {
 
 let mapStateToProps = (state) => {
   return {
-    boxSourceList: state.drag.boxSourceList
+    boxSourceList: state.drag.get('boxSourceList').toObject()
   }
 }
 

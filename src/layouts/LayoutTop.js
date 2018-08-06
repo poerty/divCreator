@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+
 class LayoutTop extends Component {
   render () {
     let style = {
@@ -19,7 +20,7 @@ class LayoutTop extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    layout: state.drag.layout
+    layout: state.drag.get('layout').toObject()
   }
 }
 

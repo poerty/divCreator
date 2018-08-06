@@ -32,7 +32,7 @@ class TargetBox extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    targetBox: state.drag.targetBox
+    targetBox: state.drag.get('targetBox').toObject()
   }
 }
 let mapDispatchToProps = (dispatch) => {

@@ -26,7 +26,7 @@ class BoxSource extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    style: state.drag.boxSourceList[ownProps.dataKey]
+    style: state.drag.get('boxSourceList').get(String(ownProps.dataKey)).toObject()
   }
 }
 let mapDispatchToProps = (dispatch) => {

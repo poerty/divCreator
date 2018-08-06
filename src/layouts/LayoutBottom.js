@@ -17,7 +17,7 @@ class LayoutBottom extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    layout: state.drag.layout
+    layout: state.drag.get('layout').toObject()
   }
 }
 

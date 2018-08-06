@@ -7,7 +7,7 @@ class ContextMenu extends Component {
     if (this.props.style.visible === false) return null
 
     let optionList = {}
-    for (let optionName in this.props.options) {
+    for(let optionName in this.props.options){
       if(optionName==="separator"){
         optionList[optionName]=('contextMenu--separator')
       }
@@ -38,8 +38,8 @@ class ContextMenu extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    style: state.drag.contextMenu.style,
-    options: state.drag.contextMenu.options
+    style: state.drag.get('contextMenu').get('style').toObject(),
+    options: state.drag.get('contextMenu').get('options').toObject()
   }
 }
 let mapDispatchToProps = (dispatch) => {

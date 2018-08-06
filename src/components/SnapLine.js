@@ -20,7 +20,7 @@ class SnapLine extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    locate: state.drag.snapLine[ownProps.dataKey]
+    locate: state.drag.get('snapLine').get(ownProps.dataKey)
   }
 }
 

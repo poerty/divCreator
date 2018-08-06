@@ -17,7 +17,7 @@ class Box extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    style: state.drag.boxList[ownProps.dataKey]
+    style: state.drag.get('boxList').get(String(ownProps.dataKey)).toObject()
   }
 }
 let mapDispatchToProps = (dispatch) => {

@@ -1,50 +1,73 @@
-export const dragInitialState = {
-  boxSourceList: {
+import { Map, List } from 'immutable'
+
+export const targetBoxInitialState = Map({
+  top: -10, left: -10,
+  width: 0, height: 0,
+  x: -1, y: -1,
+  realTop: -1, realLeft: -1,
+  realWidth: 0, realHeight: 0
+})
+export const snapLineInitialState = Map({
+  top: -1, bottom: -1,
+  left: -1, right: -1
+})
+export const contextMenuInitialState = Map({
+  style: Map({
+    top: 0, left: 0,
+    visible: false
+  }),
+  options: Map({
+    group: false, ungroup: false,
+    component: false, uncomponent: false,
+    copy: false, paste: false, delete: false,
+    settings: false, separator: true, appInfo: false
+  })
+})
+
+export const dragInitialState = Map({
+  boxSourceList: Map({
     // {id:1, top:300, left:50, width:100, height:100},,,,
-    1: {
+    1: Map({
       width: 264, height: 96, dragImgSrc: './img/1.png'
-    },
-    2: {
+    }),
+    2: Map({
       width: 140,
       height: 140,
       dragImgSrc: './img/2.png',
       borderRadius: '50%'
-    }
-  },
-  boxIds: [
-    1112, 1113, 1114, 1115, 1116
-  ],
-  boxList: {
+    })
+  }),
+  boxIds: List([
+    '1112', '1113', '1114', '1115', '1116'
+  ]),
+  boxList: Map({
     // {id:1112, top:300, left:550, width:100, height:100},,,,
-    1112: { top: 300, left: 50, width: 100, height: 100 },
-    1113: { top: 100, left: 100, width: 100, height: 100 },
-    1114: { top: 250, left: 250, width: 150, height: 100 },
-    1115: { top: 400, left: 350, width: 100, height: 100 },
-    1116: {
+    '1112': Map({ top: 300, left: 50, width: 100, height: 100 }),
+    '1113': Map({ top: 100, left: 100, width: 100, height: 100 }),
+    '1114': Map({ top: 250, left: 250, width: 150, height: 100 }),
+    '1115': Map({ top: 400, left: 350, width: 100, height: 100 }),
+    '1116': Map({
       top: 250,
       left: 250,
       width: 200,
       height: 250,
       background: 'transparent',
-      childBoxIds: ['1114', '1115']
-    }
-  },
-  selectedBoxIdList: [
+      childBoxIds: List(['1114', '1115'])
+    })
+  }),
+  selectedBoxIds: List([
     // {id:1111},,,,
-  ],
-  targetBox: { top: -10, left: -10, width: 0, height: 0, x: -1, y: -1, realTop: -1, realLeft: -1, realWidth: 0, realHeight: 0 },
+  ]),
+  targetBox: targetBoxInitialState,
   idCount: 1117,
-  snapLine: { top: -1, bottom: -1, left: -1, right: -1 },
-  layout: {
+  snapLine: snapLineInitialState,
+  layout: Map({
     top: 50,
     bottom: 50,
     left: 250,
     right: 250,
     screenWindow: typeof window === 'object' ? window.innerWidth : null,
     screenHeight: typeof window === 'object' ? window.innerHeight : null
-  },
-  contextMenu: {
-    style: { top: 0, left: 0, visible: false },
-    options: { group: false, ungroup: false, component: false, uncomponent: false, copy: false, delete: false, settings: false, separator: true, appInfo: false }
-  }
-}
+  }),
+  contextMenu: contextMenuInitialState
+})
