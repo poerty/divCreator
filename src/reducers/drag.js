@@ -212,9 +212,11 @@ const drag = (state = dragInitialState, action) => {
       .setIn(['targetBox','x'],action.x)
       .setIn(['targetBox','y'],action.y)
       .setIn(['snapLine','top'],ret.top.line)
+      .setIn(['snapLine','topBottom'],ret.topBottom.line)
       .setIn(['snapLine','bottom'],ret.bottom.line)
       .setIn(['snapLine','left'],ret.left.line)
       .setIn(['snapLine','right'],ret.right.line)
+      .setIn(['snapLine','leftRight'],ret.leftRight.line)
 
       for(let boxId of allSelectedBoxIds){
         newState=newState
@@ -297,8 +299,10 @@ const drag = (state = dragInitialState, action) => {
       .set('targetBox',newTargetBox)
       .setIn(['snapLine','top'],ret.top.line)
       .setIn(['snapLine','bottom'],ret.bottom.line)
+      .setIn(['snapLine','topBottom'],ret.topBottom.line)
       .setIn(['snapLine','left'],ret.left.line)
       .setIn(['snapLine','right'],ret.right.line)
+      .setIn(['snapLine','leftRight'],ret.leftRight.line)
 
       newTargetBox=newTargetBox.toObject()
       for(let boxId of allSelectedBoxIds){

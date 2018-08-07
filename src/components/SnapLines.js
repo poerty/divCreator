@@ -7,8 +7,10 @@ class SnapLines extends Component {
     return (
       <div>
         <SnapLine dataKey='top' />
+        <SnapLine dataKey='topBottom' />
         <SnapLine dataKey='bottom' />
         <SnapLine dataKey='left' />
+        <SnapLine dataKey='leftRight' />
         <SnapLine dataKey='right' />
       </div>
     )

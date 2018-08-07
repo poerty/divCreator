@@ -29,7 +29,7 @@ export function insideof (x, y, id) {
 
 // 두개 차이점은 middle line 에서 *2 뿐... 싫으면 인자로 주던가
 export function checkSnapDrag (top, left, width, height, selectedBoxIds, boxList, snapSize) {
-  let ret = { top: { diff: 0, line: -1 }, bottom: { diff: 0, line: -1 }, left: { diff: 0, line: -1 }, right: { diff: 0, line: -1 } }
+  let ret = { top: { diff: 0, line: -1 }, bottom: { diff: 0, line: -1 }, topBottom: { diff: 0, line: -1 }, left: { diff: 0, line: -1 }, right: { diff: 0, line: -1 }, leftRight: { diff: 0, line: -1 } }
   
   for (let boxId in boxList.toObject()) {
     if (selectedBoxIds.includes(boxId)) continue
@@ -42,8 +42,7 @@ export function checkSnapDrag (top, left, width, height, selectedBoxIds, boxList
 
     for (let horizonalMiddleLine of horizonalMiddleLineList) {
       if (Math.abs(differ = horizonalMiddleLine - (top + 0.5 * height)) < snapSize) {
-        ret.top = { diff: differ, line: horizonalMiddleLine }
-        ret.bottom = { diff: differ, line: horizonalMiddleLine }
+        ret.topBottom = { diff: differ, line: horizonalMiddleLine }
       }
     }
     for (let horizonalLine of horizonalLineList) {
@@ -57,8 +56,7 @@ export function checkSnapDrag (top, left, width, height, selectedBoxIds, boxList
 
     for (let verticalMiddleLine of verticalMiddleLineList) {
       if (Math.abs(differ = verticalMiddleLine - (left + 0.5 * width)) < snapSize) {
-        ret.left = { diff: differ, line: verticalMiddleLine }
-        ret.right = { diff: differ, line: verticalMiddleLine }
+        ret.leftRight = { diff: differ, line: verticalMiddleLine }
       }
     }
     for (let verticalLine of verticalLineList) {
@@ -73,7 +71,7 @@ export function checkSnapDrag (top, left, width, height, selectedBoxIds, boxList
   return ret
 }
 export function checkSnapResize (top, left, width, height, selectedBoxIds, boxList, snapSize) {
-  let ret = { top: { diff: 0, line: -1 }, bottom: { diff: 0, line: -1 }, left: { diff: 0, line: -1 }, right: { diff: 0, line: -1 } }
+  let ret = { top: { diff: 0, line: -1 }, bottom: { diff: 0, line: -1 }, topBottom: { diff: 0, line: -1 }, left: { diff: 0, line: -1 }, right: { diff: 0, line: -1 }, leftRight: { diff: 0, line: -1 } }
 
   for (let boxId in boxList.toObject()) {
     if (selectedBoxIds.includes(boxId)) continue
@@ -86,8 +84,7 @@ export function checkSnapResize (top, left, width, height, selectedBoxIds, boxLi
 
     for (let horizonalMiddleLine of horizonalMiddleLineList) {
       if (Math.abs(differ = horizonalMiddleLine - (2 * top + height)) < snapSize) {
-        ret.top = { diff: differ, line: horizonalMiddleLine / 2 }
-        ret.bottom = { diff: differ, line: horizonalMiddleLine / 2 }
+        ret.topBottom = { diff: differ, line: horizonalMiddleLine / 2 }
       }
     }
     for (let horizonalLine of horizonalLineList) {
@@ -101,8 +98,7 @@ export function checkSnapResize (top, left, width, height, selectedBoxIds, boxLi
 
     for (let verticalMiddleLine of verticalMiddleLineList) {
       if (Math.abs(differ = verticalMiddleLine - (2 * left + width)) < snapSize) {
-        ret.left = { diff: differ, line: verticalMiddleLine / 2 }
-        ret.right = { diff: differ, line: verticalMiddleLine / 2 }
+        ret.leftRight = { diff: differ, line: verticalMiddleLine / 2 }
       }
     }
     for (let verticalLine of verticalLineList) {

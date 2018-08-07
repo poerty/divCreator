@@ -8,8 +8,8 @@ export const targetBoxInitialState = Map({
   realWidth: 0, realHeight: 0
 })
 export const snapLineInitialState = Map({
-  top: -1, bottom: -1,
-  left: -1, right: -1
+  top: -1, bottom: -1, topBottom: -1,
+  left: -1, right: -1, leftRight: -1
 })
 export const contextMenuInitialState = Map({
   style: Map({
