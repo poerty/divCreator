@@ -6,8 +6,8 @@ import DragArea from './../components/DragArea'
 class LayoutMain extends Component {
   render () {
     let style = {
-      left: this.props.layout.left,
-      right: this.props.layout.right
+      left: this.props.layout.get('left'),
+      right: this.props.layout.get('right')
     }
     return (
       <div
@@ -22,7 +22,7 @@ class LayoutMain extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    layout: state.drag.get('layout').toObject()
+    layout: state.drag.get('layout')
   }
 }
 

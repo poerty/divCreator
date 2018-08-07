@@ -6,7 +6,7 @@ import DragSourceArea from './../components/DragSourceArea'
 class LayoutRight extends Component {
   render () {
     let style = {
-      width: this.props.layout.right
+      width: this.props.layout.get('right')
     }
     return (
       <div
@@ -21,7 +21,7 @@ class LayoutRight extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    layout: state.drag.get('layout').toObject()
+    layout: state.drag.get('layout')
   }
 }
 

@@ -8,7 +8,7 @@ class Box extends Component {
       <div
         id={this.props.dataKey}
         className='box'
-        style={this.props.style}
+        style={this.props.style.toJS()}
 
         onMouseDown={this.props.onMouseDown.bind(this, this.props.dataKey)} />
     )
@@ -17,7 +17,7 @@ class Box extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    style: state.drag.get('boxList').get(String(ownProps.dataKey)).toObject()
+    style: state.drag.getIn(['boxList',ownProps.dataKey])
   }
 }
 let mapDispatchToProps = (dispatch) => {

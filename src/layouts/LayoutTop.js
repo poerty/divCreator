@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 class LayoutTop extends Component {
   render () {
     let style = {
-      height: this.props.layout.top
+      height: this.props.layout.get('top')
     }
     return (
       <div
@@ -20,7 +20,7 @@ class LayoutTop extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    layout: state.drag.get('layout').toObject()
+    layout: state.drag.get('layout')
   }
 }
 

@@ -65,6 +65,7 @@ const drag = (state = dragInitialState, action) => {
         .set('contextMenu',contextMenuInitialState)
       }
 
+      
       let newSelectedBoxIds = (action.shift === true) ? state.get('selectedBoxIds').push(action.id) : List([action.id])
       let selectedBoxList = state.get('boxList').filter((value,key)=>newSelectedBoxIds.includes(key))
       let ret = getContainerRect(selectedBoxList)

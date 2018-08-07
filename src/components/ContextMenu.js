@@ -4,14 +4,15 @@ import { makeGroup, unmakeGroup, copyBox, pasteBox, deleteBox } from '../actions
 
 class ContextMenu extends Component {
   render () {
-    if (this.props.style.visible === false) return null
+    if (this.props.style.get('visible') === false) return null
 
+    let options=this.props.options.toJS()
     let optionList = {}
-    for(let optionName in this.props.options){
+    for(let optionName in options){
       if(optionName==="separator"){
         optionList[optionName]=('contextMenu--separator')
       }
-      else if(this.props.options[optionName]===false) {
+      else if(options[optionName]===false) {
         optionList[optionName]=('contextMenu--option contextMenu--option__disabled')
       }
       else {
@@ -20,7 +21,7 @@ class ContextMenu extends Component {
     }
 
     return (
-      <div style={this.props.style} className='contextMenu'>
+      <div style={this.props.style.toJS()} className='contextMenu'>
         <div className={optionList['group']} onMouseDown={this.props.group.bind(this)}>group</div>
         <div className={optionList['ungroup']} onMouseDown={this.props.unGroup.bind(this)}>unGroup</div>
         <div className={optionList['component']}>component</div>
@@ -38,8 +39,8 @@ class ContextMenu extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    style: state.drag.get('contextMenu').get('style').toObject(),
-    options: state.drag.get('contextMenu').get('options').toObject()
+    style: state.drag.get('contextMenu').get('style'),
+    options: state.drag.get('contextMenu').get('options')
   }
 }
 let mapDispatchToProps = (dispatch) => {

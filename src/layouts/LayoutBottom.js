@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 class LayoutBottom extends Component {
   render () {
     let style = {
-      height: this.props.layout.bottom
+      height: this.props.layout.get('bottom')
     }
     return (
       <div
@@ -17,7 +17,7 @@ class LayoutBottom extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    layout: state.drag.get('layout').toObject()
+    layout: state.drag.get('layout')
   }
 }
 

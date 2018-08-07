@@ -9,8 +9,9 @@ import ContextMenu from './ContextMenu'
 
 class DragArea extends Component {
   render () {
+    let boxIds=this.props.boxIds.toJS()
     let boxList = []
-    for(let boxId of this.props.boxIds){
+    for(let boxId of boxIds){
       boxList.push(<Box key={boxId} dataKey={boxId} />)
     }
     boxList.push(<TargetBox key={-1} id={0} />)
@@ -31,7 +32,7 @@ class DragArea extends Component {
 
 let mapStateToProps = (state) => {
   return {
-    boxIds: state.drag.get('boxIds').toArray()
+    boxIds: state.drag.get('boxIds')
   }
 }
 let mapDispatchToProps = (dispatch) => {

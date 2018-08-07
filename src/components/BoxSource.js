@@ -6,7 +6,7 @@ class BoxSource extends Component {
   render () {
     let img = new Image()
     img.style.display = 'none'
-    img.src = this.props.style.dragImgSrc
+    img.src = this.props.style.get('dragImgSrc')
     this.img = img
 
     return (
@@ -26,7 +26,7 @@ class BoxSource extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    style: state.drag.get('boxSourceList').get(String(ownProps.dataKey)).toObject()
+    style: state.drag.getIn(['boxSourceList',ownProps.dataKey])
   }
 }
 let mapDispatchToProps = (dispatch) => {

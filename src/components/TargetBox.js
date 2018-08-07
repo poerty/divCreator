@@ -6,11 +6,12 @@ import Resizers from './Resizers'
 
 class TargetBox extends Component {
   render () {
+    let targetBox=this.props.targetBox.toJS()
     let style = {
-      width: this.props.targetBox.width,
-      height: this.props.targetBox.height,
-      top: this.props.targetBox.top,
-      left: this.props.targetBox.left,
+      width: targetBox.width,
+      height: targetBox.height,
+      top: targetBox.top,
+      left: targetBox.left,
       position: 'absolute'
     }
     return (
@@ -32,7 +33,7 @@ class TargetBox extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    targetBox: state.drag.get('targetBox').toObject()
+    targetBox: state.drag.get('targetBox')
   }
 }
 let mapDispatchToProps = (dispatch) => {

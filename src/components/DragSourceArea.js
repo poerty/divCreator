@@ -6,7 +6,7 @@ import BoxSource from './BoxSource'
 class DragSourceArea extends Component {
   render () {
     let boxSourceList = []
-    for (let boxSourceId in this.props.boxSourceList) {
+    for (let boxSourceId in this.props.boxSourceList.toJS()) {
       boxSourceList.push(<BoxSource key={boxSourceId} dataKey={boxSourceId} />)
     }
     return (
@@ -20,7 +20,7 @@ class DragSourceArea extends Component {
 
 let mapStateToProps = (state) => {
   return {
-    boxSourceList: state.drag.get('boxSourceList').toObject()
+    boxSourceList: state.drag.get('boxSourceList')
   }
 }
 

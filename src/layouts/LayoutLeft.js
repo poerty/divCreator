@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 class LayoutLeft extends Component {
   render () {
     let style = {
-      width: this.props.layout.left
+      width: this.props.layout.get('left')
     }
     return (
       <div
@@ -17,7 +17,7 @@ class LayoutLeft extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    layout: state.drag.get('layout').toObject()
+    layout: state.drag.get('layout')
   }
 }
 

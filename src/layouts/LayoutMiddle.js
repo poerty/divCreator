@@ -8,8 +8,8 @@ import LayoutRight from './LayoutRight'
 class LayoutMiddle extends Component {
   render () {
     let style = {
-      top: this.props.layout.top,
-      bottom: this.props.layout.bottom
+      top: this.props.layout.get('top'),
+      bottom: this.props.layout.get('bottom')
     }
     return (
       <div
@@ -26,7 +26,7 @@ class LayoutMiddle extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    layout: state.drag.get('layout').toObject()
+    layout: state.drag.get('layout')
   }
 }
 
