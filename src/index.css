@@ -41,13 +41,13 @@ body {
 }
 .layout-right{
   left: auto;
-  min-height: 500px;
+  /*min-height: 500px;*/
   overflow: scroll;
   border-left: 1px solid lightgray;
 }
 .layout-left{
   right: auto;
-  min-height: 500px;
+  /*min-height: 500px;*/
   overflow: scroll;
   border-right: 1px solid lightgray;
 }
@@ -69,8 +69,8 @@ body {
 }
 
 #dragArea{
-  width: 1000px;
-  height: 1000px;
+  /*width: 1000px;
+  height: 1000px;*/
 }
 
 .box{

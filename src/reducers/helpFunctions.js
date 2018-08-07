@@ -24,7 +24,7 @@ export function getContainerRect (boxList) {
 export function getChildBoxIds (boxHierarchy, boxIds) {
   let newBoxIds=boxIds
   newBoxIds = boxIds.reduce((map,id)=>{
-    return map.concat(getHierarchy(boxHierarchy,id).get('boxIds'))
+    return getHierarchy(boxHierarchy,id).get('boxIds').concat(map)
   },newBoxIds)
 
   return newBoxIds

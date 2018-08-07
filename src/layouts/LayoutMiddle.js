@@ -16,8 +16,8 @@ class LayoutMiddle extends Component {
         className='layout layout-middle'
         style={style}
       >
-        <LayoutLeft />
         <LayoutMain />
+        <LayoutLeft />
         <LayoutRight />
       </div>
     )

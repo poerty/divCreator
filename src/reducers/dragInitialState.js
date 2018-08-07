@@ -50,8 +50,8 @@ export const dragInitialState = Map({
   }),
   boxList: Map({
     // {id:1112, top:300, left:550, width:100, height:100},,,,
-    '1112': Map({ top: 300, left: 50, width: 100, height: 100 }),
-    '1113': Map({ top: 100, left: 100, width: 100, height: 100 }),
+    '1112': Map({ top: 300, left: 50, width: 100, height: 100, zindex: 10}),
+    '1113': Map({ top: 100, left: 100, width: 100, height: 100, zIndex: 10}),
     '1114': Map({ top: 250, left: 250, width: 150, height: 100 }),
     '1115': Map({ top: 400, left: 350, width: 100, height: 100 }),
     '1116': Map({ top: 250, left: 250, width: 200, height: 250, background: 'transparent' })
@@ -68,5 +68,12 @@ export const dragInitialState = Map({
     screenWindow: typeof window === 'object' ? window.innerWidth : null,
     screenHeight: typeof window === 'object' ? window.innerHeight : null
   }),
-  contextMenu: contextMenuInitialState
+  contextMenu: contextMenuInitialState,
+  clipBoard: Map({
+    top: 0,
+    left: 0,
+    boxIds: List([]),
+    boxList: Map({}),
+    boxHierarchy: Map({})
+  })
 })

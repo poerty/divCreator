@@ -89,7 +89,7 @@ const drag = (state = dragInitialState, action) => {
         'group':false,
         'ungroup':false,
         'copy':false,
-        'paste':false,
+        'paste':true,
         'delete':false
       }
       if(state.get('selectedBoxIds').size>=2){
@@ -103,7 +103,6 @@ const drag = (state = dragInitialState, action) => {
       }
       if(state.get('selectedBoxIds').size>=1){
         newOptions.copy=true
-        newOptions.paste=true
         newOptions.delete=true
       }
 
@@ -204,6 +203,82 @@ const drag = (state = dragInitialState, action) => {
       .update('boxIds',boxIds=>boxIds.filter((value)=>!newBoxIds.includes(value)))
       .update('boxList',boxList=>boxList.filter((value,id)=>!newBoxIds.includes(id)))
       .set('boxHierarchy',newBoxHierarchy)
+    }
+    case COPY_BOX: {
+      if(state.get('selectedBoxIds').size===0){
+        return state;
+      }
+
+      let selectedBoxList = state.get('boxList').filter((value,key)=>state.get('selectedBoxIds').includes(key))
+      let ret = getContainerRect(selectedBoxList)
+
+      return state
+      .setIn(['clipBoard','boxIds'],getChildBoxIds(state.get('boxHierarchy'),state.get('selectedBoxIds')))
+      .setIn(['clipBoard','boxHierarchy'],state.get('boxHierarchy').filter((value,key)=>state.get('selectedBoxIds').includes(key)))
+      .setIn(['clipBoard','boxList'],state.get('boxList').filter((value,key)=>getChildBoxIds(state.get('boxHierarchy'),state.get('selectedBoxIds')).includes(key)))
+      .setIn(['clipBoard','top'],ret.top)
+      .setIn(['clipBoard','left'],ret.left)
+      .set('targetBox',targetBoxInitialState)
+      .set('contextMenu',contextMenuInitialState)
+    }
+    case PASTE_BOX: {
+      let idCount=state.get('idCount')
+      let changeBoxIdHierarchy = (boxHierarchy,id,newId)=>{
+        if(boxHierarchy.size===0) return boxHierarchy
+        if(boxHierarchy.get(id)!==undefined){
+          return boxHierarchy.mapKeys(k=>{
+            if(k===id) return String(newId)
+            return String(k)
+          })
+        }
+        let newBoxHierarchy = boxHierarchy
+        
+        boxHierarchy
+        .filter((value,key)=>value.get('boxIds').includes(id))
+        .forEach((value,key)=>{
+          newBoxHierarchy=newBoxHierarchy
+          .updateIn([key,'boxIds'],boxIds=>boxIds.map((k)=>{
+            if(k===id) return String(newId)
+            return String(k)
+          }))
+          .updateIn([key,'boxHierarchy'],boxHierarchy=>changeBoxIdHierarchy(boxHierarchy,id,newId))
+        })
+
+        return newBoxHierarchy
+      }
+
+      let newState=state
+      state.getIn(['clipBoard','boxIds'])
+      .forEach((id,key)=>{
+        let newId=idCount++
+        newState=newState
+        .updateIn(['clipBoard','boxIds'],boxIds=>boxIds.map(boxId=>{
+          if(boxId===id) return String(newId)
+          return String(boxId)
+        }))
+        .updateIn(['clipBoard','boxList'],boxList=>boxList.mapKeys(boxId=>{
+          if(boxId===id) return String(newId)
+          return String(boxId)
+        }))
+        let newBoxHierarchy = changeBoxIdHierarchy(newState.getIn(['clipBoard','boxHierarchy']),id,newId)
+        newState=newState
+        .setIn(['clipBoard','boxHierarchy'],newBoxHierarchy)
+      })
+
+      newState=newState
+      .updateIn(['clipBoard','boxList'],boxList=>boxList.map((value,key)=>{
+        return value
+        .update('top',top=>top+state.getIn(['contextMenu','style','top'])-state.getIn(['clipBoard','top']))
+        .update('left',left=>left+state.getIn(['contextMenu','style','left'])-state.getIn(['clipBoard','left']))
+      }))
+      
+      return state
+      .set('targetBox',targetBoxInitialState)
+      .set('contextMenu',contextMenuInitialState)
+      .update('boxIds',boxIds=>boxIds.concat(newState.getIn(['clipBoard','boxIds'])))
+      .update('boxHierarchy',boxHierarchy=>boxHierarchy.merge(newState.getIn(['clipBoard','boxHierarchy'])))
+      .update('boxList',boxList=>boxList.merge(newState.getIn(['clipBoard','boxList'])))
+      .set('idCount',idCount)
     }
 
     // target box
