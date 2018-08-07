@@ -9,9 +9,9 @@ import {
   RESIZE_DRAG, RESIZE_DRAG_START, RESIZE_DRAG_END,
   RESIZE_WINDOW } from '../actions'
 
-import { dragInitialState, targetBoxInitialState, snapLineInitialState, contextMenuInitialState } from './dragInitialState'
+import { dragInitialState, targetBoxInitialState, snapLineInitialState, boxHierarchyInitialState, contextMenuInitialState } from './dragInitialState'
 
-import { getContainerRect, getChildBoxIds, insideof, checkSnapDrag, checkSnapResize } from './helpFunctions'
+import { getHierarchy, getContainerRect, getChildBoxIds, insideof, checkSnapDrag, checkSnapResize } from './helpFunctions'
 
 const drag = (state = dragInitialState, action) => {
   switch (action.type) {
@@ -41,6 +41,7 @@ const drag = (state = dragInitialState, action) => {
       return state
       .setIn(['boxList',String(state.get('idCount'))],newBox)
       .update('boxIds',boxIds=>boxIds.push(String(state.get('idCount'))))
+      .setIn(['boxHierarchy',String(state.get('idCount'))],boxHierarchyInitialState)
       .update('idCount',idCount=>idCount+1)
     }
 
@@ -95,8 +96,8 @@ const drag = (state = dragInitialState, action) => {
         newOptions.group=true
       }
       if(state.get('selectedBoxIds').size===1){
-        let idx=state.get('selectedBoxIds').get(0)
-        if(state.getIn(['boxList',idx,'childBoxIds'])!==undefined){
+        let id=state.getIn(['selectedBoxIds',0])
+        if(getHierarchy(state.get('boxHierarchy'),id).get('boxIds').size!==0){
           newOptions.ungroup=true
         }
       }
@@ -129,6 +130,13 @@ const drag = (state = dragInitialState, action) => {
 
       let newBox = Map({ top: tempStyle.top, left: tempStyle.left, width: tempStyle.right - tempStyle.left, height: tempStyle.bottom - tempStyle.top, background: 'transparent', childBoxIds: state.get('selectedBoxIds') })
 
+      let newBox_boxHierarchy = Map({
+        boxIds: state.get('selectedBoxIds').reduce((map,key)=>map.concat(state.getIn(['boxHierarchy',key,'boxIds'])),state.get('selectedBoxIds')),
+        boxHierarchy: state.get('selectedBoxIds').reduce((map,key)=>map.set(key,state.getIn(['boxHierarchy',key])),Map({}))
+      })
+      let newBoxHierarchy = state.get('selectedBoxIds').reduce((map,key)=>map.delete(key),state.get('boxHierarchy'))
+      newBoxHierarchy = newBoxHierarchy.set(String(state.get('idCount')),newBox_boxHierarchy)
+
       return state
       .set('selectedBoxIds',List([String(state.get('idCount'))]))
       .setIn(['targetBox','top'],tempStyle.top)
@@ -142,26 +150,52 @@ const drag = (state = dragInitialState, action) => {
       .set('contextMenu',contextMenuInitialState)
       .setIn(['boxList',String(state.get('idCount'))],newBox)
       .update('boxIds',boxIds=>boxIds.push(String(state.get('idCount'))))
+      .set('boxHierarchy',newBoxHierarchy)
       .update('idCount',idCount=>idCount+1)
     }
     case UNMAKE_GROUP: {
-      if(state.get('selectedBoxIds').size!==1 | state.getIn(['boxList',state.getIn(['selectedBoxIds',0]),'childBoxIds'])===undefined){
-        return state;
-      }
+      if(state.get('selectedBoxIds').size!==1) return state
+      
       let boxId=state.getIn(['selectedBoxIds',0])
+      if(getHierarchy(state.get('boxHierarchy'),boxId).get('boxIds').size===0) return state
+
+      let newBoxHierarchy = state.get('boxHierarchy')
 
       return state
       .set('selectedBoxIds',List())
       .set('targetBox',targetBoxInitialState)
       .set('contextMenu',contextMenuInitialState)
       .update('boxIds',boxIds=>boxIds.filter((value)=>value!==boxId))
-      .update('boxList',boxList=>boxList.filter((value,id)=>id!==boxId))
+      .deleteIn(['boxList',boxId])
+      .update('boxHierarchy',boxHierarchy=>boxHierarchy.concat(state.getIn(['boxHierarchy',boxId,'boxHierarchy'])))
+      .deleteIn(['boxHierarchy',boxId])
     }
     case DELETE_BOX: {
       if(state.get('selectedBoxIds').size===0){
         return state;
       }
-      let newBoxIds=getChildBoxIds(state.get('boxList'),state.get('selectedBoxIds'))
+      let newBoxIds=getChildBoxIds(state.get('boxHierarchy'),state.get('selectedBoxIds'))
+      let newBoxHierarchy=state.get('boxHierarchy')
+
+      let deleteBoxHierarchy = (boxHierarchy,id)=>{
+        if(boxHierarchy.size===0) return boxHierarchy
+        if(boxHierarchy.get(id)!==undefined){
+          return boxHierarchy.delete(id)
+        }
+        let newBoxHierarchy = boxHierarchy
+        
+        boxHierarchy
+        .filter((value,key)=>value.get('boxIds').includes(id))
+        .forEach((value,key)=>{
+          newBoxHierarchy=newBoxHierarchy
+          .updateIn([key,'boxIds'],boxIds=>boxIds.filter((value,key)=>value!==id))
+          .updateIn([key,'boxHierarchy'],boxHierarchy=>deleteBoxHierarchy(boxHierarchy,id))
+        })
+
+        return newBoxHierarchy
+      }
+
+      newBoxHierarchy = newBoxIds.reduce((map,key)=>deleteBoxHierarchy(map,key),state.get('boxHierarchy'))
 
       return state
       .set('selectedBoxIds',List())
@@ -169,6 +203,7 @@ const drag = (state = dragInitialState, action) => {
       .set('contextMenu',contextMenuInitialState)
       .update('boxIds',boxIds=>boxIds.filter((value)=>!newBoxIds.includes(value)))
       .update('boxList',boxList=>boxList.filter((value,id)=>!newBoxIds.includes(id)))
+      .set('boxHierarchy',newBoxHierarchy)
     }
 
     // target box
@@ -200,7 +235,7 @@ const drag = (state = dragInitialState, action) => {
       let topDiff = targetBox.realTop - targetBox.top
       let leftDiff = targetBox.realLeft - targetBox.left
 
-      let allSelectedBoxIds = getChildBoxIds(state.get('boxList'),state.get('selectedBoxIds'))
+      let allSelectedBoxIds = getChildBoxIds(state.get('boxHierarchy'),state.get('selectedBoxIds'))
       let ret = checkSnapDrag(targetBox.realTop + dragAmount.top, targetBox.realLeft + dragAmount.left, targetBox.realWidth, targetBox.realHeight, allSelectedBoxIds, state.get('boxList'), 5)
       let topDiff2 = ret.top.diff === 0 ? ret.bottom.diff : ret.top.diff
       let leftDiff2 = ret.left.diff === 0 ? ret.right.diff : ret.left.diff
@@ -261,7 +296,7 @@ const drag = (state = dragInitialState, action) => {
       let heightDiff = targetBox.realHeight - targetBox.height
       let widthDiff = targetBox.realWidth - targetBox.width
 
-      let allSelectedBoxIds = getChildBoxIds(state.get('boxList'), state.get('selectedBoxIds'))
+      let allSelectedBoxIds = getChildBoxIds(state.get('boxHierarchy'), state.get('selectedBoxIds'))
       let ret = checkSnapResize(targetBox.realTop + dragAmount.top, targetBox.realLeft + dragAmount.left, targetBox.realWidth, targetBox.realHeight, allSelectedBoxIds, state.get('boxList'), 5)
       let topDiff2 = ret.top.diff === 0 ? ret.bottom.diff : ret.top.diff
       let leftDiff2 = ret.left.diff === 0 ? ret.right.diff : ret.left.diff

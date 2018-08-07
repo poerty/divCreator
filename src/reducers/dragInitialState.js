@@ -23,41 +23,40 @@ export const contextMenuInitialState = Map({
     settings: false, separator: true, appInfo: false
   })
 })
+export const boxHierarchyInitialState = Map({
+  boxIds: List([]),
+  boxHierarchy: Map({})
+})
 
 export const dragInitialState = Map({
   boxSourceList: Map({
     // {id:1, top:300, left:50, width:100, height:100},,,,
-    1: Map({
-      width: 264, height: 96, dragImgSrc: './img/1.png'
-    }),
-    2: Map({
-      width: 140,
-      height: 140,
-      dragImgSrc: './img/2.png',
-      borderRadius: '50%'
-    })
+    1: Map({ width: 264, height: 96, dragImgSrc: './img/1.png' }),
+    2: Map({ width: 140, height: 140, dragImgSrc: './img/2.png', borderRadius: '50%' })
   }),
   boxIds: List([
     '1112', '1113', '1114', '1115', '1116'
   ]),
+  boxHierarchy: Map({
+    '1112': boxHierarchyInitialState,
+    '1113': boxHierarchyInitialState,
+    '1116': Map({
+      boxIds: List(['1114', '1115']),
+      boxHierarchy: Map({
+        '1114': boxHierarchyInitialState,
+        '1115': boxHierarchyInitialState
+      })
+    }),
+  }),
   boxList: Map({
     // {id:1112, top:300, left:550, width:100, height:100},,,,
     '1112': Map({ top: 300, left: 50, width: 100, height: 100 }),
     '1113': Map({ top: 100, left: 100, width: 100, height: 100 }),
     '1114': Map({ top: 250, left: 250, width: 150, height: 100 }),
     '1115': Map({ top: 400, left: 350, width: 100, height: 100 }),
-    '1116': Map({
-      top: 250,
-      left: 250,
-      width: 200,
-      height: 250,
-      background: 'transparent',
-      childBoxIds: List(['1114', '1115'])
-    })
+    '1116': Map({ top: 250, left: 250, width: 200, height: 250, background: 'transparent' })
   }),
-  selectedBoxIds: List([
-    // {id:1111},,,,
-  ]),
+  selectedBoxIds: List([]),
   targetBox: targetBoxInitialState,
   idCount: 1117,
   snapLine: snapLineInitialState,

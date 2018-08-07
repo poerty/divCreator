@@ -1,3 +1,14 @@
+export function getHierarchy(boxHierarchy, id){
+  if(boxHierarchy.get(id)!==undefined) return boxHierarchy.get(id)
+
+  return getHierarchy(
+    boxHierarchy
+    .filter((hierarch)=>hierarch.getIn(['boxIds',id])!==undefined)
+    .get('boxHierarchy'),
+    id
+  )
+}
+
 export function getContainerRect (boxList) {
   let ret = { top: 10000, bottom: -1, left: 10000, right: -1 }
   for (let boxId in boxList.toObject()) {
@@ -10,15 +21,12 @@ export function getContainerRect (boxList) {
   return ret
 }
 
-export function getChildBoxIds (boxList, boxIds) {
+export function getChildBoxIds (boxHierarchy, boxIds) {
   let newBoxIds=boxIds
+  newBoxIds = boxIds.reduce((map,id)=>{
+    return map.concat(getHierarchy(boxHierarchy,id).get('boxIds'))
+  },newBoxIds)
 
-  for(let boxId of boxIds.toArray()) {
-    if(boxList.getIn([boxId,'childBoxIds'])!==undefined) {
-      let childBoxIds=getChildBoxIds(boxList, boxList.getIn([boxId,'childBoxIds']))
-      newBoxIds=newBoxIds.concat(childBoxIds)
-    }
-  }
   return newBoxIds
 }
 
