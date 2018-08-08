@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { mouseDown, contextMenu } from '../actions'
+import { mouseDown, contextMenu } from '../../actions'
 
 import Box from './Box'
 import TargetBox from './TargetBox'
-import SnapLines from './SnapLines'
+import SnapLines from './SnapLine/SnapLines'
 import ContextMenu from './ContextMenu'
 
 class DragArea extends Component {
@@ -12,7 +12,7 @@ class DragArea extends Component {
     let boxIds=this.props.boxIds.toJS()
     let boxList = []
     for(let boxId of boxIds){
-      boxList.push(<Box key={boxId} dataKey={boxId} />)
+      boxList.push(<Box key={boxId} dataKey={boxId}/>)
     }
     boxList.push(<TargetBox key={-1} id={0} />)
     return (
@@ -30,7 +30,7 @@ class DragArea extends Component {
   }
 }
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state, ownProps) => {
   return {
     boxIds: state.drag.get('boxIds')
   }

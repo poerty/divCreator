@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { drag, dragStart, dragEnd } from '../actions'
+import { drag, dragStart, dragEnd } from '../../actions'
 
-import Resizers from './Resizers'
+import Resizers from './Resizer/Resizers'
 
 class TargetBox extends Component {
   render () {

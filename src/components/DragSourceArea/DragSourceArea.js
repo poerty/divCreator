@@ -7,7 +7,7 @@ class DragSourceArea extends Component {
   render () {
     let boxSourceList = []
     for (let boxSourceId in this.props.boxSourceList.toJS()) {
-      boxSourceList.push(<BoxSource key={boxSourceId} dataKey={boxSourceId} />)
+      boxSourceList.push(<BoxSource key={boxSourceId} dataKey={boxSourceId}/>)
     }
     return (
       <div id='dragSourceArea' className='source-area area'>

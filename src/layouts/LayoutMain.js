@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import DragArea from './../components/DragArea'
+import DragArea from './../components/DragArea/DragArea'
 
 class LayoutMain extends Component {
   render () {
@@ -14,7 +14,7 @@ class LayoutMain extends Component {
         className='layout layout-main'
         style={style}
       >
-        <DragArea />
+        <DragArea/>
       </div>
     )
   }

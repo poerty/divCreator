@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+
 import './App.css';
 
 import LayoutMiddle from './layouts/LayoutMiddle';
@@ -10,9 +12,9 @@ class App extends Component {
   render() {
     return (
       <div>
-        <LayoutTop />
-        <LayoutMiddle />
-        <LayoutBottom />
+        <LayoutTop/>
+        <LayoutMiddle/>
+        <LayoutBottom/>
       </div>
     );
   }

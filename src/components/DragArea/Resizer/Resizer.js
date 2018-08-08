@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { resizeDrag, resizeDragStart, resizeDragEnd } from '../actions'
+import { resizeDrag, resizeDragStart, resizeDragEnd } from '../../../actions'
 
 class Resizer extends Component {
   render () {

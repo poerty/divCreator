@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { mouseDown } from '../actions'
+import { mouseDown } from '../../actions'
 
 class Box extends Component {
   render () {

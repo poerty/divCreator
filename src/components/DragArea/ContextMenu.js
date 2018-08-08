@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { makeGroup, unmakeGroup, copyBox, pasteBox, deleteBox } from '../actions'
+import { makeGroup, unmakeGroup, copyBox, pasteBox, deleteBox } from '../../actions'
 
 class ContextMenu extends Component {
   render () {

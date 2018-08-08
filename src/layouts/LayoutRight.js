@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import DragSourceArea from './../components/DragSourceArea'
+import DragSourceArea from './../components/DragSourceArea/DragSourceArea'
 
 class LayoutRight extends Component {
   render () {
@@ -13,7 +13,7 @@ class LayoutRight extends Component {
         className='layout layout-right'
         style={style}
       >
-        <DragSourceArea />
+        <DragSourceArea/>
       </div>
     )
   }

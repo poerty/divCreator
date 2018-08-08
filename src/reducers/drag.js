@@ -158,8 +158,6 @@ const drag = (state = dragInitialState, action) => {
       let boxId=state.getIn(['selectedBoxIds',0])
       if(getHierarchy(state.get('boxHierarchy'),boxId).get('boxIds').size===0) return state
 
-      let newBoxHierarchy = state.get('boxHierarchy')
-
       return state
       .set('selectedBoxIds',List())
       .set('targetBox',targetBoxInitialState)
