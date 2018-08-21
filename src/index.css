@@ -1,10 +1,15 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
+  font-weight: 200;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system,BlinkMacSystemFont,"Helvetica Neue","Open Sans",open-sans,sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #363C32;
 }
 
 .layout{
@@ -67,6 +72,73 @@ body {
   width: 100%;
   height: 100%;
 }
+
+#navArea{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  min-width: 1080px;
+}
+.nav-item{
+  flex: auto;
+  font-size: 14px;
+}
+.nav-item>.nav-item-img{
+  background-size: auto 15px;
+  background-repeat: no-repeat;
+  width: 15px;
+  height: 15px;
+  left: 50%;
+  position: relative;
+  transform: translate(-50%,0);
+}
+.nav-item>.nav-item-text{
+  left: 50%;
+  position: relative;
+  transform: translate(-50%,0);
+  text-align: center;
+}
+
+#pageListArea{
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+.pageList-tabs{
+  display: flex;
+  width: 100%;
+  height: 37px;
+  border-bottom: 1px solid lightgray;
+  flex-shrink: 0;
+}
+.pageList-tab{
+  width: 50%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  box-sizing: border-box;
+}
+.pageList-tab.selected{
+  border-bottom: 2px solid #00A1C0;
+}
+.pageList-pages{
+  overflow: scroll;
+  flex: auto;
+}
+.pageLink{
+  height: 26px;
+  padding: 0 18px 0 18px;
+  background-color: #fff;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.pageLink:hover{
+  background-color: #f0f8fb;
+}
+
 
 #dragArea{
   /*width: 1000px;

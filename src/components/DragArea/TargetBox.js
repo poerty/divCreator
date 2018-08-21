@@ -6,6 +6,11 @@ import Resizers from './Resizer/Resizers'
 
 class TargetBox extends Component {
   render () {
+    let img = new Image()
+    img.style.display = 'none'
+    img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='
+    this.img = img
+
     let targetBox=this.props.targetBox.toJS()
     let style = {
       width: targetBox.width,
@@ -22,7 +27,7 @@ class TargetBox extends Component {
         style={style}
 
         onDrag={this.props.onDrag.bind(this)}
-        onDragStart={this.props.onDragStart.bind(this)}
+        onDragStart={this.props.onDragStart.bind(this, this.img)}
         onDragEnd={this.props.onDragEnd.bind(this)}>
 
         <Resizers />
@@ -39,10 +44,7 @@ let mapStateToProps = (state, ownProps) => {
 let mapDispatchToProps = (dispatch) => {
   return {
     onDrag: (e) => dispatch(drag(e.clientX, e.clientY, e.target.id)),
-    onDragStart: (e) => {
-      var img = new Image()
-      img.style.display = 'none'
-      img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='
+    onDragStart: (img, e) => {
       e.dataTransfer.setDragImage(img, 0, 0)
       dispatch(dragStart(e.clientX, e.clientY, e.target.id))
     },

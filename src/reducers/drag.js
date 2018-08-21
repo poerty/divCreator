@@ -7,7 +7,8 @@ import {
   DRAG, DRAG_START, DRAG_END,
   CONTEXT_MENU, MAKE_GROUP, UNMAKE_GROUP, COPY_BOX, PASTE_BOX, DELETE_BOX,
   RESIZE_DRAG, RESIZE_DRAG_START, RESIZE_DRAG_END,
-  RESIZE_WINDOW } from '../actions'
+  RESIZE_WINDOW, 
+  CHANGE_PAGE} from '../actions'
 
 import { dragInitialState, targetBoxInitialState, snapLineInitialState, boxHierarchyInitialState, contextMenuInitialState } from './dragInitialState'
 
@@ -310,8 +311,8 @@ const drag = (state = dragInitialState, action) => {
 
       let allSelectedBoxIds = getChildBoxIds(state.get('boxHierarchy'),state.get('selectedBoxIds'))
       let ret = checkSnapDrag(targetBox.realTop + dragAmount.top, targetBox.realLeft + dragAmount.left, targetBox.realWidth, targetBox.realHeight, allSelectedBoxIds, state.get('boxList'), 5)
-      let topDiff2 = ret.top.diff === 0 ? ret.bottom.diff : ret.top.diff
-      let leftDiff2 = ret.left.diff === 0 ? ret.right.diff : ret.left.diff
+      let topDiff2 = ret.top.diff === 0 ? (ret.bottom.diff === 0 ? ret.topBottom.diff : ret.bottom.diff) : ret.top.diff
+      let leftDiff2 = ret.left.diff === 0 ? (ret.right.diff === 0 ? ret.leftRight.diff : ret.right.diff) : ret.left.diff
 
       let newState= state
       .updateIn(['targetBox','realTop'],realTop=>realTop+dragAmount.top)
@@ -371,8 +372,8 @@ const drag = (state = dragInitialState, action) => {
 
       let allSelectedBoxIds = getChildBoxIds(state.get('boxHierarchy'), state.get('selectedBoxIds'))
       let ret = checkSnapResize(targetBox.realTop + dragAmount.top, targetBox.realLeft + dragAmount.left, targetBox.realWidth, targetBox.realHeight, allSelectedBoxIds, state.get('boxList'), 5)
-      let topDiff2 = ret.top.diff === 0 ? ret.bottom.diff : ret.top.diff
-      let leftDiff2 = ret.left.diff === 0 ? ret.right.diff : ret.left.diff
+      let topDiff2 = ret.top.diff === 0 ? (ret.bottom.diff === 0 ? ret.topBottom.diff : ret.bottom.diff) : ret.top.diff
+      let leftDiff2 = ret.left.diff === 0 ? (ret.right.diff === 0 ? ret.leftRight.diff : ret.right.diff) : ret.left.diff
 
       let newTargetBox = state.get('targetBox')
       if (action.id === 'topResizer') {
@@ -434,6 +435,23 @@ const drag = (state = dragInitialState, action) => {
       return state
       .setIn(['layout', 'screenWidth'],action.screenWidth)
       .setIn(['layout', 'screenHeight'],action.screenHeight)
+    }
+
+    case CHANGE_PAGE: {
+      let currentPageId=state.get('currentPageId')
+      if(action.pageId===currentPageId) return state
+      return state.withMutations(map=>map
+        .set('selectedBoxIds',List([]))
+        .set('targetBox',targetBoxInitialState)
+        .set('snapLine',snapLineInitialState)
+        .setIn(['pageList',currentPageId,'boxIds'],state.get('boxIds'))
+        .setIn(['pageList',currentPageId,'boxHierarchy'],state.get('boxHierarchy'))
+        .setIn(['pageList',currentPageId,'boxList'],state.get('boxList'))
+        .set('currentPageId',action.pageId)
+        .set('boxIds',state.getIn(['pageList',action.pageId,'boxIds']))
+        .set('boxHierarchy',state.getIn(['pageList',action.pageId,'boxHierarchy']))
+        .set('boxList',state.getIn(['pageList',action.pageId,'boxList']))
+      )
     }
 
     default: {

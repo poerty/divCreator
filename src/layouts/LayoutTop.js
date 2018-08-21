@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+import NavArea from './../components/NavArea'
+
 
 class LayoutTop extends Component {
   render () {
@@ -12,7 +14,7 @@ class LayoutTop extends Component {
         className='layout layout-top'
         style={style}
       >
-        div-creator
+        <NavArea/>
       </div>
     )
   }

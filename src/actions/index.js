@@ -165,3 +165,12 @@ export function resizeWindow (screenWidth, screenHeight) {
     screenHeight: screenHeight
   }
 }
+
+export const CHANGE_PAGE = 'CHAGE_PAGE'
+
+export function changePage (pageId) {
+  return {
+    type: CHANGE_PAGE,
+    pageId: pageId
+  }
+}

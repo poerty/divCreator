@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import PageListArea from '../components/PageListArea';
 
 class LayoutLeft extends Component {
   render () {
@@ -9,8 +10,10 @@ class LayoutLeft extends Component {
     return (
       <div
         className='layout layout-left'
-        style={style}
-      />
+        style={style}>
+        <PageListArea/>
+        <div>a</div>
+      </div>
     )
   }
 }

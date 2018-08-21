@@ -21,7 +21,6 @@ class DragArea extends Component {
         className='area'
         onMouseDown={this.props.onMouseDown.bind(this)}
         onContextMenu={this.props.onContextMenu.bind(this)} >
-        <div>Target</div>
         <SnapLines />
         {boxList}
         <ContextMenu />
@@ -32,7 +31,7 @@ class DragArea extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    boxIds: state.drag.get('boxIds')
+    boxIds: state.drag.get('boxIds'),
   }
 }
 let mapDispatchToProps = (dispatch) => {
