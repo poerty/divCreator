@@ -39,11 +39,12 @@ const drag = (state = dragInitialState, action) => {
       .set('top',action.y - state.get('layout').get('top') - 50)
       .set('left',action.x - state.get('layout').get('left') - 50)
 
-      return state
-      .setIn(['boxList',String(state.get('idCount'))],newBox)
-      .update('boxIds',boxIds=>boxIds.push(String(state.get('idCount'))))
-      .setIn(['boxHierarchy',String(state.get('idCount'))],boxHierarchyInitialState)
-      .update('idCount',idCount=>idCount+1)
+      return state.withMutations(map=>map
+        .setIn(['boxList',String(state.get('idCount'))],newBox)
+        .update('boxIds',boxIds=>boxIds.push(String(state.get('idCount'))))
+        .setIn(['boxHierarchy',String(state.get('idCount'))],boxHierarchyInitialState)
+        .update('idCount',idCount=>idCount+1)
+      )
     }
 
     // normal box
@@ -72,17 +73,18 @@ const drag = (state = dragInitialState, action) => {
       let selectedBoxList = state.get('boxList').filter((value,key)=>newSelectedBoxIds.includes(key))
       let ret = getContainerRect(selectedBoxList)
 
-      return state
-      .set('selectedBoxIds',newSelectedBoxIds)
-      .setIn(['targetBox','top'],ret.top)
-      .setIn(['targetBox','left'],ret.left)
-      .setIn(['targetBox','width'],ret.right-ret.left)
-      .setIn(['targetBox','height'],ret.bottom-ret.top)
-      .setIn(['targetBox','realTop'],ret.top)
-      .setIn(['targetBox','realLeft'],ret.left)
-      .setIn(['targetBox','realWidth'],ret.right-ret.left)
-      .setIn(['targetBox','realHeight'],ret.bottom-ret.top)
-      .set('contextMenu',contextMenuInitialState)
+      return state.withMutations(map=>map
+        .set('selectedBoxIds',newSelectedBoxIds)
+        .setIn(['targetBox','top'],ret.top)
+        .setIn(['targetBox','left'],ret.left)
+        .setIn(['targetBox','width'],ret.right-ret.left)
+        .setIn(['targetBox','height'],ret.bottom-ret.top)
+        .setIn(['targetBox','realTop'],ret.top)
+        .setIn(['targetBox','realLeft'],ret.left)
+        .setIn(['targetBox','realWidth'],ret.right-ret.left)
+        .setIn(['targetBox','realHeight'],ret.bottom-ret.top)
+        .set('contextMenu',contextMenuInitialState)
+      )
     }
 
     case CONTEXT_MENU: {
@@ -107,15 +109,16 @@ const drag = (state = dragInitialState, action) => {
         newOptions.delete=true
       }
 
-      return state
-      .setIn(['contextMenu','style','top'],action.y-state.getIn(['layout','top']))
-      .setIn(['contextMenu','style','left'],action.x-state.getIn(['layout','left']))
-      .setIn(['contextMenu','style','visible'],true)
-      .setIn(['contextMenu','options','group'],newOptions.group)
-      .setIn(['contextMenu','options','ungroup'],newOptions.ungroup)
-      .setIn(['contextMenu','options','copy'],newOptions.copy)
-      .setIn(['contextMenu','options','paste'],newOptions.paste)
-      .setIn(['contextMenu','options','delete'],newOptions.delete)
+      return state.withMutations(map=>map
+        .setIn(['contextMenu','style','top'],action.y-state.getIn(['layout','top']))
+        .setIn(['contextMenu','style','left'],action.x-state.getIn(['layout','left']))
+        .setIn(['contextMenu','style','visible'],true)
+        .setIn(['contextMenu','options','group'],newOptions.group)
+        .setIn(['contextMenu','options','ungroup'],newOptions.ungroup)
+        .setIn(['contextMenu','options','copy'],newOptions.copy)
+        .setIn(['contextMenu','options','paste'],newOptions.paste)
+        .setIn(['contextMenu','options','delete'],newOptions.delete)
+      )
     }
     case MAKE_GROUP: {
       if (state.get('selectedBoxIds').size < 2) return state
@@ -137,21 +140,22 @@ const drag = (state = dragInitialState, action) => {
       let newBoxHierarchy = state.get('selectedBoxIds').reduce((map,key)=>map.delete(key),state.get('boxHierarchy'))
       newBoxHierarchy = newBoxHierarchy.set(String(state.get('idCount')),newBox_boxHierarchy)
 
-      return state
-      .set('selectedBoxIds',List([String(state.get('idCount'))]))
-      .setIn(['targetBox','top'],tempStyle.top)
-      .setIn(['targetBox','left'],tempStyle.left)
-      .setIn(['targetBox','width'],tempStyle.right-tempStyle.left)
-      .setIn(['targetBox','height'],tempStyle.bottom-tempStyle.top)
-      .setIn(['targetBox','realTop'],tempStyle.top)
-      .setIn(['targetBox','realLeft'],tempStyle.left)
-      .setIn(['targetBox','realWidth'],tempStyle.right-tempStyle.left)
-      .setIn(['targetBox','realHeight'],tempStyle.bottom-tempStyle.top)
-      .set('contextMenu',contextMenuInitialState)
-      .setIn(['boxList',String(state.get('idCount'))],newBox)
-      .update('boxIds',boxIds=>boxIds.push(String(state.get('idCount'))))
-      .set('boxHierarchy',newBoxHierarchy)
-      .update('idCount',idCount=>idCount+1)
+      return state.withMutations(map=>map
+        .set('selectedBoxIds',List([String(state.get('idCount'))]))
+        .setIn(['targetBox','top'],tempStyle.top)
+        .setIn(['targetBox','left'],tempStyle.left)
+        .setIn(['targetBox','width'],tempStyle.right-tempStyle.left)
+        .setIn(['targetBox','height'],tempStyle.bottom-tempStyle.top)
+        .setIn(['targetBox','realTop'],tempStyle.top)
+        .setIn(['targetBox','realLeft'],tempStyle.left)
+        .setIn(['targetBox','realWidth'],tempStyle.right-tempStyle.left)
+        .setIn(['targetBox','realHeight'],tempStyle.bottom-tempStyle.top)
+        .set('contextMenu',contextMenuInitialState)
+        .setIn(['boxList',String(state.get('idCount'))],newBox)
+        .update('boxIds',boxIds=>boxIds.push(String(state.get('idCount'))))
+        .set('boxHierarchy',newBoxHierarchy)
+        .update('idCount',idCount=>idCount+1)
+      )
     }
     case UNMAKE_GROUP: {
       if(state.get('selectedBoxIds').size!==1) return state
@@ -159,14 +163,15 @@ const drag = (state = dragInitialState, action) => {
       let boxId=state.getIn(['selectedBoxIds',0])
       if(getHierarchy(state.get('boxHierarchy'),boxId).get('boxIds').size===0) return state
 
-      return state
-      .set('selectedBoxIds',List())
-      .set('targetBox',targetBoxInitialState)
-      .set('contextMenu',contextMenuInitialState)
-      .update('boxIds',boxIds=>boxIds.filter((value)=>value!==boxId))
-      .deleteIn(['boxList',boxId])
-      .update('boxHierarchy',boxHierarchy=>boxHierarchy.concat(state.getIn(['boxHierarchy',boxId,'boxHierarchy'])))
-      .deleteIn(['boxHierarchy',boxId])
+      return state.withMutations(map=>map
+        .set('selectedBoxIds',List())
+        .set('targetBox',targetBoxInitialState)
+        .set('contextMenu',contextMenuInitialState)
+        .update('boxIds',boxIds=>boxIds.filter((value)=>value!==boxId))
+        .deleteIn(['boxList',boxId])
+        .update('boxHierarchy',boxHierarchy=>boxHierarchy.concat(state.getIn(['boxHierarchy',boxId,'boxHierarchy'])))
+        .deleteIn(['boxHierarchy',boxId])
+      )
     }
     case DELETE_BOX: {
       if(state.get('selectedBoxIds').size===0){
@@ -195,13 +200,14 @@ const drag = (state = dragInitialState, action) => {
 
       newBoxHierarchy = newBoxIds.reduce((map,key)=>deleteBoxHierarchy(map,key),state.get('boxHierarchy'))
 
-      return state
-      .set('selectedBoxIds',List())
-      .set('targetBox',targetBoxInitialState)
-      .set('contextMenu',contextMenuInitialState)
-      .update('boxIds',boxIds=>boxIds.filter((value)=>!newBoxIds.includes(value)))
-      .update('boxList',boxList=>boxList.filter((value,id)=>!newBoxIds.includes(id)))
-      .set('boxHierarchy',newBoxHierarchy)
+      return state.withMutations(map=>map
+        .set('selectedBoxIds',List())
+        .set('targetBox',targetBoxInitialState)
+        .set('contextMenu',contextMenuInitialState)
+        .update('boxIds',boxIds=>boxIds.filter((value)=>!newBoxIds.includes(value)))
+        .update('boxList',boxList=>boxList.filter((value,id)=>!newBoxIds.includes(id)))
+        .set('boxHierarchy',newBoxHierarchy)
+      )
     }
     case COPY_BOX: {
       if(state.get('selectedBoxIds').size===0){
@@ -211,14 +217,15 @@ const drag = (state = dragInitialState, action) => {
       let selectedBoxList = state.get('boxList').filter((value,key)=>state.get('selectedBoxIds').includes(key))
       let ret = getContainerRect(selectedBoxList)
 
-      return state
-      .setIn(['clipBoard','boxIds'],getChildBoxIds(state.get('boxHierarchy'),state.get('selectedBoxIds')))
-      .setIn(['clipBoard','boxHierarchy'],state.get('boxHierarchy').filter((value,key)=>state.get('selectedBoxIds').includes(key)))
-      .setIn(['clipBoard','boxList'],state.get('boxList').filter((value,key)=>getChildBoxIds(state.get('boxHierarchy'),state.get('selectedBoxIds')).includes(key)))
-      .setIn(['clipBoard','top'],ret.top)
-      .setIn(['clipBoard','left'],ret.left)
-      .set('targetBox',targetBoxInitialState)
-      .set('contextMenu',contextMenuInitialState)
+      return state.withMutations(map=>map
+        .setIn(['clipBoard','boxIds'],getChildBoxIds(state.get('boxHierarchy'),state.get('selectedBoxIds')))
+        .setIn(['clipBoard','boxHierarchy'],state.get('boxHierarchy').filter((value,key)=>state.get('selectedBoxIds').includes(key)))
+        .setIn(['clipBoard','boxList'],state.get('boxList').filter((value,key)=>getChildBoxIds(state.get('boxHierarchy'),state.get('selectedBoxIds')).includes(key)))
+        .setIn(['clipBoard','top'],ret.top)
+        .setIn(['clipBoard','left'],ret.left)
+        .set('targetBox',targetBoxInitialState)
+        .set('contextMenu',contextMenuInitialState)
+      )
     }
     case PASTE_BOX: {
       let idCount=state.get('idCount')
@@ -266,35 +273,38 @@ const drag = (state = dragInitialState, action) => {
 
       newState=newState
       .updateIn(['clipBoard','boxList'],boxList=>boxList.map((value,key)=>{
-        return value
-        .update('top',top=>top+state.getIn(['contextMenu','style','top'])-state.getIn(['clipBoard','top']))
-        .update('left',left=>left+state.getIn(['contextMenu','style','left'])-state.getIn(['clipBoard','left']))
+        return value.withMutations(map=>map
+          .update('top',top=>top+state.getIn(['contextMenu','style','top'])-state.getIn(['clipBoard','top']))
+          .update('left',left=>left+state.getIn(['contextMenu','style','left'])-state.getIn(['clipBoard','left']))
+        )
       }))
       
-      return state
-      .set('targetBox',targetBoxInitialState)
-      .set('contextMenu',contextMenuInitialState)
-      .update('boxIds',boxIds=>boxIds.concat(newState.getIn(['clipBoard','boxIds'])))
-      .update('boxHierarchy',boxHierarchy=>boxHierarchy.merge(newState.getIn(['clipBoard','boxHierarchy'])))
-      .update('boxList',boxList=>boxList.merge(newState.getIn(['clipBoard','boxList'])))
-      .set('idCount',idCount)
+      return state.withMutations(map=>map
+        .set('targetBox',targetBoxInitialState)
+        .set('contextMenu',contextMenuInitialState)
+        .update('boxIds',boxIds=>boxIds.concat(newState.getIn(['clipBoard','boxIds'])))
+        .update('boxHierarchy',boxHierarchy=>boxHierarchy.merge(newState.getIn(['clipBoard','boxHierarchy'])))
+        .update('boxList',boxList=>boxList.merge(newState.getIn(['clipBoard','boxList'])))
+        .set('idCount',idCount)
+      )
     }
 
     // target box
     case DRAG_START: {
-      return state
-      .setIn(['targetBox','x'],action.x)
-      .setIn(['targetBox','y'],action.y)
-      .update('boxList',boxList=>boxList.map((value,key)=>{
-        if(state.get('selectedBoxIds').includes(key)){
+      return state.withMutations(map=>map
+        .setIn(['targetBox','x'],action.x)
+        .setIn(['targetBox','y'],action.y)
+        .update('boxList',boxList=>boxList.map((value,key)=>{
+          if(state.get('selectedBoxIds').includes(key)){
+            return value
+            .set('orgTop',state.getIn(['boxList',key,'top']))
+            .set('orgLeft',state.getIn(['boxList',key,'left']))
+            .set('orgWidth',state.getIn(['boxList',key,'width']))
+            .set('orgHeight',state.getIn(['boxList',key,'height']))
+          }
           return value
-          .set('orgTop',state.getIn(['boxList',key,'top']))
-          .set('orgLeft',state.getIn(['boxList',key,'left']))
-          .set('orgWidth',state.getIn(['boxList',key,'width']))
-          .set('orgHeight',state.getIn(['boxList',key,'height']))
-        }
-        return value
-      }))
+        }))
+      )
     }
     case DRAG: {
       if (action.id.includes('Resizer')) return state
@@ -314,24 +324,26 @@ const drag = (state = dragInitialState, action) => {
       let topDiff2 = ret.top.diff === 0 ? (ret.bottom.diff === 0 ? ret.topBottom.diff : ret.bottom.diff) : ret.top.diff
       let leftDiff2 = ret.left.diff === 0 ? (ret.right.diff === 0 ? ret.leftRight.diff : ret.right.diff) : ret.left.diff
 
-      let newState= state
-      .updateIn(['targetBox','realTop'],realTop=>realTop+dragAmount.top)
-      .updateIn(['targetBox','realLeft'],realLeft=>realLeft+dragAmount.left)
-      .updateIn(['targetBox','top'],top=>top+dragAmount.top+topDiff+topDiff2)
-      .updateIn(['targetBox','left'],left=>left+dragAmount.left+leftDiff+leftDiff2)
-      .setIn(['targetBox','x'],action.x)
-      .setIn(['targetBox','y'],action.y)
-      .setIn(['snapLine','top'],ret.top.line)
-      .setIn(['snapLine','topBottom'],ret.topBottom.line)
-      .setIn(['snapLine','bottom'],ret.bottom.line)
-      .setIn(['snapLine','left'],ret.left.line)
-      .setIn(['snapLine','right'],ret.right.line)
-      .setIn(['snapLine','leftRight'],ret.leftRight.line)
+      let newState= state.withMutations(map=>map
+        .updateIn(['targetBox','realTop'],realTop=>realTop+dragAmount.top)
+        .updateIn(['targetBox','realLeft'],realLeft=>realLeft+dragAmount.left)
+        .updateIn(['targetBox','top'],top=>top+dragAmount.top+topDiff+topDiff2)
+        .updateIn(['targetBox','left'],left=>left+dragAmount.left+leftDiff+leftDiff2)
+        .setIn(['targetBox','x'],action.x)
+        .setIn(['targetBox','y'],action.y)
+        .setIn(['snapLine','top'],ret.top.line)
+        .setIn(['snapLine','topBottom'],ret.topBottom.line)
+        .setIn(['snapLine','bottom'],ret.bottom.line)
+        .setIn(['snapLine','left'],ret.left.line)
+        .setIn(['snapLine','right'],ret.right.line)
+        .setIn(['snapLine','leftRight'],ret.leftRight.line)
+      )
 
       for(let boxId of allSelectedBoxIds){
-        newState=newState
-        .updateIn(['boxList',boxId,'top'],top=>top+dragAmount.top+topDiff+topDiff2)
-        .updateIn(['boxList',boxId,'left'],left=>left+dragAmount.left+leftDiff+leftDiff2)
+        newState=newState.withMutations(map=>map
+          .updateIn(['boxList',boxId,'top'],top=>top+dragAmount.top+topDiff+topDiff2)
+          .updateIn(['boxList',boxId,'left'],left=>left+dragAmount.left+leftDiff+leftDiff2)
+        )
       }
       return newState
     }
@@ -343,17 +355,18 @@ const drag = (state = dragInitialState, action) => {
     case RESIZE_DRAG_START: {
       let ret = getContainerRect(state.get('boxList').filter((value,key)=>state.get('selectedBoxIds').includes(key)))
 
-      return state
-      .setIn(['targetBox','top'],ret.top)
-      .setIn(['targetBox','left'],ret.left)
-      .setIn(['targetBox','width'],ret.right-ret.left)
-      .setIn(['targetBox','height'],ret.bottom-ret.top)
-      .setIn(['targetBox','realTop'],ret.top)
-      .setIn(['targetBox','realLeft'],ret.left)
-      .setIn(['targetBox','realWidth'],ret.right-ret.left)
-      .setIn(['targetBox','realHeight'],ret.bottom-ret.top)
-      .setIn(['targetBox','x'],action.x)
-      .setIn(['targetBox','y'],action.y)
+      return state.withMutations(map=>map
+        .setIn(['targetBox','top'],ret.top)
+        .setIn(['targetBox','left'],ret.left)
+        .setIn(['targetBox','width'],ret.right-ret.left)
+        .setIn(['targetBox','height'],ret.bottom-ret.top)
+        .setIn(['targetBox','realTop'],ret.top)
+        .setIn(['targetBox','realLeft'],ret.left)
+        .setIn(['targetBox','realWidth'],ret.right-ret.left)
+        .setIn(['targetBox','realHeight'],ret.bottom-ret.top)
+        .setIn(['targetBox','x'],action.x)
+        .setIn(['targetBox','y'],action.y)
+      )
     }
     case RESIZE_DRAG: {
       if (!action.id.includes('Resizer')) return state
@@ -378,63 +391,72 @@ const drag = (state = dragInitialState, action) => {
       let newTargetBox = state.get('targetBox')
       if (action.id === 'topResizer') {
         if (newTargetBox.get('realHeight') - dragAmount.top < 2) return state
-        newTargetBox=newTargetBox
-        .update('realTop',realTop=>realTop+dragAmount.top)
-        .update('realHeight',realHeight=>realHeight-dragAmount.top)
-        .update('top',top=>top+dragAmount.top+topDiff+topDiff2)
-        .update('height',height=>height-dragAmount.top+heightDiff-topDiff2)
+        newTargetBox=newTargetBox.withMutations(map=>map
+          .update('realTop',realTop=>realTop+dragAmount.top)
+          .update('realHeight',realHeight=>realHeight-dragAmount.top)
+          .update('top',top=>top+dragAmount.top+topDiff+topDiff2)
+          .update('height',height=>height-dragAmount.top+heightDiff-topDiff2)
+        )
       } else if (action.id === 'bottomResizer') {
         if (newTargetBox.get('realHeight') + dragAmount.top < 2) return state
-        newTargetBox=newTargetBox
-        .update('realHeight',realHeight=>realHeight+dragAmount.top)
-        .update('height',height=>height+dragAmount.top+heightDiff+topDiff2)
+        newTargetBox=newTargetBox.withMutations(map=>map
+          .update('realHeight',realHeight=>realHeight+dragAmount.top)
+          .update('height',height=>height+dragAmount.top+heightDiff+topDiff2)
+        )
       } else if (action.id === 'leftResizer') {
         if (newTargetBox.get('realWidth') - dragAmount.left < 2) return state
-        newTargetBox=newTargetBox
-        .update('realLeft',realLeft=>realLeft+dragAmount.left)
-        .update('realWidth',realWidth=>realWidth-dragAmount.left)
-        .update('left',left=>left+dragAmount.left+leftDiff+leftDiff2)
-        .update('width',width=>width-dragAmount.left+widthDiff-leftDiff2)
+        newTargetBox=newTargetBox.withMutations(map=>map
+          .update('realLeft',realLeft=>realLeft+dragAmount.left)
+          .update('realWidth',realWidth=>realWidth-dragAmount.left)
+          .update('left',left=>left+dragAmount.left+leftDiff+leftDiff2)
+          .update('width',width=>width-dragAmount.left+widthDiff-leftDiff2)
+        )
       } else if (action.id === 'rightResizer') {
         if (newTargetBox.get('realWidth') + dragAmount.left < 2) return state
-        newTargetBox=newTargetBox
-        .update('realWidth',realWidth=>realWidth+dragAmount.left)
-        .update('width',width=>width+dragAmount.left+widthDiff+leftDiff2)
+        newTargetBox=newTargetBox.withMutations(map=>map
+          .update('realWidth',realWidth=>realWidth+dragAmount.left)
+          .update('width',width=>width+dragAmount.left+widthDiff+leftDiff2)
+        )
       }
-      newTargetBox=newTargetBox
-      .set('x',action.x)
-      .set('y',action.y)
+      newTargetBox=newTargetBox.withMutations(map=>map
+        .set('x',action.x)
+        .set('y',action.y)
+      )
 
-      let newState= state
-      .set('targetBox',newTargetBox)
-      .setIn(['snapLine','top'],ret.top.line)
-      .setIn(['snapLine','bottom'],ret.bottom.line)
-      .setIn(['snapLine','topBottom'],ret.topBottom.line)
-      .setIn(['snapLine','left'],ret.left.line)
-      .setIn(['snapLine','right'],ret.right.line)
-      .setIn(['snapLine','leftRight'],ret.leftRight.line)
+      let newState= state.withMutations(map=>map
+        .set('targetBox',newTargetBox)
+        .setIn(['snapLine','top'],ret.top.line)
+        .setIn(['snapLine','bottom'],ret.bottom.line)
+        .setIn(['snapLine','topBottom'],ret.topBottom.line)
+        .setIn(['snapLine','left'],ret.left.line)
+        .setIn(['snapLine','right'],ret.right.line)
+        .setIn(['snapLine','leftRight'],ret.leftRight.line)
+      )
 
       newTargetBox=newTargetBox.toObject()
       for(let boxId of allSelectedBoxIds){
-        newState=newState
-        .updateIn(['boxList',boxId,'top'],top=>(top-targetBox.top)*(newTargetBox.height/targetBox.height)+newTargetBox.top)
-        .updateIn(['boxList',boxId,'left'],left=>(left-targetBox.left)*(newTargetBox.width/targetBox.width)+newTargetBox.left)
-        .updateIn(['boxList',boxId,'height'],height=>(newTargetBox.height/targetBox.height)*height)
-        .updateIn(['boxList',boxId,'width'],width=>(newTargetBox.width/targetBox.width)*width)
+        newState=newState.withMutations(map=>map
+          .updateIn(['boxList',boxId,'top'],top=>(top-targetBox.top)*(newTargetBox.height/targetBox.height)+newTargetBox.top)
+          .updateIn(['boxList',boxId,'left'],left=>(left-targetBox.left)*(newTargetBox.width/targetBox.width)+newTargetBox.left)
+          .updateIn(['boxList',boxId,'height'],height=>(newTargetBox.height/targetBox.height)*height)
+          .updateIn(['boxList',boxId,'width'],width=>(newTargetBox.width/targetBox.width)*width)
+        )
       }
       return newState
     }
 
     case RESIZE_DRAG_END: {
-      return state
-      .setIn(['targetBox','realWidth'],state.getIn(['targetBox','width']))
-      .setIn(['targetBox','realHeight'],state.getIn(['targetBox','height']))
+      return state.withMutations(map=>map
+        .setIn(['targetBox','realWidth'],state.getIn(['targetBox','width']))
+        .setIn(['targetBox','realHeight'],state.getIn(['targetBox','height']))
+      )
     }
 
     case RESIZE_WINDOW: {
-      return state
-      .setIn(['layout', 'screenWidth'],action.screenWidth)
-      .setIn(['layout', 'screenHeight'],action.screenHeight)
+      return state.withMutations(map=>map
+        .setIn(['layout', 'screenWidth'],action.screenWidth)
+        .setIn(['layout', 'screenHeight'],action.screenHeight)
+      )
     }
 
     case CHANGE_PAGE: {
