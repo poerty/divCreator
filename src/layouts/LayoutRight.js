@@ -14,6 +14,7 @@ class LayoutRight extends Component {
         style={style}
       >
         <DragSourceArea/>
+        <div>a</div>
       </div>
     )
   }

@@ -25,8 +25,9 @@ class NavArea extends Component {
         <NavItem text="DIV-CREATOR" flex={2}/>
         <NavItem text="UNDO" flex={0.5} img="./img/undo.png"/>
         <NavItem text="REDO" flex={0.5} img="./img/redo.png"/>
-        <NavItem flex={7}/>
+        <NavItem flex={20}/>
         <NavItem text="SAVE" flex={1} img="./img/save.png"/>
+        <NavItem flex={5}/>
       </div>
     )
   }

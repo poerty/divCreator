@@ -11,8 +11,13 @@ class DragSourceArea extends Component {
     }
     return (
       <div id='dragSourceArea' className='source-area area'>
-        <div>Source</div>
-        {boxSourceList}
+        <div className="dragSource-tabs">
+          <div className="dragSource-tab selected">BOXSOURCES</div>
+          <div className="dragSource-tab">COMPONENTS</div>
+        </div>
+        <div className="dragSource-boxs">
+          {boxSourceList}
+        </div>
       </div>
     )
   }

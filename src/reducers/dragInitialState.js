@@ -29,6 +29,7 @@ export const boxHierarchyInitialState = Map({
 })
 
 export const dragInitialState = Map({
+  currentPageId: '1',
   pageList: Map({
     '1': Map({
       pageName: 'page one~~',
@@ -73,8 +74,10 @@ export const dragInitialState = Map({
   }),
   boxSourceList: Map({
     // {id:1, top:300, left:50, width:100, height:100},,,,
-    1: Map({ width: 264, height: 96, dragImgSrc: './img/1.png' }),
-    2: Map({ width: 140, height: 140, dragImgSrc: './img/2.png', borderRadius: '50%' })
+    1: Map({ name: "square", width: 264, height: 96, dragImgSrc: './img/1.png' }),
+    2: Map({ name: "circle", width: 140, height: 140, dragImgSrc: './img/2.png', borderRadius: '50%' }),
+    3: Map({ name: "circle", width: 140, height: 140, dragImgSrc: './img/2.png', borderRadius: '50%' }),
+    4: Map({ name: "circle", width: 140, height: 140, dragImgSrc: './img/2.png', borderRadius: '50%' }),
   }),
   boxIds: List([
     '1112', '1113', '1114', '1115', '1116'
@@ -110,7 +113,6 @@ export const dragInitialState = Map({
     screenWindow: typeof window === 'object' ? window.innerWidth : null,
     screenHeight: typeof window === 'object' ? window.innerHeight : null
   }),
-  currentPageId: '1',
   contextMenu: contextMenuInitialState,
   clipBoard: Map({
     top: 0,

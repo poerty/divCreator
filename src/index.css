@@ -10,6 +10,7 @@ body {
   font-size: 12px;
   font-weight: 400;
   color: #363C32;
+  overflow: hidden;
 }
 
 .layout{
@@ -176,8 +177,39 @@ body {
   position: absolute;
 }
 
+#dragSourceArea{
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.dragSource-tabs{
+  display: flex;
+  width: 100%;
+  height: 37px;
+  border-bottom: 1px solid lightgray;
+  flex-shrink: 0;
+}
+.dragSource-tab{
+  width: 50%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  box-sizing: border-box;
+}
+.dragSource-tab.selected{
+  border-bottom: 2px solid #00A1C0;
+}
+.dragSource-boxs{
+  overflow: scroll;
+  flex: auto;
+  width: 231px;
+  padding-top: 12px;
+  padding-left: 1px;
+}
 .boxSourceContainer{
-  width: 33.3%;
+  width: 78px;
   height: 100px;
   box-sizing: border-box;
   text-align: center;
@@ -191,14 +223,17 @@ body {
   margin-top: -1px;
   overflow: hidden;
   background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .boxSourceDragImage{
   width: 100%;
-    height: 70px;
-    background-position: center center;
-    background-image: url(https://dteyv52hbg2at.cloudfront.net/devices/common/rectangle/helper.png);
-    background-size: 70px auto;
-    background-repeat: no-repeat;
+  height: 100%;
+  background-position: center center;
+  background-image: url(https://dteyv52hbg2at.cloudfront.net/devices/common/rectangle/helper.png);
+  background-size: 70px auto;
+  background-repeat: no-repeat;
 }
 
 .contextMenu {

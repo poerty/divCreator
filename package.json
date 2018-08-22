@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "html2canvas": "^1.0.0-alpha.12",
     "immutable": "^3.8.2",
     "normalize.css": "^8.0.0",
     "react": "^16.4.1",
