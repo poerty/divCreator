@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 
-import drag from './drag'
+import boxReducer from './boxReducer'
 
 const counterApp = combineReducers({
-  drag
+  boxReducer
 })
 
 export default counterApp

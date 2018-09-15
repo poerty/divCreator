@@ -26,7 +26,7 @@ class LayoutMiddle extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    layout: state.drag.get('layout')
+    layout: state.boxReducer.get('layout')
   }
 }
 

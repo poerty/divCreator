@@ -25,7 +25,7 @@ class PageListArea extends Component {
 
 let mapStateToProps = (state) => {
   return {
-    pageList: state.drag.get('pageList')
+    pageList: state.boxReducer.get('pageList')
   }
 }
 

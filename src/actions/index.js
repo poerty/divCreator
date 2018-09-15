@@ -1,8 +1,4 @@
 export const MOUSE_DOWN = 'MOUSE_DOWN'
-export const DRAG = 'DRAG'
-export const DRAG_START = 'DRAG_START'
-export const DRAG_END = 'DRAG_END'
-
 export function mouseDown (id, shift) {
   return {
     type: MOUSE_DOWN,
@@ -11,28 +7,69 @@ export function mouseDown (id, shift) {
   }
 }
 
-export function drag (x, y, id) {
+export const SOURCE_DRAG_END = 'SOURCE_DRAG_END'
+export function sourceDragEnd (x, y, id, key) {
   return {
-    type: DRAG,
+    type: SOURCE_DRAG_END,
+    x: x,
+    y: y,
+    id: id,
+    key: key
+  }
+}
+
+export const TARGETBOX_DRAG = 'TARGETBOX_DRAG'
+export const TARGETBOX_DRAG_START = 'TARGETBOX_DRAG_START'
+export const TARGETBOX_DRAG_END = 'TARGETBOX_DRAG_END'
+export function targetBoxDrag (x, y, id) {
+  return {
+    type: TARGETBOX_DRAG,
     x: x,
     y: y,
     id: id
   }
 }
-
-export function dragStart (x, y, id) {
+export function targetBoxDragStart (x, y, id) {
   return {
-    type: DRAG_START,
+    type: TARGETBOX_DRAG_START,
     x: x,
     y: y,
     id: id
   }
 }
-
-export function dragEnd (e) {
+export function targetBoxDragEnd (e) {
   return {
-    type: DRAG_END,
+    type: TARGETBOX_DRAG_END,
     event: e
+  }
+}
+
+export const TARGETBOX_RESIZE = 'TARGETBOX_RESIZE'
+export const TARGETBOX_RESIZE_START = 'TARGETBOX_RESIZE_START'
+export const TARGETBOX_RESIZE_END = 'TARGETBOX_RESIZE_END'
+export function targetBoxResize (x, y, id, direction) {
+  return {
+    type: TARGETBOX_RESIZE,
+    x: x,
+    y: y,
+    id: id,
+    direction: direction
+  }
+}
+export function targetBoxResizeStart (x, y, id) {
+  return {
+    type: TARGETBOX_RESIZE_START,
+    x: x,
+    y: y,
+    id: id
+  }
+}
+export function targetBoxResizeEnd (x, y, id) {
+  return {
+    type: TARGETBOX_RESIZE_END,
+    x: x,
+    y: y,
+    id: id
   }
 }
 
@@ -76,88 +113,7 @@ export function deleteBox () {
   }
 }
 
-export const SOURCE_MOUSE_DOWN = 'SOURCE_MOUSE_DOWN'
-export const SOURCE_MOUSE_UP = 'SOURCE_MOUSE_UP'
-export const SOURCE_DRAG = 'SOURCE_DRAG'
-export const SOURCE_DRAG_START = 'SOURCE_DRAG_START'
-export const SOURCE_DRAG_END = 'SOURCE_DRAG_END'
-
-export function sourceMouseDown (id) {
-  return {
-    type: SOURCE_MOUSE_DOWN,
-    id: id
-  }
-}
-
-export function sourceMouseUp (id) {
-  return {
-    type: SOURCE_MOUSE_UP,
-    id: id
-  }
-}
-
-export function sourceDrag (x, y, id) {
-  return {
-    type: SOURCE_DRAG,
-    x: x,
-    y: y,
-    id: id
-  }
-}
-
-export function sourceDragStart (x, y, id) {
-  return {
-    type: SOURCE_DRAG_START,
-    x: x,
-    y: y,
-    id: id
-  }
-}
-
-export function sourceDragEnd (x, y, id, key) {
-  return {
-    type: SOURCE_DRAG_END,
-    x: x,
-    y: y,
-    id: id,
-    key: key
-  }
-}
-
-export const RESIZE_DRAG = 'RESIZE_DRAG'
-export const RESIZE_DRAG_START = 'RESIZE_DRAG_START'
-export const RESIZE_DRAG_END = 'RESIZE_DRAG_END'
-
-export function resizeDrag (x, y, id, direction) {
-  return {
-    type: RESIZE_DRAG,
-    x: x,
-    y: y,
-    id: id,
-    direction: direction
-  }
-}
-
-export function resizeDragStart (x, y, id) {
-  return {
-    type: RESIZE_DRAG_START,
-    x: x,
-    y: y,
-    id: id
-  }
-}
-
-export function resizeDragEnd (x, y, id) {
-  return {
-    type: RESIZE_DRAG_END,
-    x: x,
-    y: y,
-    id: id
-  }
-}
-
 export const RESIZE_WINDOW = 'RESIZE_WINDOW'
-
 export function resizeWindow (screenWidth, screenHeight) {
   return {
     type: RESIZE_WINDOW,
@@ -166,8 +122,15 @@ export function resizeWindow (screenWidth, screenHeight) {
   }
 }
 
+export const CHANGE_TAB = 'CHAGE_TAB'
 export const CHANGE_PAGE = 'CHAGE_PAGE'
-
+export function changeTab (tabName, layoutName) {
+  return {
+    type: CHANGE_TAB,
+    tabName: tabName,
+    layoutName: layoutName
+  }
+}
 export function changePage (pageId) {
   return {
     type: CHANGE_PAGE,

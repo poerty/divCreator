@@ -20,7 +20,7 @@ class SnapLine extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    locate: state.drag.getIn(['snapLine',ownProps.dataKey])
+    locate: state.boxReducer.getIn(['snapLine',ownProps.dataKey])
   }
 }
 

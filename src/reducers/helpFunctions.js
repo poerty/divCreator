@@ -30,15 +30,11 @@ export function getChildBoxIds (boxHierarchy, boxIds) {
   return newBoxIds
 }
 
-export function insideof (x, y, id) {
-  let rect = document.getElementById(id).getBoundingClientRect()
-  if (x < rect.left || x > rect.left + rect.width || y < rect.top || y > rect.top + rect.height) { return false } else return true
-}
-
-// 두개 차이점은 middle line 에서 *2 뿐... 싫으면 인자로 주던가
+// 두개 차이점은 resizer와 middle line 에서 *2 뿐... 싫으면 인자로 주던가
 export function checkSnapDrag (top, left, width, height, selectedBoxIds, boxList, snapSize) {
   let ret = { top: { diff: 0, line: -1 }, bottom: { diff: 0, line: -1 }, topBottom: { diff: 0, line: -1 }, left: { diff: 0, line: -1 }, right: { diff: 0, line: -1 }, leftRight: { diff: 0, line: -1 } }
-  
+  let minTBDiff=snapSize, minLRDiff=snapSize
+
   for (let boxId in boxList.toObject()) {
     if (selectedBoxIds.includes(boxId)) continue
     let box=boxList.get(boxId).toObject()
@@ -49,41 +45,74 @@ export function checkSnapDrag (top, left, width, height, selectedBoxIds, boxList
     let differ
 
     for (let horizonalMiddleLine of horizonalMiddleLineList) {
-      if (Math.abs(differ = horizonalMiddleLine - (top + 0.5 * height)) < snapSize) {
+      differ = horizonalMiddleLine - (top + 0.5 * height)
+      if (differ === minTBDiff) ret.topBottom = { diff: differ, line: horizonalMiddleLine }
+      else if (Math.abs(differ) < Math.abs(minTBDiff)) {
+        ret.top = { diff: 0, line: -1 }
+        ret.bottom = { diff: 0, line: -1 }
         ret.topBottom = { diff: differ, line: horizonalMiddleLine }
+        minTBDiff = differ
       }
     }
     for (let horizonalLine of horizonalLineList) {
-      if (Math.abs(differ = horizonalLine - top) < snapSize) {
+      differ = horizonalLine - top
+      if (differ === minTBDiff) ret.top = { diff: differ, line: horizonalLine }
+      else if (Math.abs(differ) < Math.abs(minTBDiff)) {
         ret.top = { diff: differ, line: horizonalLine }
+        ret.bottom = { diff: 0, line: -1 }
+        ret.topBottom = { diff: 0, line: -1 }
+        minTBDiff = differ
       }
-      if (Math.abs(differ = horizonalLine - (top + height)) < snapSize) {
+
+      differ = horizonalLine - (top + height)
+      if (differ === minTBDiff) ret.bottom = { diff: differ, line: horizonalLine }
+      else if (Math.abs(differ) < Math.abs(minTBDiff)) {
+        ret.top = { diff: 0, line: -1 }
         ret.bottom = { diff: differ, line: horizonalLine }
+        ret.topBottom = { diff: 0, line: -1 }
+        minTBDiff = differ
       }
     }
 
     for (let verticalMiddleLine of verticalMiddleLineList) {
-      if (Math.abs(differ = verticalMiddleLine - (left + 0.5 * width)) < snapSize) {
+      differ = verticalMiddleLine - (left + 0.5 * width)
+      if (differ === minLRDiff) ret.leftRight = { diff: differ, line: verticalMiddleLine }
+      else if (Math.abs(differ) < Math.abs(minLRDiff)) {
+        ret.left = { diff: 0, line: -1 }
+        ret.right = { diff: 0, line: -1 }
         ret.leftRight = { diff: differ, line: verticalMiddleLine }
+        minLRDiff = differ
       }
     }
     for (let verticalLine of verticalLineList) {
-      if (Math.abs(differ = verticalLine - left) < snapSize) {
+      differ = verticalLine - left
+      if (differ === minLRDiff) ret.left = { diff: differ, line: verticalLine }
+      else if (Math.abs(differ) < Math.abs(minLRDiff)) {
         ret.left = { diff: differ, line: verticalLine }
+        ret.right = { diff: 0, line: -1 }
+        ret.leftRight = { diff: 0, line: -1 }
+        minLRDiff = differ
       }
-      if (Math.abs(differ = verticalLine - (left + width)) < snapSize) {
+
+      differ = verticalLine - (left + width)
+      if (differ === minLRDiff) ret.right = { diff: differ, line: verticalLine }
+      else if (Math.abs(differ) < Math.abs(minLRDiff)) {
+        ret.left = { diff: 0, line: -1 }
         ret.right = { diff: differ, line: verticalLine }
+        ret.leftRight = { diff: 0, line: -1 }
+        minLRDiff = differ
       }
     }
   }
   return ret
 }
-export function checkSnapResize (top, left, width, height, selectedBoxIds, boxList, snapSize) {
+export function checkSnapResize (top, left, width, height, selectedBoxIds, boxList, snapSize, resizer) {
   let ret = { top: { diff: 0, line: -1 }, bottom: { diff: 0, line: -1 }, topBottom: { diff: 0, line: -1 }, left: { diff: 0, line: -1 }, right: { diff: 0, line: -1 }, leftRight: { diff: 0, line: -1 } }
+  let minTBDiff=snapSize, minLRDiff=snapSize
 
   for (let boxId in boxList.toObject()) {
     if (selectedBoxIds.includes(boxId)) continue
-    let box = boxList.get(boxId).toObject()
+    let box=boxList.get(boxId).toObject()
     let horizonalLineList = [box.top, box.top + box.height]
     let verticalLineList = [box.left, box.left + box.width]
     let horizonalMiddleLineList = [2 * box.top + box.height]
@@ -91,30 +120,70 @@ export function checkSnapResize (top, left, width, height, selectedBoxIds, boxLi
     let differ
 
     for (let horizonalMiddleLine of horizonalMiddleLineList) {
-      if (Math.abs(differ = horizonalMiddleLine - (2 * top + height)) < snapSize) {
+      differ = horizonalMiddleLine - (2 * top + height)
+      if (differ === minTBDiff) ret.topBottom = { diff: differ, line: horizonalMiddleLine / 2 }
+      else if (Math.abs(differ) < Math.abs(minTBDiff)) {
+        ret.top = { diff: 0, line: -1 }
+        ret.bottom = { diff: 0, line: -1 }
         ret.topBottom = { diff: differ, line: horizonalMiddleLine / 2 }
+        minTBDiff = differ
       }
     }
     for (let horizonalLine of horizonalLineList) {
-      if (Math.abs(differ = horizonalLine - top) < snapSize) {
-        ret.top = { diff: differ, line: horizonalLine }
+      if(resizer!=='bottomResizer'){
+        differ = horizonalLine - top
+        if (differ === minTBDiff) ret.top = { diff: differ, line: horizonalLine }
+        else if (Math.abs(differ) < Math.abs(minTBDiff)) {
+          ret.top = { diff: differ, line: horizonalLine }
+          ret.bottom = { diff: 0, line: -1 }
+          ret.topBottom = { diff: 0, line: -1 }
+          minTBDiff = differ
+        }
       }
-      if (Math.abs(differ = horizonalLine - (top + height)) < snapSize) {
-        ret.bottom = { diff: differ, line: horizonalLine }
+
+      if(resizer!=='topResizer'){
+        differ = horizonalLine - (top + height)
+        if (differ === minTBDiff) ret.bottom = { diff: differ, line: horizonalLine }
+        else if (Math.abs(differ) < Math.abs(minTBDiff)) {
+          ret.top = { diff: 0, line: -1 }
+          ret.bottom = { diff: differ, line: horizonalLine }
+          ret.topBottom = { diff: 0, line: -1 }
+          minTBDiff = differ
+        }
       }
     }
 
     for (let verticalMiddleLine of verticalMiddleLineList) {
-      if (Math.abs(differ = verticalMiddleLine - (2 * left + width)) < snapSize) {
+      differ = verticalMiddleLine - (2 * left + width)
+      if (differ === minLRDiff) ret.leftRight = { diff: differ, line: verticalMiddleLine / 2 }
+      else if (Math.abs(differ) < Math.abs(minLRDiff)) {
+        ret.left = { diff: 0, line: -1 }
+        ret.right = { diff: 0, line: -1 }
         ret.leftRight = { diff: differ, line: verticalMiddleLine / 2 }
+        minLRDiff = differ
       }
     }
     for (let verticalLine of verticalLineList) {
-      if (Math.abs(differ = verticalLine - left) < snapSize) {
-        ret.left = { diff: differ, line: verticalLine }
+      if(resizer!=='rightResizer'){
+        differ = verticalLine - left
+        if (differ === minLRDiff) ret.left = { diff: differ, line: verticalLine }
+        else if (Math.abs(differ) < Math.abs(minLRDiff)) {
+          ret.left = { diff: differ, line: verticalLine }
+          ret.right = { diff: 0, line: -1 }
+          ret.leftRight = { diff: 0, line: -1 }
+          minLRDiff = differ
+        }
       }
-      if (Math.abs(differ = verticalLine - (left + width)) < snapSize) {
-        ret.right = { diff: differ, line: verticalLine }
+
+      if(resizer!=='leftResizer'){
+        differ = verticalLine - (left + width)
+        if (differ === minLRDiff) ret.right = { diff: differ, line: verticalLine }
+        else if (Math.abs(differ) < Math.abs(minLRDiff)) {
+          ret.left = { diff: 0, line: -1 }
+          ret.right = { diff: differ, line: verticalLine }
+          ret.leftRight = { diff: 0, line: -1 }
+          minLRDiff = differ
+        }
       }
     }
   }

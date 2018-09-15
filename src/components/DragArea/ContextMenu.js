@@ -39,8 +39,8 @@ class ContextMenu extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    style: state.drag.get('contextMenu').get('style'),
-    options: state.drag.get('contextMenu').get('options')
+    style: state.boxReducer.get('contextMenu').get('style'),
+    options: state.boxReducer.get('contextMenu').get('options')
   }
 }
 let mapDispatchToProps = (dispatch) => {

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 
 const NavItem = ({ text, flex, img }) => {
   let style={ flex:flex+" "+flex+" auto" }

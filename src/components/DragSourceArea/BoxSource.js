@@ -26,7 +26,7 @@ class BoxSource extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    style: state.drag.getIn(['boxSourceList',ownProps.dataKey])
+    style: state.boxReducer.getIn(['boxSourceList',ownProps.dataKey])
   }
 }
 let mapDispatchToProps = (dispatch) => {

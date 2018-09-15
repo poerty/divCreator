@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { drag, dragStart, dragEnd } from '../../actions'
+import { targetBoxDrag, targetBoxDragStart, targetBoxDragEnd } from '../../actions'
 
 import Resizers from './Resizer/Resizers'
 
@@ -38,17 +38,17 @@ class TargetBox extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    targetBox: state.drag.get('targetBox')
+    targetBox: state.boxReducer.get('targetBox')
   }
 }
 let mapDispatchToProps = (dispatch) => {
   return {
-    onDrag: (e) => dispatch(drag(e.clientX, e.clientY, e.target.id)),
+    onDrag: (e) => dispatch(targetBoxDrag(e.clientX, e.clientY, e.target.id)),
     onDragStart: (img, e) => {
       e.dataTransfer.setDragImage(img, 0, 0)
-      dispatch(dragStart(e.clientX, e.clientY, e.target.id))
+      dispatch(targetBoxDragStart(e.clientX, e.clientY, e.target.id))
     },
-    onDragEnd: (e) => dispatch(dragEnd(e))
+    onDragEnd: (e) => dispatch(targetBoxDragEnd(e))
   }
 }
 

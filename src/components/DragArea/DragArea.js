@@ -31,7 +31,7 @@ class DragArea extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    boxIds: state.drag.get('boxIds'),
+    boxIds: state.boxReducer.getIn(['boxData','boxIds']),
   }
 }
 let mapDispatchToProps = (dispatch) => {

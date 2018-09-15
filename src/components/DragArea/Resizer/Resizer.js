@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { resizeDrag, resizeDragStart, resizeDragEnd } from '../../../actions'
+import { targetBoxResize, targetBoxResizeStart, targetBoxResizeEnd } from '../../../actions'
 
 class Resizer extends Component {
   render () {
@@ -51,9 +51,9 @@ class Resizer extends Component {
 
 let mapDispatchToProps = (dispatch) => {
   return {
-    onDrag: (e) => dispatch(resizeDrag(e.clientX, e.clientY, e.target.id)),
-    onDragStart: (e) => dispatch(resizeDragStart(e.clientX, e.clientY, e.target.id)),
-    onDragEnd: (e) => dispatch(resizeDragEnd(e.clientX, e.clientY, e.target.id))
+    onDrag: (e) => dispatch(targetBoxResize(e.clientX, e.clientY, e.target.id)),
+    onDragStart: (e) => dispatch(targetBoxResizeStart(e.clientX, e.clientY, e.target.id)),
+    onDragEnd: (e) => dispatch(targetBoxResizeEnd(e.clientX, e.clientY, e.target.id))
   }
 }
 

@@ -27,91 +27,149 @@ export const boxHierarchyInitialState = Map({
   boxIds: List([]),
   boxHierarchy: Map({})
 })
+export const selectedBoxIdsInitialState = List([])
 
 export const dragInitialState = Map({
-  currentPageId: '1',
-  pageList: Map({
-    '1': Map({
-      pageName: 'page one~~',
-      boxIds: List([
-        '1112', '1113', '1114', '1115', '1116'
-      ]),
-      boxHierarchy: Map({
-        '1112': boxHierarchyInitialState,
-        '1113': boxHierarchyInitialState,
-        '1116': Map({
-          boxIds: List(['1114', '1115']),
-          boxHierarchy: Map({
-            '1114': boxHierarchyInitialState,
-            '1115': boxHierarchyInitialState
+  pageId: '1',
+  pageName: 'page one~~',
+  boxData: Map({
+    boxIds: List([
+      '1112', '1113', '1114', '1115', '1116'
+    ]),
+    boxHierarchy: Map({
+      '1112': Map({
+        id: '1112',
+        boxIds: List([]),
+        boxHierarchy: Map({})
+      }),
+      '1113': Map({
+        id: '1113',
+        boxIds: List([]),
+        boxHierarchy: Map({})
+      }),
+      '1116': Map({
+        boxIds: List(['1114', '1115']),
+        boxHierarchy: Map({
+          '1114': Map({
+            id: '1114',
+            boxIds: List([]),
+            boxHierarchy: Map({})
+          }),
+          '1115': Map({
+            id: '1115',
+            boxIds: List([]),
+            boxHierarchy: Map({})
           })
-        }),
+        })
       }),
-      boxList: Map({
-        // {id:1112, top:300, left:550, width:100, height:100},,,,
-        '1112': Map({ top: 300, left: 50, width: 100, height: 100 }),
-        '1113': Map({ top: 100, left: 100, width: 100, height: 100 }),
-        '1114': Map({ top: 250, left: 250, width: 150, height: 100 }),
-        '1115': Map({ top: 400, left: 350, width: 100, height: 100 }),
-        '1116': Map({ top: 250, left: 250, width: 200, height: 250, background: 'transparent' })
-      })
     }),
-    '2': Map({
-      pageName: 'page 2',
-      boxIds: List([
-        '1112', '1113'
-      ]),
-      boxHierarchy: Map({
-        '1112': boxHierarchyInitialState,
-        '1113': boxHierarchyInitialState,
-      }),
-      boxList: Map({
-        // {id:1112, top:300, left:550, width:100, height:100},,,,
-        '1112': Map({ top: 300, left: 50, width: 100, height: 100 }),
-        '1113': Map({ top: 100, left: 100, width: 100, height: 100 }),
-      })
-    })
-  }),
-  boxSourceList: Map({
-    // {id:1, top:300, left:50, width:100, height:100},,,,
-    1: Map({ name: "square", width: 264, height: 96, dragImgSrc: './img/1.png' }),
-    2: Map({ name: "circle", width: 140, height: 140, dragImgSrc: './img/2.png', borderRadius: '50%' }),
-    3: Map({ name: "circle", width: 140, height: 140, dragImgSrc: './img/2.png', borderRadius: '50%' }),
-    4: Map({ name: "circle", width: 140, height: 140, dragImgSrc: './img/2.png', borderRadius: '50%' }),
-  }),
-  boxIds: List([
-    '1112', '1113', '1114', '1115', '1116'
-  ]),
-  boxHierarchy: Map({
-    '1112': boxHierarchyInitialState,
-    '1113': boxHierarchyInitialState,
-    '1116': Map({
-      boxIds: List(['1114', '1115']),
-      boxHierarchy: Map({
-        '1114': boxHierarchyInitialState,
-        '1115': boxHierarchyInitialState
-      })
+    boxList: Map({
+      // {id:1112, top:300, left:550, width:100, height:100},,,,
+      '1112': Map({ id: '1112', top: 300, left: 50, width: 100, height: 100 }),
+      '1113': Map({ id: '1113', top: 100, left: 100, width: 100, height: 100 }),
+      '1114': Map({ id: '1114', top: 250, left: 250, width: 150, height: 100 }),
+      '1115': Map({ id: '1115', top: 400, left: 350, width: 100, height: 100 }),
+      '1116': Map({ id: '1116', top: 250, left: 250, width: 200, height: 250, background: 'transparent' })
     }),
-  }),
-  boxList: Map({
-    // {id:1112, top:300, left:550, width:100, height:100},,,,
-    '1112': Map({ top: 300, left: 50, width: 100, height: 100 }),
-    '1113': Map({ top: 100, left: 100, width: 100, height: 100 }),
-    '1114': Map({ top: 250, left: 250, width: 150, height: 100 }),
-    '1115': Map({ top: 400, left: 350, width: 100, height: 100 }),
-    '1116': Map({ top: 250, left: 250, width: 200, height: 250, background: 'transparent' })
   }),
   selectedBoxIds: List([]),
   targetBox: targetBoxInitialState,
+
+  pageList: Map({
+    '1': Map({
+      pageId: '1',
+      pageName: 'page one~~',
+      boxData: Map({
+        boxIds: List([
+          '1112', '1113', '1114', '1115', '1116'
+        ]),
+        boxHierarchy: Map({
+          '1112': Map({
+            id: '1112',
+            boxIds: List([]),
+            boxHierarchy: Map({})
+          }),
+          '1113': Map({
+            id: '1113',
+            boxIds: List([]),
+            boxHierarchy: Map({})
+          }),
+          '1116': Map({
+            boxIds: List(['1114', '1115']),
+            boxHierarchy: Map({
+              '1114': Map({
+                id: '1114',
+                boxIds: List([]),
+                boxHierarchy: Map({})
+              }),
+              '1115': Map({
+                id: '1115',
+                boxIds: List([]),
+                boxHierarchy: Map({})
+              })
+            })
+          }),
+        }),
+        boxList: Map({
+          // {id:1112, top:300, left:550, width:100, height:100},,,,
+          '1112': Map({ id: '1112', top: 300, left: 50, width: 100, height: 100 }),
+          '1113': Map({ id: '1113', top: 100, left: 100, width: 100, height: 100 }),
+          '1114': Map({ id: '1114', top: 250, left: 250, width: 150, height: 100 }),
+          '1115': Map({ id: '1115', top: 400, left: 350, width: 100, height: 100 }),
+          '1116': Map({ id: '1116', top: 250, left: 250, width: 200, height: 250, background: 'transparent' })
+        }),
+      }),
+    }),
+    '2': Map({
+      pageName: 'page 2',
+      boxData: Map({
+        boxIds: List([
+          '1112', '1113'
+        ]),
+        boxHierarchy: Map({
+          '1112': Map({
+            id: '1112',
+            boxIds: List([]),
+            boxHierarchy: Map({})
+          }),
+          '1113': Map({
+            id: '1113',
+            boxIds: List([]),
+            boxHierarchy: Map({})
+          }),
+        }),
+        boxList: Map({
+          // {id:1112, top:300, left:550, width:100, height:100},,,,
+          '1112': Map({ id: '1112', top: 300, left: 50, width: 100, height: 100 }),
+          '1113': Map({ id: '1113', top: 100, left: 100, width: 100, height: 100 }),
+        })
+      })
+    })
+  }),
+  
   idCount: 1117,
+
+  boxSourceList: Map({
+    // {id:1, top:300, left:50, width:100, height:100},,,,
+    1: Map({ id: '1', name: "square", width: 100, height: 100, dragImgSrc: './img/1.png' }),
+    2: Map({ id: '2', name: "rectangle", width: 200, height: 100, dragImgSrc: './img/1.png' }),
+    3: Map({ id: '3', name: "circle", width: 100, height: 100, dragImgSrc: './img/2.png', borderRadius: '50%' }),
+    4: Map({ id: '4', name: "parallelogram", width: 150, height: 100, transform: 'skew(20deg)', dragImgSrc: './img/2.png' }),
+    5: Map({ id: '5', name: "circle", width: 100, height: 100, dragImgSrc: './img/2.png', borderRadius: '50%' }),
+    6: Map({ id: '6', name: "rotate rectangle", width: 200, height: 100, transform: "rotate(90deg)", dragImgSrc: './img/1.png' }),
+  }),
+  
   snapLine: snapLineInitialState,
   layout: Map({
     top: 50,
     bottom: 50,
     left: 250,
     right: 250,
-    screenWindow: typeof window === 'object' ? window.innerWidth : null,
+    screenWidth: typeof window === 'object' ? window.innerWidth : null,
     screenHeight: typeof window === 'object' ? window.innerHeight : null
+  }),
+  layoutTabs: Map({
+    right: 'SOURCES'
   }),
   contextMenu: contextMenuInitialState,
   clipBoard: Map({
