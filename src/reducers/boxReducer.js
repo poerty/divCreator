@@ -6,7 +6,7 @@ import {
   TARGETBOX_DRAG, TARGETBOX_DRAG_START, TARGETBOX_DRAG_END, TARGETBOX_RESIZE, TARGETBOX_RESIZE_START, TARGETBOX_RESIZE_END,
   CONTEXT_MENU, MAKE_GROUP, UNMAKE_GROUP, COPY_BOX, PASTE_BOX, DELETE_BOX,
   RESIZE_WINDOW, 
-  CHANGE_TAB, CHANGE_PAGE,
+  CHANGE_PAGE, CHANGE_PROP,
 } from '../actions'
 
 import { dragInitialState, targetBoxInitialState, snapLineInitialState, boxHierarchyInitialState, contextMenuInitialState } from './dragInitialState'
@@ -437,10 +437,6 @@ const resizeWindow = (state, action) => {
   )
 }
 
-const changeTab = (state, action) => {
-  return state
-  .setIn(['layoutTabs',action.layoutName],action.tabName)
-}
 const changePage = (state, action) => {
   let currentPageId=state.get('pageId')
   if(action.pageId===currentPageId) return state
@@ -452,6 +448,55 @@ const changePage = (state, action) => {
     .set('pageId',action.pageId)
     .set('boxData',state.getIn(['pageList',action.pageId,'boxData']))
   )
+}
+const changeProp = (state, action) => {
+  let targetBox=state.get('targetBox').toJS()
+  let newState=state.setIn(['boxData','boxList',action.boxId,action.propName],action.propValue)
+  switch(action.propName){
+    case "top":{
+      newState=newState.withMutations(map=>map
+        .setIn(['targetBox','top'],action.propValue)
+        .setIn(['targetBox','realTop'],action.propValue)
+      )
+      break
+    }
+    case "left":{
+      newState=newState.withMutations(map=>map
+        .setIn(['targetBox','left'],action.propValue)
+        .setIn(['targetBox','realLeft'],action.propValue)
+      )
+      break
+    }
+    case "width":{
+      newState=newState.withMutations(map=>map
+        .setIn(['targetBox','width'],action.propValue)
+        .setIn(['targetBox','realWidth'],action.propValue)
+      )
+      break
+    }
+    case "height":{
+      newState=newState.withMutations(map=>map
+        .setIn(['targetBox','height'],action.propValue)
+        .setIn(['targetBox','realHeight'],action.propValue)
+      )
+      break
+    }
+    default:{
+    }
+  }
+  let newTargetBox=newState.get('targetBox').toJS()
+  let allSelectedBoxIds = getChildBoxIds(newState.getIn(['boxData','boxHierarchy']), newState.get('selectedBoxIds'))
+  for(let boxId of allSelectedBoxIds){
+    if(boxId===action.boxId) continue
+    newState=newState.withMutations(map=>map
+      .updateIn(['boxData','boxList',boxId,'top'],top=>(top-targetBox.top)*(newTargetBox.height/targetBox.height)+newTargetBox.top)
+      .updateIn(['boxData','boxList',boxId,'left'],left=>(left-targetBox.left)*(newTargetBox.width/targetBox.width)+newTargetBox.left)
+      .updateIn(['boxData','boxList',boxId,'height'],height=>(newTargetBox.height/targetBox.height)*height)
+      .updateIn(['boxData','boxList',boxId,'width'],width=>(newTargetBox.width/targetBox.width)*width)
+    )
+  }
+
+  return newState
 }
 
 const boxReducer = (state = dragInitialState, action) => {
@@ -483,8 +528,8 @@ const boxReducer = (state = dragInitialState, action) => {
 
     case RESIZE_WINDOW: return resizeWindow(state,action)
 
-    case CHANGE_TAB: return changeTab(state,action)
     case CHANGE_PAGE: return changePage(state,action)
+    case CHANGE_PROP: return changeProp(state,action)
 
     default: return state
   }

@@ -122,18 +122,20 @@ export function resizeWindow (screenWidth, screenHeight) {
   }
 }
 
-export const CHANGE_TAB = 'CHAGE_TAB'
 export const CHANGE_PAGE = 'CHAGE_PAGE'
-export function changeTab (tabName, layoutName) {
-  return {
-    type: CHANGE_TAB,
-    tabName: tabName,
-    layoutName: layoutName
-  }
-}
 export function changePage (pageId) {
   return {
     type: CHANGE_PAGE,
     pageId: pageId
+  }
+}
+
+export const CHANGE_PROP = 'CHANGE_PROP'
+export function changeProp (boxId, propName, propValue) {
+  return {
+    type: CHANGE_PROP,
+    boxId: boxId,
+    propName: propName,
+    propValue: propValue
   }
 }

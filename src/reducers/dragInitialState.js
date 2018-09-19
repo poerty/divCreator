@@ -168,9 +168,6 @@ export const dragInitialState = Map({
     screenWidth: typeof window === 'object' ? window.innerWidth : null,
     screenHeight: typeof window === 'object' ? window.innerHeight : null
   }),
-  layoutTabs: Map({
-    right: 'SOURCES'
-  }),
   contextMenu: contextMenuInitialState,
   clipBoard: Map({
     top: 0,

@@ -1,39 +1,28 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { changeTab } from '../actions'
 
 import DragSourceArea from './../components/DragSourceArea/DragSourceArea'
 import EditArea from './../components/EditArea'
+import TabArea from './../components/TabArea'
 
 class LayoutRight extends Component {
-
-  handleTabClick(tabName, e) {
-    e.preventDefault()
-    this.props.tabClick(tabName)
-  }
   render () {
     let style = {
       width: this.props.layout.get('right')
     }
 
-    let tabNames=['SOURCES','COMPONENTS','EDIT']
-    let tabComponents=[(<DragSourceArea/>),(<DragSourceArea/>),(<EditArea/>)]
-    let content=tabComponents[tabNames.indexOf(this.props.tab)]
-    let tabs=tabNames.map((name)=>{
-      let classes="dragSource-tab"+(name===this.props.tab?" selected":"")
-      return (<div className={classes} onClick={this.handleTabClick.bind(this,name)}>{name}</div>)
-    })
+    let tabNames=['GENERAL','CUSTOM','EDIT']
+    let tabContents=[(<DragSourceArea/>),(<DragSourceArea/>),(<EditArea/>)]
     
     return (
       <div
         className='layout layout-right'
-        style={style}
-      >
-        <div className="dragSource-tabs">
-          {tabs}
-        </div>
-        {content}
-        <div>a</div>
+        style={style}>
+        <TabArea 
+          tabContents={tabContents}
+          tabNames={tabNames}
+          tabAreaClassName={"dragSource-tabs"}
+          tabClassName={"dragSource-tab"}/>
       </div>
     )
   }
@@ -41,20 +30,10 @@ class LayoutRight extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    layout: state.boxReducer.get('layout'),
-    tab: state.boxReducer.getIn(['layoutTabs','right'])
+    layout: state.boxReducer.get('layout')
   }
 }
 
-let mapDispatchToProps = (dispatch) => {
-  return {
-    tabClick: (tabName) => {
-      console.log(tabName)
-      dispatch(changeTab(tabName, "right"))
-    }
-  }
-}
-
-LayoutRight = connect(mapStateToProps, mapDispatchToProps)(LayoutRight)
+LayoutRight = connect(mapStateToProps)(LayoutRight)
 
 export default LayoutRight
