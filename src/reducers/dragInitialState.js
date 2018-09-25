@@ -158,6 +158,11 @@ export const dragInitialState = Map({
     5: Map({ id: '5', name: "circle", width: 100, height: 100, dragImgSrc: './img/2.png', borderRadius: '50%' }),
     6: Map({ id: '6', name: "rotate rectangle", width: 200, height: 100, transform: "rotate(90deg)", dragImgSrc: './img/1.png' }),
   }),
+  componentSourceList: Map({
+    // {id:1, top:300, left:50, width:100, height:100},,,,
+    1: Map({ id: '1', name: "rectangle", width: 200, height: 100, dragImgSrc: './img/1.png' }),
+    2: Map({ id: '2', name: "circle", width: 100, height: 100, dragImgSrc: './img/2.png', borderRadius: '50%' }),
+  }),
   
   snapLine: snapLineInitialState,
   layout: Map({

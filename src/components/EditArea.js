@@ -3,38 +3,34 @@ import { connect } from 'react-redux'
 
 import { changeProp } from './../actions'
 
-class PropBox extends Component {
-  constructor (props) {
-    super(props)
-    this.state={"inputValue":this.props.value}
-    this.onChangeHandler=this.onChangeHandler.bind(this)
-  }
-  onChangeHandler (e) {
-    this.setState({"inputValue":e.target.value})
-  }
-  componentWillReceiveProps (nextProps) {
-    this.setState({"inputValue":nextProps.value})
-  }
-  render () {
-    return (
-      <div className="propBox">
-        <input type="text" name={this.props.name} className="input" 
-          value={this.state.inputValue}
-          onChange={this.onChangeHandler} 
-          onBlur={(e)=>this.props.onBlur(this.props.name,e.target.value)}></input>
-        <label className="label" htmlFor={this.props.name}>{this.props.name}</label>
-      </div>
-    )
-  }
-}
+import OnBlurUpdateInput from './OnBlurUpdateInput'
 
 const PropBoxContainer = ({ name, props, onBlur }) => {
+  let containerStyle={
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    margin: "10px",
+    border: "1px solid lightgray",
+    padding: "5px",
+    paddingLeft: "10px"
+  }
+  let titleStyle={
+    color: "darkgray",
+    marginTop: "5px",
+    marginBottom: "5px"
+  }
   return (
-    <div className="propBoxContainer">
-      <div className="editBoxTitle">{name}</div>
-      {props.map((prop)=>
-      <PropBox key={prop[0]} name={prop[0]} value={prop[1]} onBlur={onBlur}/>
-      )}
+    <div style={containerStyle}>
+      <div style={titleStyle}>{name}</div>
+      {props.map((prop)=>{
+        if(["top","left","width","height"].includes(prop[0])){
+          return <OnBlurUpdateInput key={prop[0]} name={prop[0]} type={"number"} value={prop[1]} onBlur={onBlur}/>
+        }
+        else{
+          return <OnBlurUpdateInput key={prop[0]} name={prop[0]} type={"string"} value={prop[1]} onBlur={onBlur}/>
+        }
+      })}
     </div>
   )
 }
@@ -48,7 +44,7 @@ class EditArea extends Component {
     if(this.props.selectedBoxIds.size===1){
       boxId=this.props.selectedBoxIds.get(0)
       let boxInfo=Object.assign({},defaultProps,this.props.boxList.get(boxId).toJS())
-      let layout = Object.keys(boxInfo).forEach((key)=>{
+      Object.keys(boxInfo).forEach((key)=>{
         if(["top","left","width","height"].includes(key)) layoutProps.push([key, boxInfo[key]])
         else if(["background","border"].includes(key)) styleProps.push([key, boxInfo[key]])
       })
