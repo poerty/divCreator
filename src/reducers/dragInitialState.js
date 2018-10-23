@@ -160,7 +160,7 @@ export const dragInitialState = Map({
   }),
   componentSourceList: Map({
     // {id:1, top:300, left:50, width:100, height:100},,,,
-    1: Map({ id: '1', name: "rectangle", width: 200, height: 100, dragImgSrc: './img/1.png' }),
+    1: Map({ id: '1', name: "rectangle", width: 200, height: 100, dragImgSrc: './img/1.png', propList: Map({ width: 200, height: 100, color: "gray",  }) }),
     2: Map({ id: '2', name: "circle", width: 100, height: 100, dragImgSrc: './img/2.png', borderRadius: '50%' }),
   }),
   
