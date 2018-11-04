@@ -5,7 +5,7 @@ import NavArea from './../components/NavArea'
 
 
 class LayoutTop extends Component {
-  render () {
+  render() {
     let style = {
       height: this.props.layout.get('top')
     }
@@ -14,7 +14,7 @@ class LayoutTop extends Component {
         className='layout layout-top'
         style={style}
       >
-        <NavArea/>
+        <NavArea />
       </div>
     )
   }
@@ -22,7 +22,7 @@ class LayoutTop extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    layout: state.boxReducer.get('layout')
+    layout: state.mainReducer.get('layout')
   }
 }
 

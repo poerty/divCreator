@@ -7,7 +7,6 @@ import PageListArea from "../components/PageListArea";
 class LayoutLeft extends Component {
   render() {
     const { left, } = this.props;
-    console.log(this.props);
     const style = {
       width: left,
     };
@@ -25,7 +24,7 @@ LayoutLeft.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  left: state.boxReducer.getIn([ "layout", "left" ,]),
+  left: state.mainReducer.getIn(["layout", "left",]),
 });
 
 LayoutLeft = connect(mapStateToProps)(LayoutLeft);

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { sourceDragEnd } from '../../actions'
 
 class BoxSource extends Component {
-  render () {
+  render() {
     let img = new Image()
     img.style.display = 'none'
     img.src = this.props.style.get('dragImgSrc')
@@ -17,8 +17,8 @@ class BoxSource extends Component {
         onDragStart={this.props.onDragStart.bind(this, this.img)}
         onDragEnd={this.props.onDragEnd.bind(this, this.props.dataKey)}
       >
-        <div className='boxSourceDragImage' style={{backgroundImage: "url("+this.props.style.get('dragImgSrc')+")"}}/>
-        <div style={{marginBottom: '3px'}}>{this.props.style.get('name')}</div>
+        <div className='boxSourceDragImage' style={{ backgroundImage: "url(" + this.props.style.get('dragImgSrc') + ")" }} />
+        <div style={{ marginBottom: '3px' }}>{this.props.style.get('name')}</div>
       </div>
     )
   }
@@ -26,7 +26,7 @@ class BoxSource extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    style: state.boxReducer.getIn(['boxSourceList',ownProps.dataKey])
+    style: state.mainReducer.getIn(['boxSourceList', ownProps.dataKey])
   }
 }
 let mapDispatchToProps = (dispatch) => {

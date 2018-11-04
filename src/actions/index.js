@@ -1,5 +1,5 @@
 export const MOUSE_DOWN = 'MOUSE_DOWN'
-export function mouseDown (id, shift) {
+export function mouseDown(id, shift) {
   return {
     type: MOUSE_DOWN,
     id: id,
@@ -8,7 +8,7 @@ export function mouseDown (id, shift) {
 }
 
 export const SOURCE_DRAG_END = 'SOURCE_DRAG_END'
-export function sourceDragEnd (x, y, id, key) {
+export function sourceDragEnd(x, y, id, key) {
   return {
     type: SOURCE_DRAG_END,
     x: x,
@@ -21,7 +21,7 @@ export function sourceDragEnd (x, y, id, key) {
 export const TARGETBOX_DRAG = 'TARGETBOX_DRAG'
 export const TARGETBOX_DRAG_START = 'TARGETBOX_DRAG_START'
 export const TARGETBOX_DRAG_END = 'TARGETBOX_DRAG_END'
-export function targetBoxDrag (x, y, id) {
+export function targetBoxDrag(x, y, id) {
   return {
     type: TARGETBOX_DRAG,
     x: x,
@@ -29,7 +29,7 @@ export function targetBoxDrag (x, y, id) {
     id: id
   }
 }
-export function targetBoxDragStart (x, y, id) {
+export function targetBoxDragStart(x, y, id) {
   return {
     type: TARGETBOX_DRAG_START,
     x: x,
@@ -37,7 +37,7 @@ export function targetBoxDragStart (x, y, id) {
     id: id
   }
 }
-export function targetBoxDragEnd (e) {
+export function targetBoxDragEnd(e) {
   return {
     type: TARGETBOX_DRAG_END,
     event: e
@@ -47,7 +47,7 @@ export function targetBoxDragEnd (e) {
 export const TARGETBOX_RESIZE = 'TARGETBOX_RESIZE'
 export const TARGETBOX_RESIZE_START = 'TARGETBOX_RESIZE_START'
 export const TARGETBOX_RESIZE_END = 'TARGETBOX_RESIZE_END'
-export function targetBoxResize (x, y, id, direction) {
+export function targetBoxResize(x, y, id, direction) {
   return {
     type: TARGETBOX_RESIZE,
     x: x,
@@ -56,7 +56,7 @@ export function targetBoxResize (x, y, id, direction) {
     direction: direction
   }
 }
-export function targetBoxResizeStart (x, y, id) {
+export function targetBoxResizeStart(x, y, id) {
   return {
     type: TARGETBOX_RESIZE_START,
     x: x,
@@ -64,7 +64,7 @@ export function targetBoxResizeStart (x, y, id) {
     id: id
   }
 }
-export function targetBoxResizeEnd (x, y, id) {
+export function targetBoxResizeEnd(x, y, id) {
   return {
     type: TARGETBOX_RESIZE_END,
     x: x,
@@ -80,50 +80,50 @@ export const COPY_BOX = 'COPY_BOX'
 export const PASTE_BOX = 'PASTE_BOX'
 export const DELETE_BOX = 'DELETE_BOX'
 
-export function contextMenu (x, y) {
+export function contextMenu(x, y) {
   return {
     type: CONTEXT_MENU,
     x: x,
     y: y
   }
 }
-export function makeGroup () {
+export function makeGroup() {
   return {
     type: MAKE_GROUP
   }
 }
-export function unmakeGroup () {
+export function unmakeGroup() {
   return {
     type: UNMAKE_GROUP
   }
 }
-export function copyBox () {
+export function copyBox() {
   return {
     type: COPY_BOX
   }
 }
-export function pasteBox () {
+export function pasteBox() {
   return {
     type: PASTE_BOX
   }
 }
-export function deleteBox () {
+export function deleteBox() {
   return {
     type: DELETE_BOX
   }
 }
 
 export const RESIZE_WINDOW = 'RESIZE_WINDOW'
-export function resizeWindow (screenWidth, screenHeight) {
+export function resizeWindow(width, height) {
   return {
     type: RESIZE_WINDOW,
-    screenWidth: screenWidth,
-    screenHeight: screenHeight
+    width: width,
+    height: height
   }
 }
 
 export const CHANGE_PAGE = 'CHAGE_PAGE'
-export function changePage (pageId) {
+export function changePage(pageId) {
   return {
     type: CHANGE_PAGE,
     pageId: pageId
@@ -131,7 +131,7 @@ export function changePage (pageId) {
 }
 
 export const CHANGE_PROP = 'CHANGE_PROP'
-export function changeProp (boxId, propName, propValue) {
+export function changeProp(boxId, propName, propValue) {
   return {
     type: CHANGE_PROP,
     boxId: boxId,

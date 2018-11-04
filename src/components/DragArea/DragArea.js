@@ -8,19 +8,31 @@ import SnapLines from './SnapLine/SnapLines'
 import ContextMenu from './ContextMenu'
 
 class DragArea extends Component {
-  render () {
-    let boxIds=this.props.boxIds.toJS()
-    let boxList = []
-    for(let boxId of boxIds){
-      boxList.push(<Box key={boxId} dataKey={boxId}/>)
-    }
+  constructor(props) {
+    super(props)
+
+    this.onMouseDownHandler = this.onMouseDownHandler.bind(this)
+    this.onContextMenuHandler = this.onContextMenuHandler.bind(this)
+  }
+  onMouseDownHandler(e) {
+    const { onMouseDown } = this.props
+    onMouseDown(e.target.id, e.shiftKey)
+  }
+  onContextMenuHandler(e) {
+    const { onContextMenu } = this.props
+    onContextMenu(e.clientX, e.clientY)
+    e.preventDefault()
+  }
+  render() {
+    const boxIds = this.props.boxIds.toJS()
+    const boxList = boxIds.map((boxId) => (<Box key={boxId} dataKey={boxId} />))
     boxList.push(<TargetBox key={-1} id={0} />)
     return (
       <div
         id='dragArea'
         className='area'
-        onMouseDown={this.props.onMouseDown.bind(this)}
-        onContextMenu={this.props.onContextMenu.bind(this)} >
+        onMouseDown={this.onMouseDownHandler}
+        onContextMenu={this.onContextMenuHandler} >
         <SnapLines />
         {boxList}
         <ContextMenu />
@@ -31,18 +43,13 @@ class DragArea extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    boxIds: state.boxReducer.getIn(['boxData','boxIds']),
+    boxIds: state.mainReducer.getIn(['boxs', 'ids']),
   }
 }
 let mapDispatchToProps = (dispatch) => {
   return {
-    onMouseDown: (e) => {
-      dispatch(mouseDown(e.target.id, e.shiftKey))
-    },
-    onContextMenu: (e) => {
-      dispatch(contextMenu(e.clientX, e.clientY))
-      e.preventDefault()
-    }
+    onMouseDown: (targetId, shiftKey) => dispatch(mouseDown(targetId, shiftKey)),
+    onContextMenu: (x, y) => dispatch(contextMenu(x, y))
   }
 }
 

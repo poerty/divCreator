@@ -4,10 +4,10 @@ import { connect } from 'react-redux'
 import PageLink from './PageLink'
 
 class PageListArea extends Component {
-  render () {
+  render() {
     let pageList = []
-    this.props.pageList.forEach((page,id)=>{
-      pageList.push(<PageLink key={"page"+id} pageId={id} pageName={page.get('pageName')}/>)
+    this.props.pageList.forEach((page, id) => {
+      pageList.push(<PageLink key={"page" + id} pageId={id} pageName={page.get('pageName')} />)
     })
     return (
       <div id='pageListArea' className=''>
@@ -25,7 +25,7 @@ class PageListArea extends Component {
 
 let mapStateToProps = (state) => {
   return {
-    pageList: state.boxReducer.get('pageList')
+    pageList: state.mainReducer.get('pageList')
   }
 }
 

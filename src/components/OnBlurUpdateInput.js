@@ -1,51 +1,51 @@
 import React, { Component } from 'react'
 
 class OnBlurUpdateInput extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
-    this.state={"inputValue":this.props.value}
-    this.onChangeHandler=this.onChangeHandler.bind(this)
-    this.onKeyDownHandler=this.onKeyDownHandler.bind(this)
+    this.state = { "inputValue": this.props.value }
+    this.onChangeHandler = this.onChangeHandler.bind(this)
+    this.onKeyDownHandler = this.onKeyDownHandler.bind(this)
   }
-  onKeyDownHandler (e) {
-    if(this.props.type==="string") return
-    switch(e.keyCode){
-      case 37:{//left
+  onKeyDownHandler(e) {
+    if (this.props.type === "string") return
+    switch (e.keyCode) {
+      case 37: {//left
         break
       }
-      case 38:{//up
-        this.props.onBlur(this.props.name,parseInt(e.target.value,10)+1)
+      case 38: {//up
+        this.props.onBlur(this.props.name, parseInt(e.target.value, 10) + 1)
         break
       }
-      case 39:{//right
+      case 39: {//right
         break
       }
-      case 40:{//down
-        this.props.onBlur(this.props.name,parseInt(e.target.value,10)-1)
+      case 40: {//down
+        this.props.onBlur(this.props.name, parseInt(e.target.value, 10) - 1)
         break
       }
-      default:{
+      default: {
         break
       }
     }
   }
-  onChangeHandler (e) {
-    this.setState({"inputValue":e.target.value})
+  onChangeHandler(e) {
+    this.setState({ "inputValue": e.target.value })
   }
-  componentWillReceiveProps (nextProps) {
-    this.setState({"inputValue":nextProps.value})
+  componentWillReceiveProps(nextProps) {
+    this.setState({ "inputValue": nextProps.value })
   }
-  render () {
-    let inputStyle={
-      width:"55px"
+  render() {
+    let inputStyle = {
+      width: "55px"
     }
-    let labelStyle={
-      order:"-1"
+    let labelStyle = {
+      order: "-1"
     }
-    let containerStyle={
-      display:"flex",
-      flexDirection:"row",
-      justifyContent:"space-between",
+    let containerStyle = {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
       alignItems: "center"
     }
     return (
@@ -54,7 +54,7 @@ class OnBlurUpdateInput extends Component {
           value={this.state.inputValue}
           onKeyDown={this.onKeyDownHandler}
           onChange={this.onChangeHandler}
-          onBlur={(e)=>this.props.onBlur(this.props.name,e.target.value)}></input>
+          onBlur={(e) => this.props.onBlur(this.props.name, e.target.value)}></input>
         <label style={labelStyle} htmlFor={this.props.name}>{this.props.name}</label>
       </div>
     )

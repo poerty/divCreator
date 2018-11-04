@@ -6,7 +6,7 @@ import LayoutLeft from './LayoutLeft'
 import LayoutRight from './LayoutRight'
 
 class LayoutMiddle extends Component {
-  render () {
+  render() {
     let style = {
       top: this.props.layout.get('top'),
       bottom: this.props.layout.get('bottom')
@@ -16,9 +16,9 @@ class LayoutMiddle extends Component {
         className='layout layout-middle'
         style={style}
       >
-        <LayoutMain/>
-        <LayoutLeft/>
-        <LayoutRight/>
+        <LayoutMain />
+        <LayoutLeft />
+        <LayoutRight />
       </div>
     )
   }
@@ -26,7 +26,7 @@ class LayoutMiddle extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    layout: state.boxReducer.get('layout')
+    layout: state.mainReducer.get('layout')
   }
 }
 

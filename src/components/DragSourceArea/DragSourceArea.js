@@ -4,10 +4,10 @@ import { connect } from 'react-redux'
 import BoxSource from './BoxSource'
 
 class DragSourceArea extends Component {
-  render () {
+  render() {
     let boxSourceList = []
     for (let boxSourceId in this.props.boxSourceList.toJS()) {
-      boxSourceList.push(<BoxSource key={boxSourceId} dataKey={boxSourceId}/>)
+      boxSourceList.push(<BoxSource key={boxSourceId} dataKey={boxSourceId} />)
     }
     return (
       <div id='dragSourceArea' className='source-area area'>
@@ -21,7 +21,7 @@ class DragSourceArea extends Component {
 
 let mapStateToProps = (state) => {
   return {
-    boxSourceList: state.boxReducer.get('boxSourceList')
+    boxSourceList: state.mainReducer.get('boxSourceList')
   }
 }
 

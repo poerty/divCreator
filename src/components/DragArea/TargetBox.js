@@ -5,20 +5,35 @@ import { targetBoxDrag, targetBoxDragStart, targetBoxDragEnd } from '../../actio
 import Resizers from './Resizer/Resizers'
 
 class TargetBox extends Component {
-  render () {
-    let img = new Image()
+  constructor(props) {
+    super(props)
+
+    const img = new Image()
     img.style.display = 'none'
     img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='
     this.img = img
-
-    let targetBox=this.props.targetBox.toJS()
-    let style = {
-      width: targetBox.width,
-      height: targetBox.height,
-      top: targetBox.top,
-      left: targetBox.left,
-      position: 'absolute'
-    }
+    this.onDragHandler = this.onDragHandler.bind(this)
+    this.onDragStartHandler = this.onDragStartHandler.bind(this)
+    this.onDragEndHandler = this.onDragEndHandler.bind(this)
+  }
+  onDragHandler(e) {
+    const { onDrag } = this.props
+    onDrag(e.clientX, e.clientY, e.target.id)
+  }
+  onDragStartHandler(e) {
+    const { onDragStart } = this.props
+    e.dataTransfer.setDragImage(this.img, 0, 0)
+    onDragStart(e.clientX, e.clientY, e.target.id)
+  }
+  onDragEndHandler(e) {
+    const { onDragEnd } = this.props
+    onDragEnd()
+  }
+  render() {
+    const targetBox = this.props.targetBox.toJS()
+    const { top, left, width, height } = targetBox
+    const style = { top, left, width, height }
+    style.position = 'absolute'
     return (
       <div
         id={this.props.id}
@@ -26,9 +41,9 @@ class TargetBox extends Component {
         draggable='true'
         style={style}
 
-        onDrag={this.props.onDrag.bind(this)}
-        onDragStart={this.props.onDragStart.bind(this, this.img)}
-        onDragEnd={this.props.onDragEnd.bind(this)}>
+        onDrag={this.onDragHandler}
+        onDragStart={this.onDragStartHandler}
+        onDragEnd={this.onDragEndHandler}>
 
         <Resizers />
       </div>
@@ -38,17 +53,14 @@ class TargetBox extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    targetBox: state.boxReducer.get('targetBox')
+    targetBox: state.mainReducer.get('targetBox')
   }
 }
 let mapDispatchToProps = (dispatch) => {
   return {
-    onDrag: (e) => dispatch(targetBoxDrag(e.clientX, e.clientY, e.target.id)),
-    onDragStart: (img, e) => {
-      e.dataTransfer.setDragImage(img, 0, 0)
-      dispatch(targetBoxDragStart(e.clientX, e.clientY, e.target.id))
-    },
-    onDragEnd: (e) => dispatch(targetBoxDragEnd(e))
+    onDrag: (x, y, targetId) => dispatch(targetBoxDrag(x, y, targetId)),
+    onDragStart: (x, y, targetId) => dispatch(targetBoxDragStart(x, y, targetId)),
+    onDragEnd: () => dispatch(targetBoxDragEnd())
   }
 }
 

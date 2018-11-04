@@ -24,7 +24,7 @@ LayoutMain.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  layout: state.boxReducer.get("layout"),
+  layout: state.mainReducer.get("layout"),
 });
 
 LayoutMain = connect(mapStateToProps)(LayoutMain);

@@ -3,29 +3,38 @@ import { connect } from 'react-redux'
 import { mouseDown } from '../../actions'
 
 class Box extends Component {
-  render () {
+  constructor(props) {
+    super(props)
+
+    this.onMouseDownHandler = this.onMouseDownHandler.bind(this)
+  }
+  onMouseDownHandler(e) {
+    const { onMouseDown, dataKey } = this.props
+    onMouseDown(dataKey + '', e.shiftKey)
+    e.stopPropagation()
+  }
+  render() {
+    const style = this.props.style.toJS()
+    const dataKey = this.props.dataKey
     return (
       <div
-        id={this.props.dataKey}
+        id={dataKey}
         className='box'
-        style={this.props.style.toJS()}
+        style={style}
 
-        onMouseDown={this.props.onMouseDown.bind(this, this.props.dataKey)} />
+        onMouseDown={this.onMouseDownHandler} />
     )
   }
 }
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    style: state.boxReducer.getIn(['boxData','boxList',ownProps.dataKey])
+    style: state.mainReducer.getIn(['boxs', 'byId', ownProps.dataKey])
   }
 }
 let mapDispatchToProps = (dispatch) => {
   return {
-    onMouseDown: (id, e) => {
-      dispatch(mouseDown(id + '', e.shiftKey))
-      e.stopPropagation()
-    }
+    onMouseDown: (id, shiftKey) => dispatch(mouseDown(id, shiftKey))
   }
 }
 

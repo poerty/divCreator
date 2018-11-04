@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 class SnapLine extends Component {
-  render () {
+  render() {
     let styles = {}
     if (this.props.dataKey === 'top' || this.props.dataKey === 'bottom' || this.props.dataKey === 'topBottom') {
       styles.width = '100%'
@@ -20,7 +20,7 @@ class SnapLine extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    locate: state.boxReducer.getIn(['snapLine',ownProps.dataKey])
+    locate: state.mainReducer.getIn(['snapLine', ownProps.dataKey])
   }
 }
 

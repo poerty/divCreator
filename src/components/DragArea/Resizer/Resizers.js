@@ -3,13 +3,15 @@ import React, { Component } from 'react'
 import Resizer from './Resizer'
 
 class Resizers extends Component {
-  render () {
+  render() {
+    const resizerSize = 8
+
     return (
       <div>
-        <Resizer dataKey='top' />
-        <Resizer dataKey='bottom' />
-        <Resizer dataKey='left' />
-        <Resizer dataKey='right' />
+        <Resizer dataKey='top' resizerSize={resizerSize} />
+        <Resizer dataKey='bottom' resizerSize={resizerSize} />
+        <Resizer dataKey='left' resizerSize={resizerSize} />
+        <Resizer dataKey='right' resizerSize={resizerSize} />
       </div>
     )
   }

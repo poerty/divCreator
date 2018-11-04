@@ -6,23 +6,23 @@ import EditArea from './../components/EditArea'
 import TabArea from './../components/TabArea'
 
 class LayoutRight extends Component {
-  render () {
+  render() {
     let style = {
       width: this.props.layout.get('right')
     }
 
-    let tabNames=['GENERAL','CUSTOM','EDIT']
-    let tabContents=[(<DragSourceArea/>),(<DragSourceArea/>),(<EditArea/>)]
-    
+    let tabNames = ['GENERAL', 'CUSTOM', 'EDIT']
+    let tabContents = [(<DragSourceArea />), (<DragSourceArea />), (<EditArea />)]
+
     return (
       <div
         className='layout layout-right'
         style={style}>
-        <TabArea 
+        <TabArea
           tabContents={tabContents}
           tabNames={tabNames}
           tabAreaClassName={"dragSource-tabs"}
-          tabClassName={"dragSource-tab"}/>
+          tabClassName={"dragSource-tab"} />
       </div>
     )
   }
@@ -30,7 +30,7 @@ class LayoutRight extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    layout: state.boxReducer.get('layout')
+    layout: state.mainReducer.get('layout')
   }
 }
 

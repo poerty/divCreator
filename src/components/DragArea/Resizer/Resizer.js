@@ -3,30 +3,61 @@ import { connect } from 'react-redux'
 import { targetBoxResize, targetBoxResizeStart, targetBoxResizeEnd } from '../../../actions'
 
 class Resizer extends Component {
-  render () {
-    let resizerSize = 8
-    let style = {
+  constructor(props) {
+    super(props)
+
+    const img = new Image()
+    img.style.display = 'none'
+    img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='
+    this.img = img
+    this.onDragHandler = this.onDragHandler.bind(this)
+    this.onDragStartHandler = this.onDragStartHandler.bind(this)
+    this.onDragEndHandler = this.onDragEndHandler.bind(this)
+  }
+  onDragHandler(e) {
+    const { onDrag } = this.props
+    e.stopPropagation()
+    onDrag(e.clientX, e.clientY, e.target.id)
+  }
+  onDragStartHandler(e) {
+    const { onDragStart } = this.props
+    e.dataTransfer.setDragImage(this.img, 0, 0)
+    e.stopPropagation()
+    onDragStart(e.clientX, e.clientY, e.target.id)
+  }
+  onDragEndHandler(e) {
+    const { onDragEnd } = this.props
+    e.stopPropagation()
+    onDragEnd()
+  }
+  render() {
+    const { dataKey, resizerSize } = this.props
+    const style = {
       width: resizerSize,
       height: resizerSize,
       position: 'absolute',
       border: '1px solid black',
       background: 'white'
     }
-    switch (this.props.dataKey) {
+    const locate = -(resizerSize + 2) / 2
+    const margin = -resizerSize / 2
+    switch (dataKey) {
       case 'top': {
-        style = { ...style, ...{ top: -(resizerSize + 2) / 2, left: '50%', marginLeft: -4 } }
-        break
+        style.top = locate;
       }
       case 'bottom': {
-        style = { ...style, ...{ bottom: -(resizerSize + 2) / 2, left: '50%', marginLeft: -4 } }
+        style.bottom = locate;
+        style.left = '50%';
+        style.marginLeft = margin
         break
       }
       case 'left': {
-        style = { ...style, ...{ top: '50%', left: -(resizerSize + 2) / 2, marginTop: -4 } }
-        break
+        style.left = locate;
       }
       case 'right': {
-        style = { ...style, ...{ top: '50%', right: -(resizerSize + 2) / 2, marginTop: -4 } }
+        style.right = locate;
+        style.top = '50%';
+        style.marginTop = margin;
         break
       }
       default: {
@@ -36,24 +67,24 @@ class Resizer extends Component {
 
     return (
       <div
-        id={this.props.dataKey + 'Resizer'}
+        id={dataKey + 'Resizer'}
         className='box resizer'
         style={style}
 
         draggable
 
-        onDrag={this.props.onDrag.bind(this)}
-        onDragStart={this.props.onDragStart.bind(this)}
-        onDragEnd={this.props.onDragEnd.bind(this)} />
+        onDrag={this.onDragHandler}
+        onDragStart={this.onDragStartHandler}
+        onDragEnd={this.onDragEndHandler} />
     )
   }
 }
 
 let mapDispatchToProps = (dispatch) => {
   return {
-    onDrag: (e) => dispatch(targetBoxResize(e.clientX, e.clientY, e.target.id)),
-    onDragStart: (e) => dispatch(targetBoxResizeStart(e.clientX, e.clientY, e.target.id)),
-    onDragEnd: (e) => dispatch(targetBoxResizeEnd(e.clientX, e.clientY, e.target.id))
+    onDrag: (x, y, id) => dispatch(targetBoxResize(x, y, id)),
+    onDragStart: (x, y, id) => dispatch(targetBoxResizeStart(x, y, id)),
+    onDragEnd: () => dispatch(targetBoxResizeEnd())
   }
 }
 
