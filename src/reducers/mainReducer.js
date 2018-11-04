@@ -85,8 +85,6 @@ const targetBoxDrag = (state, action) => {
   const leftDiff = targetBox.realLeft - targetBox.left;
 
   const targetBoxIds = state.getIn(["targetBox", "ids"])
-  const targetBoxs = state.getIn(["boxs", "byId"])
-    .filter(box => targetBoxIds.includes(box.get('id')))
   const nonTargetBoxs = state.getIn(["boxs", "byId"])
     .filter(box => !targetBoxIds.includes(box.get('id')))
   const ret = checkSnapDrag(
@@ -237,10 +235,9 @@ const targetBoxResize = (state, action) => {
   }
   newTargetBox = newTargetBox.set("x", x).set("y", y)
 
-  newTargetBox = newTargetBox.toJS();
   return state.withMutations(map =>
     map
-      .set("targetBox", Map(newTargetBox))
+      .set("targetBox", newTargetBox)
       .setIn(["snapLine", "top",], ret.top.line)
       .setIn(["snapLine", "bottom",], ret.bottom.line)
       .setIn(["snapLine", "topBottom",], ret.topBottom.line)
@@ -252,14 +249,10 @@ const targetBoxResize = (state, action) => {
         {
           ...action,
           _boxIds: targetBoxIds,
-          props: {
-            'left': left => (left - targetBox.left) * (newTargetBox.width / targetBox.width) + newTargetBox.left,
-            'top': top => (top - targetBox.top) * (newTargetBox.height / targetBox.height) + newTargetBox.top,
-            'width': width => (newTargetBox.width / targetBox.width) * width,
-            'height': height => (newTargetBox.height / targetBox.height) * height,
-          }
-        })
-      )
+          targetBox,
+          newTargetBox: newTargetBox.toJS()
+        }
+      ))
   );
 };
 const targetBoxResizeEnd = (state, action) => {
@@ -406,9 +399,6 @@ const contextMenu = (state, action) => {
   };
 
   const childBoxIds = state.getIn(["targetBox", "childIds"])
-
-
-  console.log("childBoxIds", childBoxIds)
   if (childBoxIds.size === 1) {
     const id = childBoxIds.get(0)
     if (state.getIn(["boxs", "byId", id]).get("childIds").size !== 0) {
@@ -459,64 +449,47 @@ const changePage = (state, action) => {
   );
 };
 const changeProp = (state, action) => {
-  const targetBox = state.get("targetBox").toJS();
+  const { propName, propValue } = action
+  if (!['left', 'top', 'width', 'height', 'background', 'border'].includes(propName))
+    return state
+  if (['background', 'border'].includes(propName)) {
+    return state.set('boxs', boxsReducer(
+      state.get('boxs'),
+      {
+        ...action,
+        _boxIds: state.getIn(['targetBox', 'childIds']),
+        props: { [propName]: propName => propValue }
+      }
+    ))
+  }
 
+  const targetBox = state.get("targetBox").toJS();
+  const targetBoxIds = state.getIn(['targetBox', 'ids'])
   const layoutPropToRealName = (name) => {
     switch (name) {
-      case "top": return "realTop"
       case "left": return "realLeft"
+      case "top": return "realTop"
       case "width": return "realWidth"
       case "height": return "realHeight"
       default: return name
     }
   }
-  let newState = state.withMutations(map =>
+  const newTargetBox = state.get("targetBox")
+    .set(propName, propValue)
+    .set(layoutPropToRealName(propName), propValue)
+  return state.withMutations(map =>
     map
-      .setIn(["targetBox", action.propName], action.propValue)
-      .setIn(["targetBox", layoutPropToRealName(action.propName)], action.propValue)
+      .set("targetBox", newTargetBox)
+      .set('boxs', boxsReducer(
+        state.get('boxs'),
+        {
+          ...action,
+          _boxIds: targetBoxIds,
+          targetBox,
+          newTargetBox: newTargetBox.toJS()
+        }
+      ))
   )
-  const newTargetBox = newState.get("targetBox").toJS();
-  const allSelectedBoxIds = newState.getIn(["targetBox", "ids"]).toJS();
-  if (layoutPropToRealName(action.propName) !== action.propName) {
-    allSelectedBoxIds.forEach((boxId) => {
-      newState = newState.withMutations(map =>
-        map
-          .updateIn(
-            ["boxs", "byId", boxId, "top",],
-            top =>
-              (top - targetBox.top) * (newTargetBox.height / targetBox.height) +
-              newTargetBox.top
-          )
-          .updateIn(
-            ["boxs", "byId", boxId, "left",],
-            left =>
-              (left - targetBox.left) * (newTargetBox.width / targetBox.width) +
-              newTargetBox.left
-          )
-          .updateIn(
-            ["boxs", "byId", boxId, "height",],
-            height => (newTargetBox.height / targetBox.height) * height
-          )
-          .updateIn(
-            ["boxs", "byId", boxId, "width",],
-            width => (newTargetBox.width / targetBox.width) * width
-          )
-      );
-    })
-  }
-  else {
-    allSelectedBoxIds.forEach((boxId) => {
-      newState = newState.withMutations(map =>
-        map
-          .setIn(
-            ["boxs", "byId", boxId, action.propName,],
-            action.propValue
-          )
-      );
-    })
-  }
-
-  return newState;
 };
 
 const mainReducer = (state = dragInitialState, action) => {

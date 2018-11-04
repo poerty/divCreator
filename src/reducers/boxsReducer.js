@@ -44,7 +44,13 @@ const deleteBoxs = (state, action) => {
 }
 
 const updateBoxs = (state, action) => {
-  const { _boxIds, props } = action
+  const { _boxIds, props = {}, targetBox, newTargetBox } = action
+  if (targetBox && newTargetBox) {
+    props.left = left => (left - targetBox.left) * (newTargetBox.width / targetBox.width) + newTargetBox.left
+    props.top = top => (top - targetBox.top) * (newTargetBox.height / targetBox.height) + newTargetBox.top
+    props.width = width => (newTargetBox.width / targetBox.width) * width
+    props.height = height => (newTargetBox.height / targetBox.height) * height
+  }
   return state.withMutations(map => {
     _boxIds.forEach(id => {
       Object.keys(props).forEach(propName => {
@@ -83,8 +89,8 @@ const boxsReducer = (state = boxsInitialState, action) => {
 
     // case ActionTypes.CHANGE_PAGE:
     //   return changePage(state, action);
-    // case ActionTypes.CHANGE_PROP:
-    //   return changeProp(state, action);
+    case ActionTypes.CHANGE_PROP:
+      return updateBoxs(state, action);
 
     default:
       return state;
