@@ -1,7 +1,6 @@
 import React, { Component, } from "react";
 import { connect, } from "react-redux";
 import PropTypes from "prop-types";
-import { Map, } from "immutable";
 import PageListArea from "../components/PageListArea";
 
 class LayoutLeft extends Component {

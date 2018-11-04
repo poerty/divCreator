@@ -131,8 +131,8 @@ const targetBoxDrag = (state, action) => {
             'top': top => top + dragAmount.top + topDiff + topDiff2,
             'left': left => left + dragAmount.left + leftDiff + leftDiff2
           }
-        })
-      )
+        }
+      ))
   );
 };
 const targetBoxDragEnd = (state, action) => {

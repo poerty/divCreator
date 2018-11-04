@@ -71,11 +71,9 @@ const boxsReducer = (state = boxsInitialState, action) => {
     case ActionTypes.UNMAKE_GROUP:
       return deleteBox(state, action);
 
-    // // target box delete/copy/paste
+    // target box delete/copy/paste
     case ActionTypes.DELETE_BOX:
       return deleteBoxs(state, action);
-    // case ActionTypes.COPY_BOX:
-    //   return copyBox(state, action);
     case ActionTypes.PASTE_BOX:
       return addBoxs(state, action);
 
@@ -87,8 +85,6 @@ const boxsReducer = (state = boxsInitialState, action) => {
     case ActionTypes.TARGETBOX_RESIZE:
       return updateBoxs(state, action);
 
-    // case ActionTypes.CHANGE_PAGE:
-    //   return changePage(state, action);
     case ActionTypes.CHANGE_PROP:
       return updateBoxs(state, action);
 
