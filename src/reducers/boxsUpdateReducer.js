@@ -1,10 +1,8 @@
-import { List, Map } from "immutable";
+import { Map } from "immutable";
 
 import * as ActionTypes from "../actions";
 
-import { boxsInitialState } from "./dragInitialState";
-
-const createBox = (state, action) => {
+const createBox = action => state => {
   const { _id, _childIds = [], newBox } = action
   newBox.id = _id
   newBox.childIds = _childIds
@@ -15,21 +13,21 @@ const createBox = (state, action) => {
     .setIn(['byId', _id], Map(newBox))
 }
 
-const addBoxs = (state, action) => {
+const addBoxs = action => state => {
   const { _byId, _ids } = action
   return state
     .update('ids', ids => ids.concat(_ids))
     .update('byId', byId => byId.concat(_byId))
 }
 
-const deleteBox = (state, action) => {
+const deleteBox = action => state => {
   const { _boxId } = action
   return state
     .updateIn(["ids",], ids => ids.filter(id => id !== _boxId))
     .deleteIn(["byId", _boxId,])
 }
 
-const deleteBoxs = (state, action) => {
+const deleteBoxs = action => state => {
   const { _boxIds } = action
   return state
     .updateIn(["ids",], ids => ids.filter(value => !_boxIds.includes(value)))
@@ -43,7 +41,7 @@ const deleteBoxs = (state, action) => {
     )
 }
 
-const updateBoxs = (state, action) => {
+const updateBoxs = action => state => {
   const { _boxIds, props = {}, targetBox, newTargetBox } = action
   if (targetBox && newTargetBox) {
     props.left = left => (left - targetBox.left) * (newTargetBox.width / targetBox.width) + newTargetBox.left
@@ -60,37 +58,37 @@ const updateBoxs = (state, action) => {
   })
 }
 
-const boxsReducer = (state = boxsInitialState, action) => {
+const boxsUpdateReducer = (action) => {
   switch (action.type) {
     case ActionTypes.SOURCE_DRAG_END:
-      return createBox(state, action);
+      return createBox(action);
 
     // target box grouping
     case ActionTypes.MAKE_GROUP:
-      return createBox(state, action);
+      return createBox(action);
     case ActionTypes.UNMAKE_GROUP:
-      return deleteBox(state, action);
+      return deleteBox(action);
 
     // target box delete/copy/paste
     case ActionTypes.DELETE_BOX:
-      return deleteBoxs(state, action);
+      return deleteBoxs(action);
     case ActionTypes.PASTE_BOX:
-      return addBoxs(state, action);
+      return addBoxs(action);
 
     // target box drag
     case ActionTypes.TARGETBOX_DRAG:
-      return updateBoxs(state, action);
+      return updateBoxs(action);
 
     // target box resize
     case ActionTypes.TARGETBOX_RESIZE:
-      return updateBoxs(state, action);
+      return updateBoxs(action);
 
     case ActionTypes.CHANGE_PROP:
-      return updateBoxs(state, action);
+      return updateBoxs(action);
 
     default:
-      return state;
+      return state => state;
   }
 };
 
-export default boxsReducer;
+export default boxsUpdateReducer;

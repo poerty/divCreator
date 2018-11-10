@@ -73,6 +73,7 @@ class Resizer extends Component {
 
         draggable
 
+        onMouseDown={(e) => e.stopPropagation()}
         onDrag={this.onDragHandler}
         onDragStart={this.onDragStartHandler}
         onDragEnd={this.onDragEndHandler} />
