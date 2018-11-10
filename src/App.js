@@ -7,13 +7,12 @@ import LayoutTop from './layouts/LayoutTop';
 import LayoutBottom from './layouts/LayoutBottom';
 
 class App extends Component {
-
   render() {
     return (
       <div>
-        <LayoutTop/>
-        <LayoutMiddle/>
-        <LayoutBottom/>
+        <LayoutTop />
+        <LayoutMiddle />
+        <LayoutBottom />
       </div>
     );
   }

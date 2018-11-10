@@ -1,15 +1,15 @@
-import React, { Component, } from "react";
-import { connect, } from "react-redux";
-import PropTypes from "prop-types";
-import { Map, } from "immutable";
-import DragArea from "../components/DragArea/DragArea";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Map } from 'immutable';
+import DragArea from '../components/DragArea/DragArea';
 
 class LayoutMain extends Component {
   render() {
-    const { left, right, } = this.props.layout.toObject();
+    const { left, right } = this.props.layout.toObject();
     const style = {
       left: left,
-      right: right,
+      right: right
     };
     return (
       <div className="layout layout-main" style={style}>
@@ -20,13 +20,11 @@ class LayoutMain extends Component {
 }
 
 LayoutMain.propTypes = {
-  layout: PropTypes.instanceOf(Map).isRequired,
+  layout: PropTypes.instanceOf(Map).isRequired
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  layout: state.mainReducer.get("layout"),
+  layout: state.mainReducer.get('layout')
 });
 
-LayoutMain = connect(mapStateToProps)(LayoutMain);
-
-export default LayoutMain;
+export default connect(mapStateToProps)(LayoutMain);

@@ -1,0 +1,66 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true
+  },
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": ["react"],
+  "rules": {
+    "indent": ["error", 2],
+    "linebreak-style": ["error", "unix"],
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"],
+    "max-len": [1, 120, 2, { "ignoreComments": true }],
+    "react/jsx-sort-props": 0,
+    "react/jsx-sort-prop-types": 0,
+    "react/jsx-uses-react": 2,
+    "react/jsx-uses-vars": 2,
+    "react/no-did-mount-set-state": 2,
+    "react/no-did-update-set-state": 2,
+    "react/no-multi-comp": 2,
+    "react/no-unknown-property": 2,
+    "react/prop-types": 2,
+    "react/react-in-jsx-scope": 2,
+    "react/self-closing-comp": 2,
+    "react/jsx-wrap-multilines": 2,
+    "react/sort-comp": [
+      2,
+      {
+        "order": [
+          "displayName",
+          "propTypes",
+          "contextTypes",
+          "childContextTypes",
+          "mixins",
+          "statics",
+          "defaultProps",
+          "/^_(?!(on|get|render))/",
+          "constructor",
+          "getDefaultProps",
+          "getInitialState",
+          "state",
+          "getChildContext",
+          "componentWillMount",
+          "componentDidMount",
+          "componentWillReceiveProps",
+          "shouldComponentUpdate",
+          "componentWillUpdate",
+          "componentDidUpdate",
+          "componentWillUnmount",
+          "/^_?on.+$/",
+          "/^_?get.+$/",
+          "/^_?render.+$/",
+          "render"
+        ]
+      }
+    ]
+  }
+}
