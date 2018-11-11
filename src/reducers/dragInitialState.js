@@ -151,6 +151,7 @@ export const dragInitialState = Map({
       }),
     }),
     2: Map({
+      pageId: '2',
       pageName: 'page 2',
       boxs: Map({
         ids: List(['1112', '1113']),

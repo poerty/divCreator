@@ -11,7 +11,7 @@ class PageListArea extends Component {
       pageList.push(
         <PageLink
           key={'page' + id}
-          pageId={Number(id)}
+          pageId={id}
           pageName={page.get('pageName')}
         />
       );

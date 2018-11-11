@@ -46,12 +46,8 @@ const deleteBoxs = action => state => {
 const updateBoxs = action => state => {
   const { _boxIds, props = {}, targetBox, newTargetBox } = action;
   if (targetBox && newTargetBox) {
-    props.left = left =>
-      (left - targetBox.left) * (newTargetBox.width / targetBox.width) +
-      newTargetBox.left;
-    props.top = top =>
-      (top - targetBox.top) * (newTargetBox.height / targetBox.height) +
-      newTargetBox.top;
+    props.left = left => (left - targetBox.left) * (newTargetBox.width / targetBox.width) + newTargetBox.left;
+    props.top = top => (top - targetBox.top) * (newTargetBox.height / targetBox.height) + newTargetBox.top;
     props.width = width => (newTargetBox.width / targetBox.width) * width;
     props.height = height => (newTargetBox.height / targetBox.height) * height;
   }

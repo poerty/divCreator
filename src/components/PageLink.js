@@ -18,7 +18,7 @@ class PageLink extends Component {
 }
 
 PageLink.propTypes = {
-  pageId: PropTypes.number.isRequired,
+  pageId: PropTypes.string.isRequired,
   pageName: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
