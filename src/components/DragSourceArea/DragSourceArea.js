@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component, } from 'react';
+import { connect, } from 'react-redux';
 
 import BoxSource from './BoxSource';
 
@@ -10,8 +10,8 @@ class DragSourceArea extends Component {
       boxSourceList.push(<BoxSource key={boxSourceId} dataKey={boxSourceId} />);
     }
     return (
-      <div id="dragSourceArea" className="source-area area">
-        <div className="dragSource-boxs">{boxSourceList}</div>
+      <div id='dragSourceArea' className='source-area area'>
+        <div className='dragSource-boxs'>{boxSourceList}</div>
       </div>
     );
   }
@@ -19,7 +19,7 @@ class DragSourceArea extends Component {
 
 let mapStateToProps = state => {
   return {
-    boxSourceList: state.mainReducer.get('boxSourceList')
+    boxSourceList: state.mainReducer.get('boxSourceList'),
   };
 };
 

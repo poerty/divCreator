@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component, } from 'react';
+import { connect, } from 'react-redux';
 import {
   makeGroup,
   unmakeGroup,
   copyBox,
   pasteBox,
-  deleteBox
+  deleteBox,
 } from '../../actions';
 
 class ContextMenu extends Component {
@@ -19,27 +19,27 @@ class ContextMenu extends Component {
     this.deleteClickHandler = this.deleteClickHandler.bind(this);
   }
   groupClickHandler(e) {
-    const { groupClick } = this.props;
+    const { groupClick, } = this.props;
     groupClick();
     e.stopPropagation();
   }
   ungroupClickHandler(e) {
-    const { ungroupClick } = this.props;
+    const { ungroupClick, } = this.props;
     ungroupClick();
     e.stopPropagation();
   }
   copyClickHandler(e) {
-    const { copyClick } = this.props;
+    const { copyClick, } = this.props;
     copyClick();
     e.stopPropagation();
   }
   pasteClickHandler(e) {
-    const { pasteClick } = this.props;
+    const { pasteClick, } = this.props;
     pasteClick();
     e.stopPropagation();
   }
   deleteClickHandler(e) {
-    const { deleteClick } = this.props;
+    const { deleteClick, } = this.props;
     deleteClick();
     e.stopPropagation();
   }
@@ -61,7 +61,7 @@ class ContextMenu extends Component {
     }
 
     return (
-      <div style={style} className="contextMenu">
+      <div style={style} className='contextMenu'>
         <div
           className={optionList['group']}
           onMouseDown={this.groupClickHandler}
@@ -102,16 +102,16 @@ class ContextMenu extends Component {
 let mapStateToProps = (state, ownProps) => {
   return {
     style: state.mainReducer.get('contextMenu').get('style'),
-    options: state.mainReducer.get('contextMenu').get('options')
+    options: state.mainReducer.get('contextMenu').get('options'),
   };
 };
 let mapDispatchToProps = dispatch => {
   return {
     groupClick: () => dispatch(makeGroup()),
-    ungroupClick: e => dispatch(unmakeGroup()),
-    copyClick: e => dispatch(copyBox()),
-    pasteClick: e => dispatch(pasteBox()),
-    deleteClick: e => dispatch(deleteBox())
+    ungroupClick: () => dispatch(unmakeGroup()),
+    copyClick: () => dispatch(copyBox()),
+    pasteClick: () => dispatch(pasteBox()),
+    deleteClick: () => dispatch(deleteBox()),
   };
 };
 

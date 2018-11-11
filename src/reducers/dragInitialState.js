@@ -1,7 +1,7 @@
-import { Map, List } from 'immutable';
+import { Map, List, } from 'immutable';
 
 export const boxsInitialState = Map({
-  ids: List(['1112', '1113', '1114', '1115', '1116']),
+  ids: List(['1112', '1113', '1114', '1115', '1116',]),
   byId: Map({
     1112: Map({
       id: '1112',
@@ -9,7 +9,7 @@ export const boxsInitialState = Map({
       left: 50,
       width: 100,
       height: 100,
-      childIds: List([])
+      childIds: List([]),
     }),
     1113: Map({
       id: '1113',
@@ -17,7 +17,7 @@ export const boxsInitialState = Map({
       left: 100,
       width: 100,
       height: 100,
-      childIds: List([])
+      childIds: List([]),
     }),
     1114: Map({
       id: '1114',
@@ -25,7 +25,7 @@ export const boxsInitialState = Map({
       left: 250,
       width: 150,
       height: 100,
-      childIds: List([])
+      childIds: List([]),
     }),
     1115: Map({
       id: '1115',
@@ -33,7 +33,7 @@ export const boxsInitialState = Map({
       left: 350,
       width: 100,
       height: 100,
-      childIds: List([])
+      childIds: List([]),
     }),
     1116: Map({
       id: '1116',
@@ -42,9 +42,9 @@ export const boxsInitialState = Map({
       width: 200,
       height: 250,
       background: 'transparent',
-      childIds: List(['1114', '1115'])
-    })
-  })
+      childIds: List(['1114', '1115',]),
+    }),
+  }),
 });
 export const targetBoxInitialState = Map({
   ids: List([]),
@@ -58,7 +58,7 @@ export const targetBoxInitialState = Map({
   realTop: -1,
   realLeft: -1,
   realWidth: 0,
-  realHeight: 0
+  realHeight: 0,
 });
 export const snapLineInitialState = Map({
   top: -1,
@@ -66,13 +66,13 @@ export const snapLineInitialState = Map({
   topBottom: -1,
   left: -1,
   right: -1,
-  leftRight: -1
+  leftRight: -1,
 });
 export const contextMenuInitialState = Map({
   style: Map({
     top: 0,
     left: 0,
-    visible: false
+    visible: false,
   }),
   options: Map({
     group: false,
@@ -84,12 +84,12 @@ export const contextMenuInitialState = Map({
     delete: false,
     settings: false,
     separator: true,
-    appInfo: false
-  })
+    appInfo: false,
+  }),
 });
 export const boxHierarchyInitialState = Map({
   boxIds: List([]),
-  boxHierarchy: Map({})
+  boxHierarchy: Map({}),
 });
 export const selectedBoxIdsInitialState = List([]);
 
@@ -104,7 +104,7 @@ export const dragInitialState = Map({
       pageId: '1',
       pageName: 'page one~~',
       boxs: Map({
-        ids: List(['1112', '1113', '1114', '1115', '1116']),
+        ids: List(['1112', '1113', '1114', '1115', '1116',]),
         byId: Map({
           1112: Map({
             id: '1112',
@@ -112,7 +112,7 @@ export const dragInitialState = Map({
             left: 50,
             width: 100,
             height: 100,
-            childIds: List([])
+            childIds: List([]),
           }),
           1113: Map({
             id: '1113',
@@ -120,7 +120,7 @@ export const dragInitialState = Map({
             left: 100,
             width: 100,
             height: 100,
-            childIds: List([])
+            childIds: List([]),
           }),
           1114: Map({
             id: '1114',
@@ -128,7 +128,7 @@ export const dragInitialState = Map({
             left: 250,
             width: 150,
             height: 100,
-            childIds: List([])
+            childIds: List([]),
           }),
           1115: Map({
             id: '1115',
@@ -136,7 +136,7 @@ export const dragInitialState = Map({
             left: 350,
             width: 100,
             height: 100,
-            childIds: List([])
+            childIds: List([]),
           }),
           1116: Map({
             id: '1116',
@@ -145,15 +145,15 @@ export const dragInitialState = Map({
             width: 200,
             height: 250,
             background: 'transparent',
-            childIds: List(['1114', '1115'])
-          })
-        })
-      })
+            childIds: List(['1114', '1115',]),
+          }),
+        }),
+      }),
     }),
     2: Map({
       pageName: 'page 2',
       boxs: Map({
-        ids: List(['1112', '1113']),
+        ids: List(['1112', '1113',]),
         byId: Map({
           1112: Map({
             id: '1112',
@@ -161,7 +161,7 @@ export const dragInitialState = Map({
             left: 50,
             width: 100,
             height: 100,
-            childIds: List([])
+            childIds: List([]),
           }),
           1113: Map({
             id: '1113',
@@ -169,11 +169,11 @@ export const dragInitialState = Map({
             left: 100,
             width: 100,
             height: 100,
-            childIds: List([])
-          })
-        })
-      })
-    })
+            childIds: List([]),
+          }),
+        }),
+      }),
+    }),
   }),
 
   idCount: 1117,
@@ -186,7 +186,7 @@ export const dragInitialState = Map({
       width: 100,
       height: 100,
       background: 'lightgray',
-      dragImgSrc: './img/1.png'
+      dragImgSrc: './img/1.png',
     }),
     2: Map({
       id: '2',
@@ -194,7 +194,7 @@ export const dragInitialState = Map({
       width: 200,
       height: 100,
       background: 'lightgray',
-      dragImgSrc: './img/1.png'
+      dragImgSrc: './img/1.png',
     }),
     3: Map({
       id: '3',
@@ -203,7 +203,7 @@ export const dragInitialState = Map({
       height: 100,
       background: 'lightgray',
       dragImgSrc: './img/2.png',
-      borderRadius: '50%'
+      borderRadius: '50%',
     }),
     4: Map({
       id: '4',
@@ -212,7 +212,7 @@ export const dragInitialState = Map({
       height: 100,
       transform: 'skew(20deg)',
       background: 'lightgray',
-      dragImgSrc: './img/2.png'
+      dragImgSrc: './img/2.png',
     }),
     5: Map({
       id: '5',
@@ -221,7 +221,7 @@ export const dragInitialState = Map({
       height: 100,
       background: 'lightgray',
       dragImgSrc: './img/2.png',
-      borderRadius: '50%'
+      borderRadius: '50%',
     }),
     6: Map({
       id: '6',
@@ -230,8 +230,8 @@ export const dragInitialState = Map({
       height: 100,
       transform: 'rotate(90deg)',
       background: 'lightgray',
-      dragImgSrc: './img/1.png'
-    })
+      dragImgSrc: './img/1.png',
+    }),
   }),
   componentSourceList: Map({
     // {id:1, top:300, left:50, width:100, height:100},,,,
@@ -241,7 +241,7 @@ export const dragInitialState = Map({
       width: 200,
       height: 100,
       dragImgSrc: './img/1.png',
-      propList: Map({ width: 200, height: 100, color: 'gray' })
+      propList: Map({ width: 200, height: 100, color: 'gray', }),
     }),
     2: Map({
       id: '2',
@@ -249,8 +249,8 @@ export const dragInitialState = Map({
       width: 100,
       height: 100,
       dragImgSrc: './img/2.png',
-      borderRadius: '50%'
-    })
+      borderRadius: '50%',
+    }),
   }),
 
   snapLine: snapLineInitialState,
@@ -260,13 +260,13 @@ export const dragInitialState = Map({
     left: 250,
     right: 250,
     width: typeof window === 'object' ? window.innerWidth : null,
-    height: typeof window === 'object' ? window.innerHeight : null
+    height: typeof window === 'object' ? window.innerHeight : null,
   }),
   contextMenu: contextMenuInitialState,
   clipBoard: Map({
     top: 0,
     left: 0,
     ids: List([]),
-    byId: Map({})
-  })
+    byId: Map({}),
+  }),
 });

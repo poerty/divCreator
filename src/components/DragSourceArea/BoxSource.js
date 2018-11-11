@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { sourceDragEnd } from '../../actions';
+import React, { Component, } from 'react';
+import { connect, } from 'react-redux';
+import { sourceDragEnd, } from '../../actions';
 
 class BoxSource extends Component {
   render() {
@@ -11,18 +11,18 @@ class BoxSource extends Component {
 
     return (
       <div
-        className="boxSourceContainer"
-        draggable="true"
+        className='boxSourceContainer'
+        draggable='true'
         onDragStart={this.props.onDragStart.bind(this, this.img)}
         onDragEnd={this.props.onDragEnd.bind(this, this.props.dataKey)}
       >
         <div
-          className="boxSourceDragImage"
+          className='boxSourceDragImage'
           style={{
-            backgroundImage: 'url(' + this.props.style.get('dragImgSrc') + ')'
+            backgroundImage: 'url(' + this.props.style.get('dragImgSrc') + ')',
           }}
         />
-        <div style={{ marginBottom: '3px' }}>
+        <div style={{ marginBottom: '3px', }}>
           {this.props.style.get('name')}
         </div>
       </div>
@@ -32,17 +32,14 @@ class BoxSource extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    style: state.mainReducer.getIn(['boxSourceList', ownProps.dataKey])
+    style: state.mainReducer.getIn(['boxSourceList', ownProps.dataKey,]),
   };
 };
 let mapDispatchToProps = dispatch => {
   return {
-    onDragStart: (img, e) => {
-      e.dataTransfer.setDragImage(img, 50, 50);
-      // dispatch(sourceDragStart(e.clientX,e.clientY,e.target.id))
-    },
+    onDragStart: (img, e) => e.dataTransfer.setDragImage(img, 50, 50),
     onDragEnd: (key, e) =>
-      dispatch(sourceDragEnd(e.clientX, e.clientY, e.target.id, key))
+      dispatch(sourceDragEnd(e.clientX, e.clientY, e.target.id, key)),
   };
 };
 

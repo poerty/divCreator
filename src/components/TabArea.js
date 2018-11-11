@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component, } from 'react';
 
 class TabArea extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      currentTab: this.props.tabNames[0]
+      currentTab: this.props.tabNames[0],
     };
     this.tabClick = this.tabClick.bind(this);
   }
 
   tabClick(name) {
     this.setState({
-      currentTab: name
+      currentTab: name,
     });
   }
 

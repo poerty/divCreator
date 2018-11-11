@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component, } from 'react';
+import { connect, } from 'react-redux';
 
 class SnapLine extends Component {
   render() {
@@ -26,7 +26,7 @@ class SnapLine extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    locate: state.mainReducer.getIn(['snapLine', ownProps.dataKey])
+    locate: state.mainReducer.getIn(['snapLine', ownProps.dataKey,]),
   };
 };
 

@@ -14,9 +14,11 @@
   },
   "plugins": ["react"],
   "rules": {
-    "indent": ["error", 2],
+    "comma-dangle": ["error", "always"],
+    "indent": ["error", 2, { "SwitchCase": 1 }],
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "single"],
+    "jsx-quotes": ["error", "prefer-single"],
     "semi": ["error", "always"],
     "max-len": [1, 120, 2, { "ignoreComments": true }],
     "react/jsx-sort-props": 0,
@@ -25,7 +27,6 @@
     "react/jsx-uses-vars": 2,
     "react/no-did-mount-set-state": 2,
     "react/no-did-update-set-state": 2,
-    "react/no-multi-comp": 2,
     "react/no-unknown-property": 2,
     "react/prop-types": 2,
     "react/react-in-jsx-scope": 2,
@@ -58,6 +59,7 @@
           "/^_?on.+$/",
           "/^_?get.+$/",
           "/^_?render.+$/",
+          "/^_?Handler.+$/",
           "render"
         ]
       }

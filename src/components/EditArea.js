@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component, } from 'react';
+import { connect, } from 'react-redux';
 
-import { changeProp } from './../actions';
+import { changeProp, } from './../actions';
 
 import OnBlurUpdateInput from './OnBlurUpdateInput';
 
-const PropBoxContainer = ({ name, props, onBlur }) => {
+const PropBoxContainer = ({ name, props, onBlur, }) => {
   let containerStyle = {
     display: 'flex',
     flexDirection: 'column',
@@ -13,18 +13,18 @@ const PropBoxContainer = ({ name, props, onBlur }) => {
     margin: '10px',
     border: '1px solid lightgray',
     padding: '5px',
-    paddingLeft: '10px'
+    paddingLeft: '10px',
   };
   let titleStyle = {
     color: 'darkgray',
     marginTop: '5px',
-    marginBottom: '5px'
+    marginBottom: '5px',
   };
   return (
     <div style={containerStyle}>
       <div style={titleStyle}>{name}</div>
       {props.map(prop => {
-        if (['top', 'left', 'width', 'height'].includes(prop[0])) {
+        if (['top', 'left', 'width', 'height',].includes(prop[0])) {
           return (
             <OnBlurUpdateInput
               key={prop[0]}
@@ -58,7 +58,7 @@ class EditArea extends Component {
       width: 0,
       height: 0,
       background: 'gray',
-      border: 'none'
+      border: 'none',
     };
     let layoutProps = [];
     let styleProps = [];
@@ -71,24 +71,24 @@ class EditArea extends Component {
         this.props.boxList.get(boxId).toJS()
       );
       Object.keys(boxInfo).forEach(key => {
-        if (['top', 'left', 'width', 'height'].includes(key))
-          layoutProps.push([key, boxInfo[key]]);
-        else if (['background', 'border'].includes(key))
-          styleProps.push([key, boxInfo[key]]);
+        if (['top', 'left', 'width', 'height',].includes(key))
+          layoutProps.push([key, boxInfo[key],]);
+        else if (['background', 'border',].includes(key))
+          styleProps.push([key, boxInfo[key],]);
       });
     }
 
     return (
-      <div id="EditArea" className="source-area area">
+      <div id='EditArea' className='source-area area'>
         <PropBoxContainer
-          name="LAYOUT"
+          name='LAYOUT'
           props={layoutProps}
           onBlur={(name, value) =>
             this.props.onBlur(boxId, name, parseInt(value, 10))
           }
         />
         <PropBoxContainer
-          name="STYLE"
+          name='STYLE'
           props={styleProps}
           onBlur={(name, value) => this.props.onBlur(boxId, name, value)}
         />
@@ -99,15 +99,15 @@ class EditArea extends Component {
 
 let mapStateToProps = state => {
   return {
-    selectedBoxIds: state.mainReducer.getIn(['targetBox', 'childIds']),
-    boxList: state.mainReducer.getIn(['boxs', 'byId'])
+    selectedBoxIds: state.mainReducer.getIn(['targetBox', 'childIds',]),
+    boxList: state.mainReducer.getIn(['boxs', 'byId',]),
   };
 };
 
 let mapDispatchToProps = dispatch => {
   return {
     onBlur: (boxId, propName, propValue) =>
-      dispatch(changeProp(boxId, propName, propValue))
+      dispatch(changeProp(boxId, propName, propValue)),
   };
 };
 

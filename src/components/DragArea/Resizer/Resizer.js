@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component, } from 'react';
+import { connect, } from 'react-redux';
 import {
   targetBoxResize,
   targetBoxResizeStart,
-  targetBoxResizeEnd
+  targetBoxResizeEnd,
 } from '../../../actions';
 
 class Resizer extends Component {
@@ -20,60 +20,66 @@ class Resizer extends Component {
     this.onDragEndHandler = this.onDragEndHandler.bind(this);
   }
   onDragHandler(e) {
-    const { onDrag } = this.props;
+    const { onDrag, } = this.props;
     e.stopPropagation();
     onDrag(e.clientX, e.clientY, e.target.id);
   }
   onDragStartHandler(e) {
-    const { onDragStart } = this.props;
+    const { onDragStart, } = this.props;
     e.dataTransfer.setDragImage(this.img, 0, 0);
     e.stopPropagation();
     onDragStart(e.clientX, e.clientY, e.target.id);
   }
   onDragEndHandler(e) {
-    const { onDragEnd } = this.props;
+    const { onDragEnd, } = this.props;
     e.stopPropagation();
     onDragEnd();
   }
   render() {
-    const { dataKey, resizerSize } = this.props;
+    const { dataKey, resizerSize, } = this.props;
     const style = {
       width: resizerSize,
       height: resizerSize,
       position: 'absolute',
       border: '1px solid black',
-      background: 'white'
+      background: 'white',
     };
     const locate = -(resizerSize + 2) / 2;
     const margin = -resizerSize / 2;
     switch (dataKey) {
-    case 'top': {
-      style.top = locate;
-    }
-    case 'bottom': {
-      style.bottom = locate;
-      style.left = '50%';
-      style.marginLeft = margin;
-      break;
-    }
-    case 'left': {
-      style.left = locate;
-    }
-    case 'right': {
-      style.right = locate;
-      style.top = '50%';
-      style.marginTop = margin;
-      break;
-    }
-    default: {
-      break;
-    }
+      case 'top': {
+        style.top = locate;
+        style.left = '50%';
+        style.marginLeft = margin;
+        break;
+      }
+      case 'bottom': {
+        style.bottom = locate;
+        style.left = '50%';
+        style.marginLeft = margin;
+        break;
+      }
+      case 'left': {
+        style.left = locate;
+        style.top = '50%';
+        style.marginTop = margin;
+        break;
+      }
+      case 'right': {
+        style.right = locate;
+        style.top = '50%';
+        style.marginTop = margin;
+        break;
+      }
+      default: {
+        break;
+      }
     }
 
     return (
       <div
         id={dataKey + 'Resizer'}
-        className="box resizer"
+        className='box resizer'
         style={style}
         draggable
         onMouseDown={e => e.stopPropagation()}
@@ -89,7 +95,7 @@ let mapDispatchToProps = dispatch => {
   return {
     onDrag: (x, y, id) => dispatch(targetBoxResize(x, y, id)),
     onDragStart: (x, y, id) => dispatch(targetBoxResizeStart(x, y, id)),
-    onDragEnd: () => dispatch(targetBoxResizeEnd())
+    onDragEnd: () => dispatch(targetBoxResizeEnd()),
   };
 };
 

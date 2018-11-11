@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component, } from 'react';
+import { connect, } from 'react-redux';
 
 import LayoutMain from './LayoutMain';
 import LayoutLeft from './LayoutLeft';
@@ -9,10 +9,10 @@ class LayoutMiddle extends Component {
   render() {
     let style = {
       top: this.props.layout.get('top'),
-      bottom: this.props.layout.get('bottom')
+      bottom: this.props.layout.get('bottom'),
     };
     return (
-      <div className="layout layout-middle" style={style}>
+      <div className='layout layout-middle' style={style}>
         <LayoutMain />
         <LayoutLeft />
         <LayoutRight />
@@ -23,7 +23,7 @@ class LayoutMiddle extends Component {
 
 let mapStateToProps = (state, ownProps) => {
   return {
-    layout: state.mainReducer.get('layout')
+    layout: state.mainReducer.get('layout'),
   };
 };
 

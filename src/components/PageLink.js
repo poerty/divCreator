@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { changePage } from '../actions';
+import React, { Component, } from 'react';
+import { connect, } from 'react-redux';
+import { changePage, } from '../actions';
 
 class PageLink extends Component {
   render() {
     return (
       <div
-        className="pageLink"
+        className='pageLink'
         onClick={this.props.onClick.bind(this, this.props.pageId)}
       >
         {this.props.pageName}
@@ -17,7 +17,7 @@ class PageLink extends Component {
 
 let mapDispatchToProps = dispatch => {
   return {
-    onClick: (pageId, e) => dispatch(changePage(pageId))
+    onClick: (pageId, e) => dispatch(changePage(pageId)),
   };
 };
 
