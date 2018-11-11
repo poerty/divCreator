@@ -71,8 +71,10 @@ class ContextMenu extends Component {
         <div className={optionList['ungroup']} onMouseDown={this.ungroupClickHandler}>
           unGroup
         </div>
+        <div className={optionList['separator']} />
         <div className={optionList['component']}>component</div>
         <div className={optionList['uncomponent']}>uncomponent</div>
+        <div className={optionList['separator']} />
         <div className={optionList['copy']} onMouseDown={this.copyClickHandler}>
           copy
         </div>

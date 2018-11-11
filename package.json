@@ -6,6 +6,7 @@
     "ajv": "^6.5.5",
     "babel-cli": "^6.26.0",
     "babel-preset-latest": "^6.24.1",
+    "dotenv": "^6.1.0",
     "immutable": "^3.8.2",
     "nodemon": "^1.18.5",
     "normalize.css": "^8.0.0",

@@ -79,7 +79,7 @@ const targetBoxDrag = (state, action) => {
     targetBox.realWidth,
     targetBox.realHeight,
     nonTargetBoxs,
-    5
+    process.env.REACT_APP_SNAP_SIZE
   );
   const diff = {
     top: targetBox.realTop - targetBox.top + ret.topDiff,
@@ -131,7 +131,7 @@ const targetBoxResize = (state, action) => {
     targetBox.realWidth,
     targetBox.realHeight,
     nonTargetBoxs,
-    5,
+    process.env.REACT_APP_SNAP_SIZE,
     action.id
   );
   const diff = {
@@ -201,16 +201,14 @@ const pasteBox = (state, action) => {
 const sourceDragEnd = (state, action) => {
   // drag area 안인지 판별
   const { x, y, key } = action;
-  const { left, right, top, bottom, width, height } = state
-    .get('layout')
-    .toJS();
+  const { left, right, top, bottom, width, height } = state.get('layout').toJS();
   if (x < left || x > width - right || y < top || y > height - bottom)
     return state;
 
   const id = String(state.get('idCount'));
   const newBox = state.getIn(['boxSourceList', key]).toJS();
-  newBox.left = x - left - 50;
-  newBox.top = y - top - 50;
+  newBox.left = x - left - process.env.REACT_APP_SOURCE_DRAG_LOCATE;
+  newBox.top = y - top - process.env.REACT_APP_SOURCE_DRAG_LOCATE;
 
   return state
     .update('boxs', boxsUpdateReducer({ ...action, _id: id, newBox }))

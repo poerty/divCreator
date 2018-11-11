@@ -33,7 +33,7 @@ const resize = action => state => {
   const { diff, dragAmount, x, y } = action;
   switch (action.id) {
     case 'topResizer': {
-      if (state.get('realHeight') - dragAmount.top < 2) return state;
+      if (state.get('realHeight') - dragAmount.top < process.env.REACT_APP_MIN_BOX_SIZE) return state;
       return state.withMutations(map =>
         map
           .update('realTop', realTop => realTop + dragAmount.top)
@@ -45,7 +45,7 @@ const resize = action => state => {
       );
     }
     case 'bottomResizer': {
-      if (state.get('realHeight') + dragAmount.top < 2) return state;
+      if (state.get('realHeight') + dragAmount.top < process.env.REACT_APP_MIN_BOX_SIZE) return state;
       return state.withMutations(map =>
         map
           .update('realHeight', realHeight => realHeight + dragAmount.top)
@@ -55,7 +55,7 @@ const resize = action => state => {
       );
     }
     case 'leftResizer': {
-      if (state.get('realWidth') - dragAmount.left < 2) return state;
+      if (state.get('realWidth') - dragAmount.left < process.env.REACT_APP_MIN_BOX_SIZE) return state;
       return state.withMutations(map =>
         map
           .update('realLeft', realLeft => realLeft + dragAmount.left)
@@ -67,7 +67,7 @@ const resize = action => state => {
       );
     }
     case 'rightResizer': {
-      if (state.get('realWidth') + dragAmount.left < 2) return state;
+      if (state.get('realWidth') + dragAmount.left < process.env.REACT_APP_MIN_BOX_SIZE) return state;
       return state.withMutations(map =>
         map
           .update('realWidth', realWidth => realWidth + dragAmount.left)

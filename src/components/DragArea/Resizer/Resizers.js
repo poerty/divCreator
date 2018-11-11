@@ -4,7 +4,7 @@ import Resizer from './Resizer';
 
 class Resizers extends Component {
   render() {
-    const resizerSize = 8;
+    const resizerSize = Number(process.env.REACT_APP_RESIZER_SIZE);
 
     return (
       <div>

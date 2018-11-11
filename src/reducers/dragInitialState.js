@@ -257,7 +257,7 @@ export const dragInitialState = Map({
   snapLine: snapLineInitialState,
   layout: Map({
     top: 50,
-    bottom: 50,
+    bottom: 25,
     left: 250,
     right: 250,
     width: typeof window === 'object' ? window.innerWidth : null,

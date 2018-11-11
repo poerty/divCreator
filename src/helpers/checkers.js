@@ -1,12 +1,5 @@
 // 두개 차이점은 resizer와 middle line 에서 *2 뿐... 싫으면 인자로 주던가
-export function checkSnapDrag(
-  top,
-  left,
-  width,
-  height,
-  nonTargetBoxs,
-  snapSize
-) {
+export function checkSnapDrag(top, left, width, height, nonTargetBoxs, snapSize) {
   const ret = {
     top: -1,
     bottom: -1,

@@ -10,6 +10,7 @@ import counterApp from './reducers';
 
 import { resizeWindow } from './actions';
 
+require('dotenv').config();
 const store = createStore(counterApp);
 
 window.addEventListener('load', () => {
