@@ -1,12 +1,13 @@
-import React, { Component, } from 'react';
-import { connect, } from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import BoxSource from './BoxSource';
 
 class DragSourceArea extends Component {
   render() {
-    let boxSourceList = [];
-    for (let boxSourceId in this.props.boxSourceList.toJS()) {
+    const boxSourceList = [];
+    for (const boxSourceId in this.props.boxSourceList.toJS()) {
       boxSourceList.push(<BoxSource key={boxSourceId} dataKey={boxSourceId} />);
     }
     return (
@@ -17,7 +18,11 @@ class DragSourceArea extends Component {
   }
 }
 
-let mapStateToProps = state => {
+DragSourceArea.propTypes = {
+  boxSourceList: ImmutablePropTypes.map.isRequired,
+};
+
+const mapStateToProps = state => {
   return {
     boxSourceList: state.mainReducer.get('boxSourceList'),
   };

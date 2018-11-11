@@ -1,37 +1,37 @@
-import { Map, } from 'immutable';
+import { Map } from 'immutable';
 
 import * as ActionTypes from '../actions';
 
 const createBox = action => state => {
-  const { _id, _childIds = [], newBox, } = action;
+  const { _id, _childIds = [], newBox } = action;
   newBox.id = _id;
   newBox.childIds = _childIds;
   if (!newBox.background) newBox.background = 'transparent';
 
   return state
     .update('ids', ids => ids.push(_id))
-    .setIn(['byId', _id,], Map(newBox));
+    .setIn(['byId', _id], Map(newBox));
 };
 
 const addBoxs = action => state => {
-  const { _byId, _ids, } = action;
+  const { _byId, _ids } = action;
   return state
     .update('ids', ids => ids.concat(_ids))
     .update('byId', byId => byId.concat(_byId));
 };
 
 const deleteBox = action => state => {
-  const { _boxId, } = action;
+  const { _boxId } = action;
   return state
-    .updateIn(['ids',], ids => ids.filter(id => id !== _boxId))
-    .deleteIn(['byId', _boxId,]);
+    .updateIn(['ids'], ids => ids.filter(id => id !== _boxId))
+    .deleteIn(['byId', _boxId]);
 };
 
 const deleteBoxs = action => state => {
-  const { _boxIds, } = action;
+  const { _boxIds } = action;
   return state
-    .updateIn(['ids',], ids => ids.filter(value => !_boxIds.includes(value)))
-    .updateIn(['byId',], byId =>
+    .updateIn(['ids'], ids => ids.filter(value => !_boxIds.includes(value)))
+    .updateIn(['byId'], byId =>
       byId
         .filter((value, id) => !_boxIds.includes(id))
         .map(
@@ -44,7 +44,7 @@ const deleteBoxs = action => state => {
 };
 
 const updateBoxs = action => state => {
-  const { _boxIds, props = {}, targetBox, newTargetBox, } = action;
+  const { _boxIds, props = {}, targetBox, newTargetBox } = action;
   if (targetBox && newTargetBox) {
     props.left = left =>
       (left - targetBox.left) * (newTargetBox.width / targetBox.width) +
@@ -58,7 +58,7 @@ const updateBoxs = action => state => {
   return state.withMutations(map => {
     _boxIds.forEach(id => {
       Object.keys(props).forEach(propName => {
-        map.updateIn(['byId', id, propName,], props[propName]);
+        map.updateIn(['byId', id, propName], props[propName]);
       });
     });
   });

@@ -1,6 +1,9 @@
-import React, { Component, } from 'react';
-import { connect, } from 'react-redux';
-import { mouseDown, } from '../../actions';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+
+import { mouseDown } from '../../actions';
 
 class Box extends Component {
   constructor(props) {
@@ -9,7 +12,7 @@ class Box extends Component {
     this.onMouseDownHandler = this.onMouseDownHandler.bind(this);
   }
   onMouseDownHandler(e) {
-    const { onMouseDown, dataKey, } = this.props;
+    const { onMouseDown, dataKey } = this.props;
     onMouseDown(dataKey + '', e.shiftKey);
     e.stopPropagation();
   }
@@ -27,20 +30,24 @@ class Box extends Component {
   }
 }
 
-let mapStateToProps = (state, ownProps) => {
+Box.propTypes = {
+  dataKey: PropTypes.string.isRequired,
+  style: ImmutablePropTypes.map.isRequired,
+  onMouseDown: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state, ownProps) => {
   return {
-    style: state.mainReducer.getIn(['boxs', 'byId', ownProps.dataKey,]),
+    style: state.mainReducer.getIn(['boxs', 'byId', ownProps.dataKey]),
   };
 };
-let mapDispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
   return {
     onMouseDown: (id, shiftKey) => dispatch(mouseDown(id, shiftKey)),
   };
 };
 
-Box = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Box);
-
-export default Box;

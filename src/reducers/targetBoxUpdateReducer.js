@@ -1,23 +1,23 @@
-import { List, } from 'immutable';
+import { List } from 'immutable';
 
 import * as ActionTypes from '../actions';
 
-import { boxsToBox, } from '../helpers/converters';
+import { boxsToBox } from '../helpers/converters';
 
 const makeGroup = action => state => {
-  const { _id, } = action;
+  const { _id } = action;
 
-  return state.update('ids', ids => ids.push(_id)).set('childIds', List([_id,]));
+  return state.update('ids', ids => ids.push(_id)).set('childIds', List([_id]));
 };
 
 const setXY = action => state => {
-  const { x, y, } = action;
+  const { x, y } = action;
 
   return state.set('x', x).set('y', y);
 };
 
 const drag = action => state => {
-  const { dragAmount, diff, x, y, } = action;
+  const { dragAmount, diff, x, y } = action;
   return state.withMutations(map =>
     map
       .update('realTop', realTop => realTop + dragAmount.top)
@@ -30,7 +30,7 @@ const drag = action => state => {
 };
 
 const resize = action => state => {
-  const { diff, dragAmount, x, y, } = action;
+  const { diff, dragAmount, x, y } = action;
   switch (action.id) {
     case 'topResizer': {
       if (state.get('realHeight') - dragAmount.top < 2) return state;
@@ -90,7 +90,7 @@ const setRealValue = () => state => {
 };
 
 const addBox = action => state => {
-  const { _id, _ids, _boxs, } = action;
+  const { _id, _ids, _boxs } = action;
   const ids = state.get('ids');
 
   return state.withMutations(map => {
@@ -103,7 +103,7 @@ const addBox = action => state => {
         map.update('ids', ids => ids.concat(List(_ids)));
       }
     } else {
-      map.set('childIds', List([_id,]));
+      map.set('childIds', List([_id]));
       map.set('ids', List(_ids));
     }
 

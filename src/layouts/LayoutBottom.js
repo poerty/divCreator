@@ -1,23 +1,21 @@
-import React, { Component, } from 'react';
-import { connect, } from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 class LayoutBottom extends Component {
   render() {
-    let style = {
-      height: this.props.layout.get('bottom'),
-    };
+    const style = { height: this.props.bottom };
     return <div className='layout layout-bottom' style={style} />;
   }
 }
 
 LayoutBottom.propTypes = {
-  layout: PropTypes.number.isRequired,
+  bottom: PropTypes.number.isRequired,
 };
 
-let mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
-    layout: state.mainReducer.get('layout'),
+    bottom: state.mainReducer.getIn(['layout', 'bottom']),
   };
 };
 

@@ -25,6 +25,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "lint": "npx eslint --ext js ./src",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

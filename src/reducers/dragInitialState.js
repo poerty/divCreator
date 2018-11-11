@@ -1,7 +1,7 @@
-import { Map, List, } from 'immutable';
+import { Map, List } from 'immutable';
 
 export const boxsInitialState = Map({
-  ids: List(['1112', '1113', '1114', '1115', '1116',]),
+  ids: List(['1112', '1113', '1114', '1115', '1116']),
   byId: Map({
     1112: Map({
       id: '1112',
@@ -42,7 +42,7 @@ export const boxsInitialState = Map({
       width: 200,
       height: 250,
       background: 'transparent',
-      childIds: List(['1114', '1115',]),
+      childIds: List(['1114', '1115']),
     }),
   }),
 });
@@ -104,7 +104,7 @@ export const dragInitialState = Map({
       pageId: '1',
       pageName: 'page one~~',
       boxs: Map({
-        ids: List(['1112', '1113', '1114', '1115', '1116',]),
+        ids: List(['1112', '1113', '1114', '1115', '1116']),
         byId: Map({
           1112: Map({
             id: '1112',
@@ -145,7 +145,7 @@ export const dragInitialState = Map({
             width: 200,
             height: 250,
             background: 'transparent',
-            childIds: List(['1114', '1115',]),
+            childIds: List(['1114', '1115']),
           }),
         }),
       }),
@@ -153,7 +153,7 @@ export const dragInitialState = Map({
     2: Map({
       pageName: 'page 2',
       boxs: Map({
-        ids: List(['1112', '1113',]),
+        ids: List(['1112', '1113']),
         byId: Map({
           1112: Map({
             id: '1112',
@@ -241,7 +241,7 @@ export const dragInitialState = Map({
       width: 200,
       height: 100,
       dragImgSrc: './img/1.png',
-      propList: Map({ width: 200, height: 100, color: 'gray', }),
+      propList: Map({ width: 200, height: 100, color: 'gray' }),
     }),
     2: Map({
       id: '2',

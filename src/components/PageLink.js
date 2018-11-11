@@ -1,6 +1,8 @@
-import React, { Component, } from 'react';
-import { connect, } from 'react-redux';
-import { changePage, } from '../actions';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+import { changePage } from '../actions';
 
 class PageLink extends Component {
   render() {
@@ -15,9 +17,15 @@ class PageLink extends Component {
   }
 }
 
-let mapDispatchToProps = dispatch => {
+PageLink.propTypes = {
+  pageId: PropTypes.number.isRequired,
+  pageName: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = dispatch => {
   return {
-    onClick: (pageId, e) => dispatch(changePage(pageId)),
+    onClick: (pageId) => dispatch(changePage(pageId)),
   };
 };
 

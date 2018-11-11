@@ -1,14 +1,12 @@
-import React, { Component, } from 'react';
-import { connect, } from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import PageListArea from '../components/PageListArea';
 
 class LayoutLeft extends Component {
   render() {
-    const { left, } = this.props;
-    const style = {
-      width: left,
-    };
+    const { left } = this.props;
+    const style = { width: left };
     return (
       <div className='layout layout-left' style={style}>
         <PageListArea />
@@ -22,8 +20,8 @@ LayoutLeft.propTypes = {
   left: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  left: state.mainReducer.getIn(['layout', 'left',]),
+const mapStateToProps = (state) => ({
+  left: state.mainReducer.getIn(['layout', 'left']),
 });
 
 export default connect(mapStateToProps)(LayoutLeft);

@@ -1,5 +1,8 @@
-import React, { Component, } from 'react';
-import { connect, } from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+
 import {
   targetBoxDrag,
   targetBoxDragStart,
@@ -22,22 +25,22 @@ class TargetBox extends Component {
     this.onDragEndHandler = this.onDragEndHandler.bind(this);
   }
   onDragHandler(e) {
-    const { onDrag, } = this.props;
+    const { onDrag } = this.props;
     onDrag(e.clientX, e.clientY, e.target.id);
   }
   onDragStartHandler(e) {
-    const { onDragStart, } = this.props;
+    const { onDragStart } = this.props;
     e.dataTransfer.setDragImage(this.img, 0, 0);
     onDragStart(e.clientX, e.clientY, e.target.id);
   }
-  onDragEndHandler(e) {
-    const { onDragEnd, } = this.props;
+  onDragEndHandler() {
+    const { onDragEnd } = this.props;
     onDragEnd();
   }
   render() {
     const targetBox = this.props.targetBox.toJS();
-    const { top, left, width, height, } = targetBox;
-    const style = { top, left, width, height, };
+    const { top, left, width, height } = targetBox;
+    const style = { top, left, width, height };
     style.position = 'absolute';
     return (
       <div
@@ -55,12 +58,20 @@ class TargetBox extends Component {
   }
 }
 
-let mapStateToProps = (state, ownProps) => {
+TargetBox.propTypes = {
+  id: PropTypes.number.isRequired,
+  targetBox: ImmutablePropTypes.map.isRequired,
+  onDrag: PropTypes.func.isRequired,
+  onDragStart: PropTypes.func.isRequired,
+  onDragEnd: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => {
   return {
     targetBox: state.mainReducer.get('targetBox'),
   };
 };
-let mapDispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
   return {
     onDrag: (x, y, targetId) => dispatch(targetBoxDrag(x, y, targetId)),
     onDragStart: (x, y, targetId) =>

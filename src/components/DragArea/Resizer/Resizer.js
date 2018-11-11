@@ -1,5 +1,7 @@
-import React, { Component, } from 'react';
-import { connect, } from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import {
   targetBoxResize,
   targetBoxResizeStart,
@@ -20,23 +22,23 @@ class Resizer extends Component {
     this.onDragEndHandler = this.onDragEndHandler.bind(this);
   }
   onDragHandler(e) {
-    const { onDrag, } = this.props;
+    const { onDrag } = this.props;
     e.stopPropagation();
     onDrag(e.clientX, e.clientY, e.target.id);
   }
   onDragStartHandler(e) {
-    const { onDragStart, } = this.props;
+    const { onDragStart } = this.props;
     e.dataTransfer.setDragImage(this.img, 0, 0);
     e.stopPropagation();
     onDragStart(e.clientX, e.clientY, e.target.id);
   }
   onDragEndHandler(e) {
-    const { onDragEnd, } = this.props;
+    const { onDragEnd } = this.props;
     e.stopPropagation();
     onDragEnd();
   }
   render() {
-    const { dataKey, resizerSize, } = this.props;
+    const { dataKey, resizerSize } = this.props;
     const style = {
       width: resizerSize,
       height: resizerSize,
@@ -91,7 +93,15 @@ class Resizer extends Component {
   }
 }
 
-let mapDispatchToProps = dispatch => {
+Resizer.propTypes = {
+  dataKey: PropTypes.string.isRequired,
+  resizerSize: PropTypes.number.isRequired,
+  onDrag: PropTypes.func.isRequired,
+  onDragStart: PropTypes.func.isRequired,
+  onDragEnd: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = dispatch => {
   return {
     onDrag: (x, y, id) => dispatch(targetBoxResize(x, y, id)),
     onDragStart: (x, y, id) => dispatch(targetBoxResizeStart(x, y, id)),

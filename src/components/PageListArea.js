@@ -1,16 +1,17 @@
-import React, { Component, } from 'react';
-import { connect, } from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 import PageLink from './PageLink';
 
 class PageListArea extends Component {
   render() {
-    let pageList = [];
+    const pageList = [];
     this.props.pageList.forEach((page, id) => {
       pageList.push(
         <PageLink
           key={'page' + id}
-          pageId={id}
+          pageId={Number(id)}
           pageName={page.get('pageName')}
         />
       );
@@ -27,7 +28,11 @@ class PageListArea extends Component {
   }
 }
 
-let mapStateToProps = state => {
+PageListArea.propTypes = {
+  pageList: ImmutablePropTypes.map.isRequired,
+};
+
+const mapStateToProps = state => {
   return {
     pageList: state.mainReducer.get('pageList'),
   };

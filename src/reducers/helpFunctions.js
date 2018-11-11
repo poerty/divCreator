@@ -3,16 +3,16 @@ export function getHierarchy(boxHierarchy, id) {
 
   return getHierarchy(
     boxHierarchy
-      .filter(hierarch => hierarch.getIn(['boxIds', id,]) !== undefined)
+      .filter(hierarch => hierarch.getIn(['boxIds', id]) !== undefined)
       .get('boxHierarchy'),
     id
   );
 }
 
 export function getContainerRect(boxList) {
-  let ret = { top: 10000, bottom: -1, left: 10000, right: -1, };
-  for (let boxId in boxList.toObject()) {
-    let box = boxList.get(boxId).toObject();
+  const ret = { top: 10000, bottom: -1, left: 10000, right: -1 };
+  for (const boxId in boxList.toObject()) {
+    const box = boxList.get(boxId).toObject();
     ret.top = Math.min(ret.top, box.top);
     ret.bottom = Math.max(ret.bottom, box.top + box.height);
     ret.left = Math.min(ret.left, box.left);
@@ -62,7 +62,7 @@ export function checkSnapDrag(
     box = box.toJS();
     let diff;
 
-    for (const line of [box.top + 0.5 * box.height,]) {
+    for (const line of [box.top + 0.5 * box.height]) {
       diff = line - topBottom;
       if (Math.abs(diff) < Math.abs(minTBDiff)) {
         ret.top = -1;
@@ -71,7 +71,7 @@ export function checkSnapDrag(
         minTBDiff = diff;
       } else if (diff === minTBDiff) ret.topBottom = line;
     }
-    for (const line of [box.top, box.top + box.height,]) {
+    for (const line of [box.top, box.top + box.height]) {
       diff = line - top;
       if (Math.abs(diff) < Math.abs(minTBDiff)) {
         ret.top = line;
@@ -89,7 +89,7 @@ export function checkSnapDrag(
       } else if (diff === minTBDiff) ret.bottom = line;
     }
 
-    for (const line of [box.left + 0.5 * box.width,]) {
+    for (const line of [box.left + 0.5 * box.width]) {
       diff = line - leftRight;
       if (Math.abs(diff) < Math.abs(minLRDiff)) {
         ret.left = -1;
@@ -98,7 +98,7 @@ export function checkSnapDrag(
         minLRDiff = diff;
       } else if (diff === minLRDiff) ret.leftRight = line;
     }
-    for (const line of [box.left, box.left + box.width,]) {
+    for (const line of [box.left, box.left + box.width]) {
       diff = line - left;
       if (Math.abs(diff) < Math.abs(minLRDiff)) {
         ret.left = line;
@@ -161,7 +161,7 @@ export function checkSnapResize(
     box = box.toJS();
     let diff;
 
-    for (let line of [2 * box.top + box.height,]) {
+    for (const line of [2 * box.top + box.height]) {
       diff = line - topBottom;
       if (Math.abs(diff) < Math.abs(minTBDiff)) {
         ret.top = -1;
@@ -170,7 +170,7 @@ export function checkSnapResize(
         minTBDiff = diff;
       } else if (diff === minTBDiff) ret.topBottom = line / 2;
     }
-    for (let line of [box.top, box.top + box.height,]) {
+    for (const line of [box.top, box.top + box.height]) {
       if (resizer !== 'bottomResizer') {
         diff = line - top;
         if (Math.abs(diff) < Math.abs(minTBDiff)) {
@@ -192,7 +192,7 @@ export function checkSnapResize(
       }
     }
 
-    for (let line of [2 * box.left + box.width,]) {
+    for (const line of [2 * box.left + box.width]) {
       diff = line - leftRight;
       if (Math.abs(diff) < Math.abs(minLRDiff)) {
         ret.left = -1;
@@ -201,7 +201,7 @@ export function checkSnapResize(
         minLRDiff = diff;
       } else if (diff === minLRDiff) ret.leftRight = line / 2;
     }
-    for (let line of [box.left, box.left + box.width,]) {
+    for (const line of [box.left, box.left + box.width]) {
       if (resizer !== 'rightResizer') {
         diff = line - left;
         if (Math.abs(diff) < Math.abs(minLRDiff)) {

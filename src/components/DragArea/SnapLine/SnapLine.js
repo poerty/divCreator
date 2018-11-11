@@ -1,9 +1,10 @@
-import React, { Component, } from 'react';
-import { connect, } from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 class SnapLine extends Component {
   render() {
-    let styles = {};
+    const styles = {};
     if (
       this.props.dataKey === 'top' ||
       this.props.dataKey === 'bottom' ||
@@ -24,9 +25,14 @@ class SnapLine extends Component {
   }
 }
 
-let mapStateToProps = (state, ownProps) => {
+SnapLine.propTypes = {
+  dataKey: PropTypes.string.isRequired,
+  locate: PropTypes.number.isRequired,
+};
+
+const mapStateToProps = (state, ownProps) => {
   return {
-    locate: state.mainReducer.getIn(['snapLine', ownProps.dataKey,]),
+    locate: state.mainReducer.getIn(['snapLine', ownProps.dataKey]),
   };
 };
 

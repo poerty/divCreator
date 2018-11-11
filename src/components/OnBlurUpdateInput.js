@@ -1,14 +1,26 @@
-import React, { Component, } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+const numPrettier = value => parseFloat(parseFloat(value).toFixed());
 
 class OnBlurUpdateInput extends Component {
   constructor(props) {
     super(props);
-    this.state = { inputValue: this.props.value, };
+    if (this.props.type === 'string') {
+      this.state = { inputValue: this.props.value };
+    } else {
+      this.state = { inputValue: numPrettier(this.props.value) };
+    }
     this.onChangeHandler = this.onChangeHandler.bind(this);
     this.onKeyDownHandler = this.onKeyDownHandler.bind(this);
   }
-  componentWillReceiveProps(nextProps) {
-    this.setState({ inputValue: nextProps.value, });
+  // eslint-disable-next-line react/sort-comp
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (this.props.type === 'string') {
+      this.setState({ inputValue: nextProps.value });
+    } else {
+      this.setState({ inputValue: numPrettier(nextProps.value) });
+    }
   }
   onKeyDownHandler(e) {
     if (this.props.type === 'string') return;
@@ -19,7 +31,8 @@ class OnBlurUpdateInput extends Component {
       }
       case 38: {
         //up
-        this.props.onBlur(this.props.name, parseInt(e.target.value, 10) + 1);
+        const newValue = numPrettier(e.target.value) + 1;
+        this.props.onBlur(this.props.name, newValue);
         break;
       }
       case 39: {
@@ -28,7 +41,8 @@ class OnBlurUpdateInput extends Component {
       }
       case 40: {
         //down
-        this.props.onBlur(this.props.name, parseInt(e.target.value, 10) - 1);
+        const newValue = numPrettier(e.target.value).toFixed() - 1;
+        this.props.onBlur(this.props.name, newValue);
         break;
       }
       default: {
@@ -37,17 +51,17 @@ class OnBlurUpdateInput extends Component {
     }
   }
   onChangeHandler(e) {
-    this.setState({ inputValue: e.target.value, });
+    this.setState({ inputValue: e.target.value });
   }
 
   render() {
-    let inputStyle = {
+    const inputStyle = {
       width: '55px',
     };
-    let labelStyle = {
+    const labelStyle = {
       order: '-1',
     };
-    let containerStyle = {
+    const containerStyle = {
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
@@ -71,5 +85,12 @@ class OnBlurUpdateInput extends Component {
     );
   }
 }
+
+OnBlurUpdateInput.propTypes = {
+  name: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(['string', 'number']).isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  onBlur: PropTypes.func.isRequired,
+};
 
 export default OnBlurUpdateInput;

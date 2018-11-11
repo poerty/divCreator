@@ -1,5 +1,8 @@
-import React, { Component, } from 'react';
-import { connect, } from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+
 import {
   makeGroup,
   unmakeGroup,
@@ -19,27 +22,27 @@ class ContextMenu extends Component {
     this.deleteClickHandler = this.deleteClickHandler.bind(this);
   }
   groupClickHandler(e) {
-    const { groupClick, } = this.props;
+    const { groupClick } = this.props;
     groupClick();
     e.stopPropagation();
   }
   ungroupClickHandler(e) {
-    const { ungroupClick, } = this.props;
+    const { ungroupClick } = this.props;
     ungroupClick();
     e.stopPropagation();
   }
   copyClickHandler(e) {
-    const { copyClick, } = this.props;
+    const { copyClick } = this.props;
     copyClick();
     e.stopPropagation();
   }
   pasteClickHandler(e) {
-    const { pasteClick, } = this.props;
+    const { pasteClick } = this.props;
     pasteClick();
     e.stopPropagation();
   }
   deleteClickHandler(e) {
-    const { deleteClick, } = this.props;
+    const { deleteClick } = this.props;
     deleteClick();
     e.stopPropagation();
   }
@@ -49,7 +52,7 @@ class ContextMenu extends Component {
 
     const options = this.props.options.toJS();
     const optionList = {};
-    for (let optionName in options) {
+    for (const optionName in options) {
       if (optionName === 'separator') {
         optionList[optionName] = 'contextMenu--separator';
       } else if (options[optionName] === false) {
@@ -62,16 +65,10 @@ class ContextMenu extends Component {
 
     return (
       <div style={style} className='contextMenu'>
-        <div
-          className={optionList['group']}
-          onMouseDown={this.groupClickHandler}
-        >
+        <div className={optionList['group']} onMouseDown={this.groupClickHandler}>
           group
         </div>
-        <div
-          className={optionList['ungroup']}
-          onMouseDown={this.ungroupClickHandler}
-        >
+        <div className={optionList['ungroup']} onMouseDown={this.ungroupClickHandler}>
           unGroup
         </div>
         <div className={optionList['component']}>component</div>
@@ -79,16 +76,10 @@ class ContextMenu extends Component {
         <div className={optionList['copy']} onMouseDown={this.copyClickHandler}>
           copy
         </div>
-        <div
-          className={optionList['paste']}
-          onMouseDown={this.pasteClickHandler}
-        >
+        <div className={optionList['paste']} onMouseDown={this.pasteClickHandler}>
           paste
         </div>
-        <div
-          className={optionList['delete']}
-          onMouseDown={this.deleteClickHandler}
-        >
+        <div className={optionList['delete']} onMouseDown={this.deleteClickHandler}>
           delete
         </div>
         <div className={optionList['settings']}>Settings</div>
@@ -99,13 +90,23 @@ class ContextMenu extends Component {
   }
 }
 
-let mapStateToProps = (state, ownProps) => {
+ContextMenu.propTypes = {
+  style: ImmutablePropTypes.map.isRequired,
+  options: ImmutablePropTypes.map.isRequired,
+  groupClick: PropTypes.func.isRequired,
+  ungroupClick: PropTypes.func.isRequired,
+  copyClick: PropTypes.func.isRequired,
+  pasteClick: PropTypes.func.isRequired,
+  deleteClick: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => {
   return {
     style: state.mainReducer.get('contextMenu').get('style'),
     options: state.mainReducer.get('contextMenu').get('options'),
   };
 };
-let mapDispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
   return {
     groupClick: () => dispatch(makeGroup()),
     ungroupClick: () => dispatch(unmakeGroup()),

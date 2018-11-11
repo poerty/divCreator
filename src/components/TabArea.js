@@ -1,4 +1,5 @@
-import React, { Component, } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class TabArea extends Component {
   constructor(props) {
@@ -17,21 +18,21 @@ class TabArea extends Component {
   }
 
   render() {
-    let tabs = this.props.tabNames.map(name => {
-      let className =
+    const tabs = this.props.tabNames.map(name => {
+      const className =
         this.props.tabClassName +
         (name === this.state.currentTab ? ' selected' : '');
       return (
         <div
           key={name}
           className={className}
-          onClick={e => this.tabClick(name)}
+          onClick={() => this.tabClick(name)}
         >
           {name}
         </div>
       );
     });
-    let content = this.props.tabContents[
+    const content = this.props.tabContents[
       this.props.tabNames.indexOf(this.state.currentTab)
     ];
 
@@ -43,5 +44,12 @@ class TabArea extends Component {
     );
   }
 }
+
+TabArea.propTypes = {
+  tabContents: PropTypes.arrayOf(PropTypes.element).isRequired,
+  tabNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+  tabAreaClassName: PropTypes.string.isRequired,
+  tabClassName: PropTypes.string.isRequired,
+};
 
 export default TabArea;

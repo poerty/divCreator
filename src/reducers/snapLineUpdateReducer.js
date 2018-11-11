@@ -1,7 +1,7 @@
 import * as ActionTypes from '../actions';
 
 const set = action => state => {
-  const { line, } = action;
+  const { line } = action;
   return state
     .set('top', line.top)
     .set('bottom', line.bottom)

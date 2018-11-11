@@ -1,5 +1,6 @@
-import React, { Component, } from 'react';
-import { connect, } from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import LayoutMain from './LayoutMain';
 import LayoutLeft from './LayoutLeft';
@@ -7,10 +8,8 @@ import LayoutRight from './LayoutRight';
 
 class LayoutMiddle extends Component {
   render() {
-    let style = {
-      top: this.props.layout.get('top'),
-      bottom: this.props.layout.get('bottom'),
-    };
+    const { top, bottom } = this.props;
+    const style = { top, bottom };
     return (
       <div className='layout layout-middle' style={style}>
         <LayoutMain />
@@ -21,10 +20,14 @@ class LayoutMiddle extends Component {
   }
 }
 
-let mapStateToProps = (state, ownProps) => {
-  return {
-    layout: state.mainReducer.get('layout'),
-  };
+LayoutMiddle.propTypes = {
+  top: PropTypes.number.isRequired,
+  bottom: PropTypes.number.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  top: state.mainReducer.getIn(['layout', 'top']),
+  bottom: state.mainReducer.getIn(['layout', 'bottom']),
+});
 
 export default connect(mapStateToProps)(LayoutMiddle);

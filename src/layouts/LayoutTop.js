@@ -1,13 +1,13 @@
-import React, { Component, } from 'react';
-import { connect, } from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import NavArea from './../components/NavArea';
 
 class LayoutTop extends Component {
   render() {
-    let style = {
-      height: this.props.layout.get('top'),
-    };
+    const { top } = this.props;
+    const style = { height: top };
     return (
       <div className='layout layout-top' style={style}>
         <NavArea />
@@ -16,9 +16,13 @@ class LayoutTop extends Component {
   }
 }
 
-let mapStateToProps = (state, ownProps) => {
+LayoutTop.propTypes = {
+  top: PropTypes.number.isRequired,
+};
+
+const mapStateToProps = (state) => {
   return {
-    layout: state.mainReducer.get('layout'),
+    top: state.mainReducer.getIn(['layout', 'top']),
   };
 };
 

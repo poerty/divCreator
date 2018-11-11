@@ -1,8 +1,9 @@
-import React, { Component, } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-const NavItem = ({ text, flex, img, }) => {
-  let style = { flex: flex + ' ' + flex + ' auto', };
-  let imgStyle = {};
+const NavItem = ({ text, flex, img }) => {
+  const style = { flex: flex + ' ' + flex + ' auto' };
+  const imgStyle = {};
   if (img === undefined) {
     style.fontWeight = '800';
     style.fontSize = '20px';
@@ -16,6 +17,12 @@ const NavItem = ({ text, flex, img, }) => {
   );
 };
 
+NavItem.propTypes = {
+  text: PropTypes.string.isRequired,
+  flex: PropTypes.number.isRequired,
+  img: PropTypes.string,
+};
+
 class NavArea extends Component {
   render() {
     return (
@@ -23,9 +30,9 @@ class NavArea extends Component {
         <NavItem text='DIV-CREATOR' flex={2} />
         <NavItem text='UNDO' flex={0.5} img='./img/undo.png' />
         <NavItem text='REDO' flex={0.5} img='./img/redo.png' />
-        <NavItem flex={20} />
+        <NavItem text='' flex={20} />
         <NavItem text='SAVE' flex={1} img='./img/save.png' />
-        <NavItem flex={5} />
+        <NavItem text='' flex={5} />
       </div>
     );
   }
