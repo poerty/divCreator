@@ -1,37 +1,3 @@
-export function getHierarchy(boxHierarchy, id) {
-  if (boxHierarchy.get(id) !== undefined) return boxHierarchy.get(id);
-
-  return getHierarchy(
-    boxHierarchy
-      .filter(hierarch => hierarch.getIn(['boxIds', id]) !== undefined)
-      .get('boxHierarchy'),
-    id
-  );
-}
-
-export function getContainerRect(boxList) {
-  const ret = { top: 10000, bottom: -1, left: 10000, right: -1 };
-  for (const boxId in boxList.toObject()) {
-    const box = boxList.get(boxId).toObject();
-    ret.top = Math.min(ret.top, box.top);
-    ret.bottom = Math.max(ret.bottom, box.top + box.height);
-    ret.left = Math.min(ret.left, box.left);
-    ret.right = Math.max(ret.right, box.left + box.width);
-  }
-  return ret;
-}
-
-export function getChildBoxIds(boxHierarchy, boxIds) {
-  let newBoxIds = boxIds;
-  newBoxIds = boxIds.reduce((map, id) => {
-    return getHierarchy(boxHierarchy, id)
-      .get('boxIds')
-      .concat(map);
-  }, newBoxIds);
-
-  return newBoxIds;
-}
-
 // 두개 차이점은 resizer와 middle line 에서 *2 뿐... 싫으면 인자로 주던가
 export function checkSnapDrag(
   top,

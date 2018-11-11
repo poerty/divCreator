@@ -6,12 +6,11 @@ import {
   snapLineInitialState,
   contextMenuInitialState,
 } from './dragInitialState';
+
 import {
-  getContainerRect,
   checkSnapDrag,
   checkSnapResize,
-} from './helpFunctions';
-
+} from '../helpers/checkers';
 import {
   pointWithinLayout,
   boxsToBoxSize,
@@ -36,17 +35,11 @@ const makeGroup = (state, action) => {
   // box that contain all the boxs
   const newBox = boxsToBoxSize(targetBoxs);
 
-  const newState = state.withMutations(map =>
-    map
-      .update('targetBox', targetBoxUpdateReducer({ ...action, _id: id }))
-      .set('contextMenu', contextMenuInitialState)
-      .update(
-        'boxs',
-        boxsUpdateReducer({ ...action, _id: id, _childIds: childIds, newBox })
-      )
-      .update('idCount', idCount => idCount + 1)
-  );
-  return newState;
+  return state
+    .update('targetBox', targetBoxUpdateReducer({ ...action, _id: id }))
+    .set('contextMenu', contextMenuInitialState)
+    .update('boxs', boxsUpdateReducer({ ...action, _id: id, _childIds: childIds, newBox }))
+    .update('idCount', idCount => idCount + 1);
 };
 const unmakeGroup = (state, action) => {
   const childIds = state.getIn(['targetBox', 'childIds']);
@@ -55,12 +48,10 @@ const unmakeGroup = (state, action) => {
   const boxId = childIds.get(0);
   if (state.getIn(['boxs', 'byId', boxId, 'childIds']).size === 0) return state;
 
-  return state.withMutations(map =>
-    map
-      .set('targetBox', targetBoxInitialState)
-      .set('contextMenu', contextMenuInitialState)
-      .update('boxs', boxsUpdateReducer({ ...action, _boxId: boxId }))
-  );
+  return state
+    .set('targetBox', targetBoxInitialState)
+    .set('contextMenu', contextMenuInitialState)
+    .update('boxs', boxsUpdateReducer({ ...action, _boxId: boxId }));
 };
 
 const targetBoxDragStart = (state, action) => {
@@ -95,25 +86,19 @@ const targetBoxDrag = (state, action) => {
     left: targetBox.realLeft - targetBox.left + ret.leftDiff,
   };
 
-  return state.withMutations(map =>
+  return state.withMutations(map => {
     map
-      .update(
-        'targetBox',
-        targetBoxUpdateReducer({ ...action, dragAmount, diff, x, y })
-      )
+      .update('targetBox', targetBoxUpdateReducer({ ...action, dragAmount, diff, x, y }))
       .update('snapLine', snapLineUpdateReducer({ ...action, line: ret }))
-      .update(
-        'boxs',
-        boxsUpdateReducer({
-          ...action,
-          _boxIds: targetBoxIds,
-          props: {
-            top: top => top + diff.top + dragAmount.top,
-            left: left => left + diff.left + dragAmount.left,
-          },
-        })
-      )
-  );
+      .update('boxs', boxsUpdateReducer({
+        ...action,
+        _boxIds: targetBoxIds,
+        props: {
+          top: top => top + diff.top + dragAmount.top,
+          left: left => left + diff.left + dragAmount.left,
+        },
+      }));
+  });
 };
 const targetBoxDragEnd = (state, action) => {
   return state
@@ -158,21 +143,14 @@ const targetBoxResize = (state, action) => {
 
   return state.withMutations(map => {
     map
-      .update(
-        'targetBox',
-        targetBoxUpdateReducer({ ...action, diff, dragAmount, x, y })
-      )
+      .update('targetBox', targetBoxUpdateReducer({ ...action, diff, dragAmount, x, y }))
       .update('snapLine', snapLineUpdateReducer({ ...action, line: ret }));
-
-    map.update(
-      'boxs',
-      boxsUpdateReducer({
-        ...action,
-        _boxIds: targetBoxIds,
-        targetBox,
-        newTargetBox: map.get('targetBox').toJS(),
-      })
-    );
+    map.update('boxs', boxsUpdateReducer({
+      ...action,
+      _boxIds: targetBoxIds,
+      targetBox,
+      newTargetBox: map.get('targetBox').toJS(),
+    }));
   });
 };
 const targetBoxResizeEnd = (state, action) => {
@@ -185,12 +163,10 @@ const deleteBox = (state, action) => {
   if (state.getIn(['targetBox', 'ids']).size === 0) return state;
   const boxIds = state.getIn(['targetBox', 'ids']);
 
-  return state.withMutations(map =>
-    map
-      .set('targetBox', targetBoxInitialState)
-      .set('contextMenu', contextMenuInitialState)
-      .update('boxs', boxsUpdateReducer({ ...action, _boxIds: boxIds }))
-  );
+  return state
+    .set('targetBox', targetBoxInitialState)
+    .set('contextMenu', contextMenuInitialState)
+    .update('boxs', boxsUpdateReducer({ ...action, _boxIds: boxIds }));
 };
 const copyBox = state => {
   if (state.getIn(['targetBox', 'ids']).size === 0) return state;
@@ -198,19 +174,12 @@ const copyBox = state => {
   const selectedBoxList = state
     .getIn(['boxs', 'byId'])
     .filter((value, key) => state.getIn(['targetBox', 'ids']).includes(key));
-  const ret = getContainerRect(selectedBoxList);
+  const ret = boxsToBoxSize(selectedBoxList);
 
   return state.withMutations(map =>
     map
       .setIn(['clipBoard', 'ids'], state.getIn(['targetBox', 'ids']))
-      .setIn(
-        ['clipBoard', 'byId'],
-        state
-          .getIn(['boxs', 'byId'])
-          .filter((value, key) =>
-            state.getIn(['targetBox', 'ids']).includes(key)
-          )
-      )
+      .setIn(['clipBoard', 'byId'], state.getIn(['boxs', 'byId']).filter((value, key) => state.getIn(['targetBox', 'ids']).includes(key)))
       .setIn(['clipBoard', 'top'], ret.top)
       .setIn(['clipBoard', 'left'], ret.left)
       .set('targetBox', targetBoxInitialState)
@@ -262,15 +231,12 @@ const mouseDown = (state, action) => {
   const boxs = state.getIn(['boxs', 'byId']);
 
   return state
-    .update(
-      'targetBox',
-      targetBoxUpdateReducer({
-        ...action,
-        _id: action.id,
-        _ids: ids,
-        _boxs: boxs,
-      })
-    )
+    .update('targetBox', targetBoxUpdateReducer({
+      ...action,
+      _id: action.id,
+      _ids: ids,
+      _boxs: boxs,
+    }))
     .set('contextMenu', contextMenuInitialState);
 };
 const contextMenu = (state, action) => {
@@ -296,14 +262,8 @@ const contextMenu = (state, action) => {
 
   return state.withMutations(map =>
     map
-      .setIn(
-        ['contextMenu', 'style', 'top'],
-        action.y - state.getIn(['layout', 'top'])
-      )
-      .setIn(
-        ['contextMenu', 'style', 'left'],
-        action.x - state.getIn(['layout', 'left'])
-      )
+      .setIn(['contextMenu', 'style', 'top'], action.y - state.getIn(['layout', 'top']))
+      .setIn(['contextMenu', 'style', 'left'], action.x - state.getIn(['layout', 'left']))
       .setIn(['contextMenu', 'style', 'visible'], true)
       .setIn(['contextMenu', 'options', 'group'], newOptions.group)
       .setIn(['contextMenu', 'options', 'ungroup'], newOptions.ungroup)
@@ -332,24 +292,14 @@ const changePage = (state, action) => {
 };
 const changeProp = (state, action) => {
   const { propName, propValue } = action;
-  const editableProp = [
-    'left',
-    'top',
-    'width',
-    'height',
-    'background',
-    'border',
-  ];
+  const editableProp = ['left', 'top', 'width', 'height', 'background', 'border'];
   if (!editableProp.includes(propName)) return state;
   if (['background', 'border'].includes(propName)) {
-    return state.update(
-      'boxs',
-      boxsUpdateReducer({
-        ...action,
-        _boxIds: state.getIn(['targetBox', 'childIds']),
-        props: { [propName]: () => propValue },
-      })
-    );
+    return state.update('boxs', boxsUpdateReducer({
+      ...action,
+      _boxIds: state.getIn(['targetBox', 'childIds']),
+      props: { [propName]: () => propValue },
+    }));
   }
 
   const targetBox = state.get('targetBox').toJS();
@@ -358,15 +308,14 @@ const changeProp = (state, action) => {
     .get('targetBox')
     .set(propName, propValue)
     .set(layoutPropToRealName(propName), propValue);
-  return state.set('targetBox', newTargetBox).update(
-    'boxs',
-    boxsUpdateReducer({
+  return state
+    .set('targetBox', newTargetBox)
+    .update('boxs', boxsUpdateReducer({
       ...action,
       _boxIds: targetBoxIds,
       targetBox,
       newTargetBox: newTargetBox.toJS(),
-    })
-  );
+    }));
 };
 
 const mainReducer = (state = dragInitialState, action) => {
