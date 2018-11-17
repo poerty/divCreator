@@ -48,19 +48,24 @@ class EditArea extends Component {
   render() {
     const { selectedBoxIds, boxList, onBlur } = this.props;
     const defaultProps = {
+      id: 0,
       top: 0, left: 0, width: 0, height: 0,
       background: 'gray', border: 'none',
     };
     let layoutProps = ['top', 'left', 'height', 'width'];
     let styleProps = ['background', 'border'];
 
+    let boxInfo;
     let boxId = 0;
-    if (selectedBoxIds.size === 1) {
+    if (selectedBoxIds.size === 0) {
+      boxInfo = { ...defaultProps };
+    } else if (selectedBoxIds.size === 1) {
       boxId = selectedBoxIds.get(0);
-      const boxInfo = { ...defaultProps, ...boxList.get(boxId).toJS() };
-      layoutProps = layoutProps.map(key => ({ key, value: boxInfo[key] }));
-      styleProps = styleProps.map(key => ({ key, value: boxInfo[key] }));
+      boxInfo = { ...defaultProps, ...boxList.get(boxId).toJS() };
     }
+
+    layoutProps = layoutProps.map(key => ({ key, value: boxInfo[key] }));
+    styleProps = styleProps.map(key => ({ key, value: boxInfo[key] }));
 
     return (
       <div id='EditArea' className='source-area area'>
