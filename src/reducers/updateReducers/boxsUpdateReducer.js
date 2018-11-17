@@ -1,6 +1,6 @@
 import { Map } from 'immutable';
 
-import * as ActionTypes from '../actions';
+import * as ActionTypes from '../../actions';
 
 const createBox = action => state => {
   const { _id, _childIds = [], newBox } = action;

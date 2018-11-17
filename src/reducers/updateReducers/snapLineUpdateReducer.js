@@ -1,4 +1,4 @@
-import * as ActionTypes from '../actions';
+import * as ActionTypes from '../../actions';
 
 const set = action => state => {
   const { line } = action;

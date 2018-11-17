@@ -19,9 +19,9 @@ import {
   getChildIds,
 } from '../helpers/converters';
 
-import boxsUpdateReducer from './boxsUpdateReducer';
-import targetBoxUpdateReducer from './targetBoxUpdateReducer';
-import snapLineUpdateReducer from './snapLineUpdateReducer';
+import boxsUpdateReducer from './updateReducers/boxsUpdateReducer';
+import targetBoxUpdateReducer from './updateReducers/targetBoxUpdateReducer';
+import snapLineUpdateReducer from './updateReducers/snapLineUpdateReducer';
 
 const makeGroup = (state, action) => {
   const targetBoxIds = state.getIn(['targetBox', 'ids']);

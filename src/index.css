@@ -270,6 +270,22 @@ body {
   margin-bottom: 7px;
 }
 
+.propBoxContainer {
+  display: flex;
+  flex-direction: column;
+  justify-Content: center;
+  margin: 10px;
+  border: 1px solid lightgray;
+  padding: 5px;
+  padding-left: 10px;
+}
+
+.propTitle {
+  color: darkgray;
+  margin-top: 5px;
+  margin-bottom: 5px;
+};
+
 /*
 width: 33.3%;
 height: 100px;

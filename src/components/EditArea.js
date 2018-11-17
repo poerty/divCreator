@@ -8,23 +8,9 @@ import { changeProp } from './../actions';
 import OnBlurUpdateInput from './OnBlurUpdateInput';
 
 const PropBoxContainer = ({ name, properties, onBlur }) => {
-  const containerStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    margin: '10px',
-    border: '1px solid lightgray',
-    padding: '5px',
-    paddingLeft: '10px',
-  };
-  const titleStyle = {
-    color: 'darkgray',
-    marginTop: '5px',
-    marginBottom: '5px',
-  };
   return (
-    <div style={containerStyle}>
-      <div style={titleStyle}>{name}</div>
+    <div className={'propBoxContainer'}>
+      <div className={'propTitle'}>{name}</div>
       {properties.map(prop => {
         if (['top', 'left', 'width', 'height'].includes(prop.key)) {
           return (
@@ -60,30 +46,20 @@ PropBoxContainer.propTypes = {
 
 class EditArea extends Component {
   render() {
+    const { selectedBoxIds, boxList, onBlur } = this.props;
     const defaultProps = {
-      top: 0,
-      left: 0,
-      width: 0,
-      height: 0,
-      background: 'gray',
-      border: 'none',
+      top: 0, left: 0, width: 0, height: 0,
+      background: 'gray', border: 'none',
     };
-    const layoutProps = [];
-    const styleProps = [];
+    let layoutProps = ['top', 'left', 'height', 'width'];
+    let styleProps = ['background', 'border'];
+
     let boxId = 0;
-    if (this.props.selectedBoxIds.size === 1) {
-      boxId = this.props.selectedBoxIds.get(0);
-      const boxInfo = Object.assign(
-        {},
-        defaultProps,
-        this.props.boxList.get(boxId).toJS()
-      );
-      Object.keys(boxInfo).forEach(key => {
-        if (['top', 'left', 'width', 'height'].includes(key))
-          layoutProps.push({ key, value: boxInfo[key] });
-        else if (['background', 'border'].includes(key))
-          styleProps.push({ key, value: boxInfo[key] });
-      });
+    if (selectedBoxIds.size === 1) {
+      boxId = selectedBoxIds.get(0);
+      const boxInfo = { ...defaultProps, ...boxList.get(boxId).toJS() };
+      layoutProps = layoutProps.map(key => ({ key, value: boxInfo[key] }));
+      styleProps = styleProps.map(key => ({ key, value: boxInfo[key] }));
     }
 
     return (
@@ -91,14 +67,12 @@ class EditArea extends Component {
         <PropBoxContainer
           name='LAYOUT'
           properties={layoutProps}
-          onBlur={(name, value) =>
-            this.props.onBlur(boxId, name, parseInt(value, 10))
-          }
+          onBlur={(name, value) => onBlur(boxId, name, parseInt(value, 10))}
         />
         <PropBoxContainer
           name='STYLE'
           properties={styleProps}
-          onBlur={(name, value) => this.props.onBlur(boxId, name, value)}
+          onBlur={(name, value) => onBlur(boxId, name, value)}
         />
       </div>
     );

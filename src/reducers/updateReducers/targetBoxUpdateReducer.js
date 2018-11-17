@@ -1,8 +1,8 @@
 import { List } from 'immutable';
 
-import * as ActionTypes from '../actions';
+import * as ActionTypes from '../../actions';
 
-import { boxsToBox } from '../helpers/converters';
+import { boxsToBox } from '../../helpers/converters';
 
 const makeGroup = action => state => {
   const { _id } = action;

@@ -17,8 +17,7 @@ class TargetBox extends Component {
 
     const img = new Image();
     img.style.display = 'none';
-    img.src =
-      'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
+    img.src = process.env.REACT_APP_VOID_IMGURL;
     this.img = img;
     this.onDragHandler = this.onDragHandler.bind(this);
     this.onDragStartHandler = this.onDragStartHandler.bind(this);
