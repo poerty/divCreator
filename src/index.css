@@ -48,13 +48,13 @@ body {
 .layout-right{
   left: auto;
   /*min-height: 500px;*/
-  overflow: scroll;
+  overflow: auto;
   border-left: 1px solid lightgray;
 }
 .layout-left{
   right: auto;
   /*min-height: 500px;*/
-  overflow: scroll;
+  overflow: auto;
   border-right: 1px solid lightgray;
 }
 .layout-main{
@@ -124,7 +124,7 @@ body {
   border-bottom: 2px solid #00A1C0;
 }
 .pageList-pages{
-  overflow: scroll;
+  overflow: auto;
   flex: auto;
 }
 .pageLink{
@@ -203,7 +203,7 @@ body {
   border-bottom: 2px solid #00A1C0;
 }
 .dragSource-boxs{
-  overflow: scroll;
+  overflow: auto;
   flex: auto;
   width: 231px;
   padding-top: 12px;
