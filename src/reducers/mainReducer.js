@@ -195,7 +195,9 @@ const pasteBox = (state, action) => {
 
   return state
     .update('boxs', boxsUpdateReducer({ ...action, _byId, _ids }))
-    .set('idCount', idCount);
+    .set('idCount', idCount)
+    .set('targetBox', targetBoxInitialState)
+    .set('contextMenu', contextMenuInitialState);
 };
 
 const sourceDragEnd = (state, action) => {

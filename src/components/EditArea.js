@@ -87,6 +87,7 @@ class EditArea extends Component {
 EditArea.propTypes = {
   selectedBoxIds: ImmutablePropTypes.list.isRequired,
   boxList: ImmutablePropTypes.map.isRequired,
+
   onBlur: PropTypes.func.isRequired,
 };
 
