@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "ajv": "^6.5.5",
+    "ajv": "^6.12.3",
     "babel-cli": "^6.26.0",
     "babel-preset-latest": "^6.24.1",
     "dotenv": "^6.1.0",
